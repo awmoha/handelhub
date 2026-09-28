@@ -3,912 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz – Försäljning och Service</title>
-  <!-- Google Fonts: Cardo & Inter -->
+
+  <title>Moha – Klassquiz</title>
+
+  <!-- Cardo + Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- QRCode.js via CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            beige: {
-              50: '#FAF8F5',
-              100: '#F5F2EB',
-              200: '#E7E2D5',
-              300: '#D5CDBA',
-            },
-            sage: {
-              100: '#E6EFEA',
-              200: '#C2D8CB',
-              500: '#4A7C59',
-              700: '#2D5A43',
-              800: '#1E3F2F',
-              900: '#142B20',
-            },
-            slateText: '#1F2421',
-            accentGold: '#D4A373'
-          },
-          fontFamily: {
-            cardo: ['Cardo', 'serif'],
-            sans: ['Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background-color: #F5F2EB;
-      color: #1F2421;
-      font-family: 'Inter', sans-serif;
-    }
-    .font-cardo {
-      font-family: 'Cardo', serif;
-    }
-    .custom-shadow {
-      box-shadow: 0 10px 30px -5px rgba(45, 90, 67, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
-    }
-    .btn-bounce {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .btn-bounce:hover {
-      transform: translateY(-2px);
-    }
-    .btn-bounce:active {
-      transform: translateY(1px);
-    }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
+      min-height: 100vh;
       background: #F5F2EB;
+      color: #1F2421;
+      font-family: "Inter", sans-serif;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #C2D8CB;
-      border-radius: 4px;
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #E7E2D5;
+      padding: 18px 30px;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: #2D5A43;
+      color: white;
+      border-radius: 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 24px;
+    }
+
+    .header-title {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      color: #6B716D;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    /* Main */
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 25px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .hero h1 {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: clamp(40px, 6vw, 64px);
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #626862;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* Folder grid */
+    .folders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .folder {
+      display: block;
+      text-decoration: none;
+      background: white;
+
+      border: 1px solid #E7E2D5;
+      border-radius: 24px;
+
+      padding: 30px;
+
+      box-shadow:
+        0 10px 30px rgba(45, 90, 67, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.04);
+
+      transition: all 0.2s ease;
+    }
+
+    .folder:hover {
+      transform: translateY(-5px);
+      border-color: #4A7C59;
+      box-shadow:
+        0 15px 35px rgba(45, 90, 67, 0.14);
+    }
+
+    .folder-icon {
+      width: 58px;
+      height: 58px;
+
+      background: #E6EFEA;
+      color: #2D5A43;
+
+      border-radius: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 29px;
+
+      margin-bottom: 20px;
+    }
+
+    .folder h2 {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .folder p {
+      color: #6B716D;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .open-folder {
+      display: inline-block;
+      margin-top: 20px;
+
+      color: #2D5A43;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid #E7E2D5;
+      color: #777;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      header {
+        padding: 15px 18px;
+      }
+
+      main {
+        padding: 50px 18px;
+      }
+
+      .hero {
+        margin-bottom: 40px;
+      }
+
+      .folder {
+        padding: 25px;
+      }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900">
 
-  <!-- TOP BAR / HEADER -->
-  <header class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8">
-    <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md">
-          🛍️
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+
+      <div class="logo">
+        🎓
+      </div>
+
+      <div>
+        <div class="header-title">
+          Moha – Klassquiz
         </div>
-        <div>
-          <h1 class="font-cardo font-bold text-xl text-sage-900 leading-tight">Försäljning & Service</h1>
-          <p class="text-xs text-gray-500 font-medium">Interaktivt Klassrumsquiz • Kap 1–5</p>
+
+        <div class="header-subtitle">
+          Interaktiva quiz för undervisningen
         </div>
       </div>
-      <div class="flex items-center space-x-2">
-        <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1" title="Ljud av/på">
-          <span id="soundIcon">🔊</span>
-        </button>
-        <button onclick="openShareModal()" class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-          <span class="hidden sm:inline">Dela till elever</span>
-        </button>
-      </div>
+
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
-    <div class="w-full max-w-4xl">
 
-      <!-- SCREEN 1: START SCREEN -->
-      <section id="startScreen" class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden">
-        <!-- Decorative background elements -->
-        <div class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"></div>
-        <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"></div>
+  <!-- MAIN -->
+  <main>
 
-        <div class="relative z-10">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6">
-            <span>✨</span> Utformat för Gymnasiet & SFI
-          </div>
+    <section class="hero">
 
-          <h2 class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight">
-            QUIZ – FÖRSÄLJNING OCH SERVICE
-          </h2>
+      <h1>Välj ett ämne</h1>
 
-          <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Testa dina kunskaper i kapitel 1 till 5. Svara på frågor om kundrelationer, målgrupper, direktförsäljning, självscanning och mycket mer!
-          </p>
-
-          <!-- Feature badges -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left">
-            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
-              <div class="text-xl mb-1">❓</div>
-              <div class="font-semibold text-sm text-sage-900">24 Frågor</div>
-              <div class="text-xs text-gray-500">Blandade nivåer</div>
-            </div>
-            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
-              <div class="text-xl mb-1">⏱️</div>
-              <div class="font-semibold text-sm text-sage-900">1 Min / fråga</div>
-              <div class="text-xs text-gray-500">Svara i lugn och ro</div>
-            </div>
-            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
-              <div class="text-xl mb-1">⭐</div>
-              <div class="font-semibold text-sm text-sage-900">Snabbhetsbonus</div>
-              <div class="text-xs text-gray-500">Få extra poäng</div>
-            </div>
-            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
-              <div class="text-xl mb-1">💡</div>
-              <div class="font-semibold text-sm text-sage-900">Korta svar</div>
-              <div class="text-xs text-gray-500">Lär dig direkt</div>
-            </div>
-          </div>
-
-          <button onclick="startGame()" class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto">
-            <span>STARTA SPELET</span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-          </button>
-        </div>
-      </section>
-
-      <!-- SCREEN 2: GAMEPLAY SCREEN -->
-      <section id="gameScreen" class="hidden flex-col gap-6">
-
-        <!-- Top status bar -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <!-- Question indicator & visual progress -->
-          <div class="w-full sm:w-auto flex-grow max-w-md">
-            <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
-              <span id="questionNumberText">Fråga 1 av 24</span>
-              <span id="progressTextVisual" class="font-mono text-sage-700 font-bold">█░░░░░░░░░░░ 1/24</span>
-            </div>
-            <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
-              <div id="progressBarFill" class="bg-sage-700 h-full transition-all duration-300 rounded-full" style="width: 4.16%;"></div>
-            </div>
-          </div>
-
-          <!-- Timer & Score -->
-          <div class="flex items-center justify-between w-full sm:w-auto gap-4">
-            <!-- Timer badge -->
-            <div class="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-beige-100 border border-beige-200">
-              <span class="text-lg">⏱️</span>
-              <div>
-                <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Tid kvar</div>
-                <div id="timerText" class="font-mono font-bold text-base text-sage-900">60s</div>
-              </div>
-            </div>
-
-            <!-- Score badge -->
-            <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
-              <span class="text-lg">🏆</span>
-              <div>
-                <div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">Poäng</div>
-                <div id="scoreText" class="font-mono font-bold text-base text-white">0</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question Card -->
-        <div class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]">
-          
-          <!-- Question metadata / topic tag -->
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span id="categoryTag" class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase">
-                Gåta / Begrepp
-              </span>
-              <span id="hintBadge" class="hidden sm:inline-block text-xs text-gray-400 font-medium">
-                💡 Välj ett svar nedan
-              </span>
-            </div>
-
-            <h3 id="questionText" class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6">
-              Laddar fråga...
-            </h3>
-          </div>
-
-          <!-- 4 Answer Option Buttons -->
-          <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2">
-            <!-- Dynamically populated buttons -->
-          </div>
-
-          <!-- Explanation box & Next Button container -->
-          <div id="feedbackContainer" class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div class="flex items-start space-x-3">
-                <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
-                <div>
-                  <h4 id="feedbackTitle" class="font-bold text-lg leading-tight mb-1"></h4>
-                  <p id="feedbackExplanation" class="text-sm text-gray-700 leading-relaxed"></p>
-                </div>
-              </div>
-              <button id="nextBtn" onclick="nextQuestion()" class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center">
-                <span>Nästa fråga</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- SCREEN 3: RESULT SCREEN -->
-      <section id="resultScreen" class="hidden bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden">
-        
-        <div class="max-w-xl mx-auto">
-          <div class="w-20 h-20 mx-auto rounded-3xl bg-sage-100 text-sage-800 flex items-center justify-center text-4xl mb-6 shadow-inner">
-            🎉
-          </div>
-
-          <h2 class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2">
-            Quizet är klart!
-          </h2>
-          <p id="resultSummaryText" class="text-gray-600 text-base sm:text-lg mb-8">
-            Bra jobbat! Här är en sammanfattning av ditt resultat:
-          </p>
-
-          <!-- Score summary stats -->
-          <div class="grid grid-cols-3 gap-3 mb-8">
-            <div class="p-4 rounded-2xl bg-beige-100 border border-beige-200">
-              <div class="text-2xl font-black text-sage-900 font-mono" id="finalScore">0</div>
-              <div class="text-xs text-gray-500 font-medium uppercase mt-1">Total poäng</div>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
-              <div class="text-2xl font-black text-emerald-700 font-mono" id="finalCorrect">0</div>
-              <div class="text-xs text-emerald-800 font-medium uppercase mt-1">Antal rätt</div>
-            </div>
-            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
-              <div class="text-2xl font-black text-rose-700 font-mono" id="finalWrong">0</div>
-              <div class="text-xs text-rose-800 font-medium uppercase mt-1">Antal fel</div>
-            </div>
-          </div>
-
-          <!-- Encouraging Feedback Card -->
-          <div id="encouragementBox" class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left">
-            <h4 class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2">
-              <span>🌟</span> Lärarfeedback:
-            </h4>
-            <p id="encouragementText" class="text-sm text-sage-800 leading-relaxed">
-              Bra kämpat! Försök igen för att förbättra ditt resultat och sätta alla begrepp!
-            </p>
-          </div>
-
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button onclick="startGame()" class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-              <span>Spela igen</span>
-            </button>
-            <button onclick="openShareModal()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2">
-              <span>Dela länken</span>
-            </button>
-          </div>
-        </div>
-
-      </section>
-
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50">
-     Försäljning och service 1 • Moha
-  </footer>
-
-  <!-- SHARE MODAL -->
-  <div id="shareModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center">
-      <button onclick="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
-      <div class="text-3xl mb-2">📱</div>
-      <h3 class="font-cardo text-2xl font-bold text-sage-900 mb-2">Dela med eleverna</h3>
-      <p class="text-xs text-gray-600 mb-4">
-        Låt eleverna skanna QR-koden direkt på projektorn med mobilkameran, eller kopiera länken nedan:
+      <p>
+        Välkommen! Välj det område eller den kurs du vill arbeta med.
+        Klicka på en mapp för att se tillgängliga quiz och spel.
       </p>
 
-      <!-- Dynamic QR Code Container -->
-      <div class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner">
-        <div id="qrcode"></div>
-      </div>
+    </section>
 
-      <div class="flex items-center gap-2 mb-4">
-        <input id="shareUrlInput" type="text" readonly class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all" value="">
-        <button onclick="copyShareUrl()" class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition">
-          Kopiera
-        </button>
-      </div>
-      <div id="copySuccessMsg" class="hidden text-xs text-emerald-600 font-bold text-center mb-4">
-        ✓ Länken kopierad till urklipp!
-      </div>
-      <button onclick="closeShareModal()" class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl">
-        Stäng
-      </button>
-    </div>
-  </div>
 
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    // QUESTIONS DATABASE (24 Questions strictly covering Chapters 1–5 in clear SFI Swedish)
-    const questions = [
-      {
-        type: "Gåta",
-        question: "Jag handlar om var kunderna bor, till exempel vilken stad, stadsdel eller vilket område de lever i. Vad är jag?",
-        options: [
-          { text: "Demografisk indelning", isCorrect: false },
-          { text: "Geografisk indelning", isCorrect: true },
-          { text: "Kundrelation", isCorrect: false },
-          { text: "Personlighetsdrag", isCorrect: false }
-        ],
-        explanation: "Geografisk indelning handlar om kundernas geografiska plats, t.ex. städer, länder eller bostadsområden."
-      },
-      {
-        type: "Begrepp",
-        question: "En matbutik delar in sina kunder efter ålder, inkomst, yrke och familjesituation. Vad kallas denna typ av indelning?",
-        options: [
-          { text: "Geografisk indelning", isCorrect: false },
-          { text: "Demografisk indelning", isCorrect: true },
-          { text: "Personlighetsdrag", isCorrect: false },
-          { text: "Obemannad indelning", isCorrect: false }
-        ],
-        explanation: "Demografisk indelning handlar om mätbara fakta om människor, som ålder, ekonomi och familjestorlek."
-      },
-      {
-        type: "Gåta",
-        question: "Vi är alla de personer som skulle kunna bli kunder hos ett företag i framtiden, men som inte har handlat där än. Vilka är vi?",
-        options: [
-          { text: "Stamkunder", isCorrect: false },
-          { text: "Målgrupp", isCorrect: false },
-          { text: "Potentiella kunder", isCorrect: true },
-          { text: "Leverantörer", isCorrect: false }
-        ],
-        explanation: "Potentiella kunder är personer som har möjlighet eller behov att handla hos företaget i framtiden."
-      },
-      {
-        type: "Gåta",
-        question: "Jag är en kund som återvänder ofta till samma butik för att jag känner mig trygg och nöjd med servicen. Vad kallas jag?",
-        options: [
-          { text: "Potentiell kund", isCorrect: false },
-          { text: "Tillfällig besökare", isCorrect: false },
-          { text: "Stamkund", isCorrect: true },
-          { text: "Konkurrent", isCorrect: false }
-        ],
-        explanation: "En stamkund återvänder regelbundet och skapar en långsiktig relation med butiken."
-      },
-      {
-        type: "Situation",
-        question: "I Saras hemby finns en matbutik utan personal. Kunderna låser upp dörren med BankID och betalar själva med sin mobil. Vad kallas denna butikstyp?",
-        options: [
-          { text: "Självscanning i kassan", isCorrect: false },
-          { text: "Obemannad butik", isCorrect: true },
-          { text: "Traditionell manuell butik", isCorrect: false },
-          { text: "Pop-up butik", isCorrect: false }
-        ],
-        explanation: "Obemannade butiker använder digital teknik så att kunden kan handla utan att personal är på plats."
-      },
-      {
-        type: "Begrepp",
-        question: "Vad innebär begreppet självscanning för en kund i en matbutik?",
-        options: [
-          { text: "Att personalen registrerar alla varor åt kunden", isCorrect: false },
-          { text: "Att kunden själv registrerar sina varor och betalar", isCorrect: true },
-          { text: "Att kunden beställer varor för hemleverans på nätet", isCorrect: false },
-          { text: "Att butiken ger bort alla varor gratis", isCorrect: false }
-        ],
-        explanation: "Självscanning innebär att kunden själv skannar sina varor med en handskanner eller mobil."
-      },
-      {
-        type: "Gåta",
-        question: "Jag är den utvalda gruppen av kunder som ett företag särskilt riktar sin reklam och sina produkter till. Vad kallas jag?",
-        options: [
-          { text: "Personlighetsdrag", isCorrect: false },
-          { text: "Målgrupp", isCorrect: true },
-          { text: "Leverantörsgrupp", isCorrect: false },
-          { text: "Konkurrentgrupp", isCorrect: false }
-        ],
-        explanation: "Målgruppen är de kunder som företaget helst vill nå och sälja sina produkter till."
-      },
-      {
-        type: "Jämförelse",
-        question: "En kund handlar alltid snabbt, jämför priser noggrant och planerar sina inköp i detalj. Vad beskriver detta sätt att handla på?",
-        options: [
-          { text: "Geografisk indelning", isCorrect: false },
-          { text: "Kundbeteende", isCorrect: true },
-          { text: "Demografisk struktur", isCorrect: false },
-          { text: "Butikens placering", isCorrect: false }
-        ],
-        explanation: "Kundbeteende handlar om hur kunder agerar, tänker och fattar beslut i köpsituationer."
-      },
-      {
-        type: "Begrepp",
-        question: "Vissa kunder är pratglada och öppna, medan andra är tysta och förskiktiga. Vad kallas dessa egenskaper hos kunden?",
-        options: [
-          { text: "Demografiskt faktum", isCorrect: false },
-          { text: "Personlighetsdrag", isCorrect: true },
-          { text: "Geografisk zon", isCorrect: false },
-          { text: "Obemannad profil", isCorrect: false }
-        ],
-        explanation: "Personlighetsdrag beskriver en människas sätt att vara och reagera som person."
-      },
-      {
-        type: "Gåta",
-        question: "Jag handlar om det långsiktiga förtroendet och den goda kontakten mellan butiken och kunden över tid. Vad kallas jag?",
-        options: [
-          { text: "Kundrelation", isCorrect: true },
-          { text: "Inköpspris", isCorrect: false },
-          { text: "Varulager", isCorrect: false },
-          { text: "Självscanning", isCorrect: false }
-        ],
-        explanation: "Goda kundrelationer gör att kunden känner sig trygg, uppskattad och vill komma tillbaka."
-      },
-      {
-        type: "Situation",
-        question: "Ahmed är väldigt törstig och behöver vatten för att överleva. Men han vill hellre köpa en kall läsk. Vad är läsken i detta exempel?",
-        options: [
-          { text: "Ett primärt behov", isCorrect: false },
-          { text: "Ett önskemål", isCorrect: true },
-          { text: "Ett tillbehör", isCorrect: false },
-          { text: "En garanti", isCorrect: false }
-        ],
-        explanation: "Behovet är vätska för kroppen, medan läsk är Ahmeds specifika önskemål."
-      },
-      {
-        type: "Kunskap",
-        question: "När en säljare möter kunden ansikte mot ansikte i en klädbutik och pratar direkt, vilken typ av försäljning är det?",
-        options: [
-          { text: "Indirekt försäljning", isCorrect: false },
-          { text: "Direkt försäljning", isCorrect: true },
-          { text: "E-handel", isCorrect: false },
-          { text: "Automatiserad försäljning", isCorrect: false }
-        ],
-        explanation: "Direkt försäljning innebär personlig och omedelbar kontakt mellan säljare och köpare."
-      },
-      {
-        type: "Situation",
-        question: "Säljaren söker ögonkontakt, leender och säger 'Hej och välkommen!' direkt när kunden kommer in. Varför är det viktigt?",
-        options: [
-          { text: "Det skapar ett bra första intryck och får kunden att känna sig sedd", isCorrect: true },
-          { text: "Det gör att kunden måste köpa den dyraste produkten direkt", isCorrect: false },
-          { text: "Det ersätter behovet av att ha prislappar i butiken", isCorrect: false },
-          { text: "Det gör att alla varor automatiskt blir billigare", isCorrect: false }
-        ],
-        explanation: "Ett varmt bemötande skapar trygghet och ett mycket positivt första intryck."
-      },
-      {
-        type: "Begrepp",
-        question: "Säljaren nickar, ställer följdfrågor och sammanfattar vad kunden sa för att vara säker på att ha förstått rätt. Vad kallas detta?",
-        options: [
-          { text: "Självscanning", isCorrect: false },
-          { text: "Aktivt lyssnande", isCorrect: true },
-          { text: "Demografisk analys", isCorrect: false },
-          { text: "Geografisk indelning", isCorrect: false }
-        ],
-        explanation: "Aktivt lyssnande innebär att lyssna engagerat och visa kunden att man uppmärksammar orden."
-      },
-      {
-        type: "Kunskap",
-        question: "Vilka signaler skickar en säljare som står med korsade armar och tittar ner i golvet när en kund närmar sig?",
-        options: [
-          { text: "Att säljaren är glad och väldigt engagerad", isCorrect: false },
-          { text: "Att säljaren verkar ointresserad eller osäker", isCorrect: true },
-          { text: "Att säljaren har mycket bra kunskap om produkten", isCorrect: false },
-          { text: "Att butiken ger rabatt på varorna", isCorrect: false }
-        ],
-        explanation: "Kroppsspråket visar ofta mer än ord; ett slutet kroppsspråk kan upplevas som ointresse."
-      },
-      {
-        type: "Situation",
-        question: "En kund kommer in i en skobutik. Vad bör säljaren göra först innan hon föreslår en specifik sko?",
-        options: [
-          { text: "Erbjuda den dyraste skon i butiken", isCorrect: false },
-          { text: "Ställa öppna frågor för att ta reda på kundens behov", isCorrect: true },
-          { text: "Be kunden gå till en annan butik", isCorrect: false },
-          { text: "Starta självscanningen direkt", isCorrect: false }
-        ],
-        explanation: "Genom att göra en behovsanalys med frågor hittar säljaren rätt sko för kunden."
-      },
-      {
-        type: "Kunskap",
-        question: "Vilken av följande frågor är en 'öppen fråga' som hjälper säljaren att få mer information från kunden?",
-        options: [
-          { text: "'Vill du köpa den här svarta jackan?'", isCorrect: false },
-          { text: "'Vad ska du använda jackan till för aktiviteter?'", isCorrect: true },
-          { text: "'Kostade den 500 kronor?'", isCorrect: false },
-          { text: "'Har du öppet köp på den här?'", isCorrect: false }
-        ],
-        explanation: "Öppna frågor startar ofta med ord som 'vad', 'hur' eller 'varför' och kan inte bara besvaras med ja eller nej."
-      },
-      {
-        type: "Situation",
-        question: "En kund köper ett par läderskor. Säljaren föreslår även ett skofett som skyddar lädret mot regn. Vad kallas detta?",
-        options: [
-          { text: "Målgruppsanalys", isCorrect: false },
-          { text: "Merförsäljning", isCorrect: true },
-          { text: "Demografisk indelning", isCorrect: false },
-          { text: "Obemannad försäljning", isCorrect: false }
-        ],
-        explanation: "Merförsäljning handlar om att erbjuda passande tillbehör som hjälper kunden att ta hand om sin vara."
-      },
-      {
-        type: "Jämförelse",
-        question: "Säljaren säger: 'Jackan är vattentät, vilket gör att du håller dig helt torr när det regnar.' Vad kallas 'du håller dig helt torr'?",
-        options: [
-          { text: "En teknisk egenskap", isCorrect: false },
-          { text: "En kundnytta", isCorrect: true },
-          { text: "En rabattkod", isCorrect: false },
-          { text: "En demografisk faktor", isCorrect: false }
-        ],
-        explanation: "Egenskapen är att jackan är vattentät, men kundnyttan är att kunden slipper bli blöt."
-      },
-      {
-        type: "Situation",
-        question: "Kunden säger: 'Den här datorn känns lite för dyr för mig.' Hur bör säljaren bemöta invändningen på ett bra sätt?",
-        options: [
-          { text: "Bli arg och säga att kunden inte har råd", isCorrect: false },
-          { text: "Visa förståelse och förklara vilket värde kunden får", isCorrect: true },
-          { text: "Gå därifrån utan att svara", isCorrect: false },
-          { text: "Sänka priset till hälften direkt utan lov", isCorrect: false }
-        ],
-        explanation: "Vid invändningar bekräftar säljaren kundens tanke och förtydligar varför produkten är värd sitt pris."
-      },
-      {
-        type: "Begrepp",
-        question: "Vad innebär begreppet 'efterköpskänsla' hos en kund?",
-        options: [
-          { text: "Känslan kunden har i kassan när hen betalar", isCorrect: false },
-          { text: "Hur kunden känner sig efter köpet när varan används", isCorrect: true },
-          { text: "Säljarens känsla när butiken stänger för dagen", isCorrect: false },
-          { text: "Känslan när kunden ser en reklamfilm på TV", isCorrect: false }
-        ],
-        explanation: "Efterköpskänslan avgör om kunden känner sig nöjd med sitt val och vill handla hos butiken igen."
-      },
-      {
-        type: "Gåta",
-        question: "Jag är den praktiska hjälp och den positiva känsla som kunden får ut av att använda en vara. Vad är jag?",
-        options: [
-          { text: "Kundnytta", isCorrect: true },
-          { text: "Självscanning", isCorrect: false },
-          { text: "Geografisk zon", isCorrect: false },
-          { text: "Inköpsfaktura", isCorrect: false }
-        ],
-        explanation: "Kundnytta beskriver lösningen på kundens problem och den fördel varan ger."
-      },
-      {
-        type: "Situation",
-        question: "I framtidens butiker kombineras fysiska butiker med digital teknik som pekskärmar och mobilbetalning. Vad är syftet?",
-        options: [
-          { text: "Att göra handlingen smidigare, snabbare och lättare för kunden", isCorrect: true },
-          { text: "Att tvinga alla kunder att köpa mer än de vill", isCorrect: false },
-          { text: "Att sluta sälja produkter helt och hållet", isCorrect: false },
-          { text: "Att ta bort alla varor från hyllorna", isCorrect: false }
-        ],
-        explanation: "Nya tekniklösningar utvecklas för att ge bättre service och sparar tid för kunden."
-      },
-      {
-        type: "Gåta",
-        question: "Jag handlar om säljarens genuina vilja att hjälpa kunden, lösa problem och ge det lilla extra med ett leende. Vad är jag?",
-        options: [
-          { text: "Servicekänsla", isCorrect: true },
-          { text: "Geografisk kartläggning", isCorrect: false },
-          { text: "Självscanningsmaskin", isCorrect: false },
-          { text: "Demografisk statistik", isCorrect: false }
-        ],
-        explanation: "Servicekänsla är en personlig inställning som sätter kundens nöjdhet i första rummet."
-      }
-    ];
+    <!-- QUIZ MAPS -->
+    <section class="folders">
 
-    // GAME STATE VARIABLES
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let correctCount = 0;
-    let wrongCount = 0;
-    let timerSeconds = 60;
-    let timerInterval = null;
-    let soundEnabled = true;
-    let answered = false;
+      <!-- Försäljning -->
+<a href="forsaljning/index.html" class="folder">
+        <div class="folder-icon">
+          🛍️
+        </div>
 
-    // WEB AUDIO API FOR SOUND EFFECTS
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null;
+        <h2>Försäljning & Service</h2>
 
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new AudioContext();
-      }
-    }
+        <p>
+          Quiz och spel om försäljning, kundservice,
+          kundrelationer och olika försäljningssituationer.
+        </p>
 
-    function playSound(type) {
-      if (!soundEnabled) return;
-      try {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        <span class="open-folder">
+          Öppna mappen →
+        </span>
 
-        if (type === 'correct') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15); // E5
-          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        } else if (type === 'wrong') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
-          osc.frequency.exponentialRampToValueAtTime(164.81, audioCtx.currentTime + 0.2); // E3
-          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        }
-      } catch (e) {
-        console.log("Audio play error", e);
-      }
-    }
+      </a>
 
-    function toggleSound() {
-      soundEnabled = !soundEnabled;
-      document.getElementById('soundIcon').innerText = soundEnabled ? '🔊' : '🔇';
-    }
 
-    // GAME NAVIGATION LOGIC
-    function startGame() {
-      initAudio();
-      currentQuestionIndex = 0;
-      score = 0;
-      correctCount = 0;
-      wrongCount = 0;
+      <!-- Marknadsföring -->
+      <!-- <a href="marknadsföring/" class="folder">
 
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.add('hidden');
-      document.getElementById('gameScreen').classList.remove('hidden');
-      document.getElementById('gameScreen').classList.add('flex');
+        <div class="folder-icon">
+          📢
+        </div>
 
-      loadQuestion();
-    }
+        <h2>Marknadsföring</h2>
 
-    function loadQuestion() {
-      answered = false;
-      clearInterval(timerInterval);
-      timerSeconds = 60;
-      updateTimerUI();
+        <p>
+          Quiz och spel om marknadsföring,
+          målgrupper, reklam och kommunikation.
+        </p>
 
-      const q = questions[currentQuestionIndex];
+        <span class="open-folder">
+          Öppna mappen →
+        </span>
 
-      // Update question text & category
-      document.getElementById('questionNumberText').innerText = `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
-      document.getElementById('categoryTag').innerText = q.type;
-      document.getElementById('questionText').innerText = q.question;
+      </a> -->
 
-      // Update visual progress
-      const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
-      document.getElementById('progressBarFill').style.width = `${percent}%`;
 
-      // Render ascii style bar
-      const filledBlocks = Math.round(((currentQuestionIndex + 1) / questions.length) * 10);
-      const emptyBlocks = 10 - filledBlocks;
-      const asciiBar = '█'.repeat(filledBlocks) + '░'.repeat(emptyBlocks);
-      document.getElementById('progressTextVisual').innerText = `${asciiBar} ${currentQuestionIndex + 1}/${questions.length}`;
+      <!-- Hållbar utveckling -->
+      <!-- <a href="hållbarhet/" class="folder">
 
-      // Reset feedback section
-      const feedbackContainer = document.getElementById('feedbackContainer');
-      feedbackContainer.classList.add('hidden');
-      feedbackContainer.className = "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+        <div class="folder-icon">
+          🌱
+        </div>
 
-      // Render Options
-      const optionsContainer = document.getElementById('optionsContainer');
-      optionsContainer.innerHTML = '';
+        <h2>Hållbar utveckling</h2>
 
-      q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
-        btn.onclick = () => selectOption(idx, btn);
+        <p>
+          Quiz och spel om hållbarhet,
+          handel och miljö.
+        </p>
 
-        const badge = document.createElement('span');
-        badge.className = "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
-        badge.innerText = String.fromCharCode(65 + idx); // A, B, C, D
+        <span class="open-folder">
+          Öppna mappen →
+        </span>
 
-        const textSpan = document.createElement('span');
-        textSpan.className = "mt-0.5 leading-snug";
-        textSpan.innerText = opt.text;
+      </a> -->
 
-        btn.appendChild(badge);
-        btn.appendChild(textSpan);
-        optionsContainer.appendChild(btn);
-      });
 
-      // Start Countdown Timer
-      timerInterval = setInterval(() => {
-        timerSeconds--;
-        updateTimerUI();
-        if (timerSeconds <= 0) {
-          clearInterval(timerInterval);
-          handleTimeOut();
-        }
-      }, 1000);
-    }
+      <!-- Exponering -->
+      <!-- <a href="exponering/" class="folder">
 
-    function updateTimerUI() {
-      document.getElementById('timerText').innerText = `${timerSeconds}s`;
-    }
+        <div class="folder-icon">
+          🏪
+        </div>
 
-    function selectOption(selectedIndex, clickedBtn) {
-      if (answered) return;
-      answered = true;
-      clearInterval(timerInterval);
+        <h2>Exponering</h2>
 
-      const q = questions[currentQuestionIndex];
-      const isCorrect = q.options[selectedIndex].isCorrect;
-      const optionBtns = document.getElementById('optionsContainer').children;
+        <p>
+          Quiz och spel om butiks- och
+          fönsterexponering.
+        </p>
 
-      // Calculate score
-      let pointsEarned = 0;
-      if (isCorrect) {
-        correctCount++;
-        // Speed bonus: up to 50 extra points based on remaining seconds
-        const speedBonus = Math.round((timerSeconds / 60) * 50);
-        pointsEarned = 100 + speedBonus;
-        score += pointsEarned;
-        playSound('correct');
-      } else {
-        wrongCount++;
-        playSound('wrong');
-      }
+        <span class="open-folder">
+          Öppna mappen →
+        </span>
 
-      document.getElementById('scoreText').innerText = score;
+      </a> -->
 
-      // Style options based on answer
-      Array.from(optionBtns).forEach((btn, idx) => {
-        btn.disabled = true;
-        btn.classList.remove('hover:bg-beige-100', 'hover:border-sage-500', 'btn-bounce');
-        btn.classList.add('cursor-default');
+    </section>
 
-        if (q.options[idx].isCorrect) {
-          btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
-          const badge = btn.querySelector('span');
-          badge.className = "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
-          badge.innerText = "✓";
-        } else if (idx === selectedIndex && !isCorrect) {
-          btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
-          const badge = btn.querySelector('span');
-          badge.className = "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
-          badge.innerText = "✕";
-        } else {
-          btn.classList.add('opacity-40');
-        }
-      });
+  </main>
 
-      showFeedback(isCorrect, q.explanation, pointsEarned);
-    }
 
-    function handleTimeOut() {
-      if (answered) return;
-      answered = true;
-      wrongCount++;
-      playSound('wrong');
+  <!-- FOOTER -->
+ <footer>
+  © Moha
+</footer>
 
-      const q = questions[currentQuestionIndex];
-      const optionBtns = document.getElementById('optionsContainer').children;
-
-      Array.from(optionBtns).forEach((btn, idx) => {
-        btn.disabled = true;
-        btn.classList.add('cursor-default', 'opacity-40');
-        if (q.options[idx].isCorrect) {
-          btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 opacity-100";
-        }
-      });
-
-      showFeedback(false, `Tiden tog slut! ${q.explanation}`, 0, true);
-    }
-
-    function showFeedback(isCorrect, explanation, pointsEarned, isTimeout = false) {
-      const feedbackContainer = document.getElementById('feedbackContainer');
-      const feedbackIcon = document.getElementById('feedbackIcon');
-      const feedbackTitle = document.getElementById('feedbackTitle');
-      const feedbackExplanation = document.getElementById('feedbackExplanation');
-
-      feedbackContainer.classList.remove('hidden');
-
-      if (isCorrect) {
-        feedbackContainer.className = "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
-        feedbackIcon.innerText = "🎉";
-        feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
-      } else if (isTimeout) {
-        feedbackContainer.className = "mt-6 p-5 rounded-2xl border-2 border-amber-300 bg-amber-50/90 text-amber-950 transition-all duration-300";
-        feedbackIcon.innerText = "⏰";
-        feedbackTitle.innerText = "Tiden tog slut!";
-      } else {
-        feedbackContainer.className = "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
-        feedbackIcon.innerText = "💡";
-        feedbackTitle.innerText = "Inte riktigt!";
-      }
-
-      feedbackExplanation.innerText = explanation;
-
-      // Scroll smoothly to feedback if on small screens
-      setTimeout(() => {
-        feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
-    }
-
-    function nextQuestion() {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questions.length) {
-        loadQuestion();
-      } else {
-        showResults();
-      }
-    }
-
-    function showResults() {
-      clearInterval(timerInterval);
-      document.getElementById('gameScreen').classList.add('hidden');
-      document.getElementById('gameScreen').classList.remove('flex');
-      document.getElementById('resultScreen').classList.remove('hidden');
-
-      document.getElementById('finalScore').innerText = score;
-      document.getElementById('finalCorrect').innerText = correctCount;
-      document.getElementById('finalWrong').innerText = wrongCount;
-
-      const percentage = Math.round((correctCount / questions.length) * 100);
-      const encouragementText = document.getElementById('encouragementText');
-
-      if (percentage >= 85) {
-        encouragementText.innerText = "Strålande resultat! Du har extremt god förståelse för försäljning, service och kundrelationer. Du är redo för provet!";
-      } else if (percentage >= 60) {
-        encouragementText.innerText = "Bra jobbat! Du har koll på de flesta begreppen. Repetera de sista kapitlen så kommer du nå högsta poäng nästa gång!";
-      } else {
-        encouragementText.innerText = "Bra kämpat! Försök igen och läs extra noga om målgrupper, kundbeteende och geografisk/demografisk indelning.";
-      }
-    }
-
-    // SHARE MODAL UTILITIES
-    let qrcodeObj = null;
-
-    function openShareModal() {
-      const currentUrl = window.location.href;
-      document.getElementById('shareUrlInput').value = currentUrl;
-      
-      const qrcodeContainer = document.getElementById('qrcode');
-      qrcodeContainer.innerHTML = '';
-      
-      try {
-        qrcodeObj = new QRCode(qrcodeContainer, {
-          text: currentUrl,
-          width: 140,
-          height: 140,
-          colorDark : "#1E3F2F",
-          colorLight : "#ffffff",
-          correctLevel : QRCode.CorrectLevel.H
-        });
-      } catch (e) {
-        qrcodeContainer.innerText = "QR-kod genereras när sidan ligger på en webbadress.";
-      }
-
-      document.getElementById('shareModal').classList.remove('hidden');
-    }
-
-    function closeShareModal() {
-      document.getElementById('shareModal').classList.add('hidden');
-      document.getElementById('copySuccessMsg').classList.add('hidden');
-    }
-
-    function copyShareUrl() {
-      const input = document.getElementById('shareUrlInput');
-      input.select();
-      navigator.clipboard.writeText(input.value).then(() => {
-        document.getElementById('copySuccessMsg').classList.remove('hidden');
-      }).catch(() => {
-        document.execCommand('copy');
-        document.getElementById('copySuccessMsg').classList.remove('hidden');
-      });
-    }
-  </script>
 </body>
 </html>
