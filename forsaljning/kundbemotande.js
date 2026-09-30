@@ -791,6 +791,7 @@ function startGame() {
     }
 
     playerName = nameInput;
+    document.getElementById("playerDisplay").textContent = playerName;
 
     // Blanda kunderna
     situations.sort(() => Math.random() - 0.5);
