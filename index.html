@@ -1,268 +1,248 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Mo-handel</title>
+    <title>Handelhub</title>
 
-  <!-- Cardo + Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
+    <!-- Cardo + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      background: #F5F2EB;
-      color: #1F2421;
-      font-family: "Cardo" ;
-    }
-
-    /* Header */
-    header {
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid #E7E2D5;
-      padding: 18px 30px;
-    }
-
-    .header-content {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      background: #2D5A43;
-      color: white;
-      border-radius: 14px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 24px;
-    }
-
-    .header-title {
-      font-family: "Cardo" ;
-      color: #1E3F2F;
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .header-subtitle {
-      color: #6B716D;
-      font-size: 13px;
-      margin-top: 2px;
-    }
-
-    /* Main */
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 70px 25px;
-    }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 55px;
-    }
-
-    .hero h1 {
-      font-family: "Cardo", serif;
-      color: #1E3F2F;
-      font-size: clamp(40px, 6vw, 64px);
-      margin-bottom: 18px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #626862;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-
-    /* Folder grid */
-    .folders {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 22px;
-    }
-
-    .folder {
-      display: block;
-      text-decoration: none;
-      background: white;
-
-      border: 1px solid #E7E2D5;
-      border-radius: 24px;
-
-      padding: 30px;
-
-      box-shadow:
-        0 10px 30px rgba(45, 90, 67, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.04);
-
-      transition: all 0.2s ease;
-    }
-
-    .folder:hover {
-      transform: translateY(-5px);
-      border-color: #4A7C59;
-      box-shadow:
-        0 15px 35px rgba(45, 90, 67, 0.14);
-    }
-
-    .folder-icon {
-      width: 58px;
-      height: 58px;
-
-      background: #E6EFEA;
-      color: #2D5A43;
-
-      border-radius: 16px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 29px;
-
-      margin-bottom: 20px;
-    }
-
-    .folder h2 {
-      font-family: "Cardo";
-      color: #1E3F2F;
-      font-size: 25px;
-      margin-bottom: 8px;
-    }
-
-    .folder p {
-      color: #6B716D;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .open-folder {
-      display: inline-block;
-      margin-top: 20px;
-
-      color: #2D5A43;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 25px;
-      border-top: 1px solid #E7E2D5;
-      color: #777;
-      font-size: 13px;
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    /* Mobile */
-    @media (max-width: 600px) {
-      header {
-        padding: 15px 18px;
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
+      body {
+        min-height: 100vh;
+        background: #f5f2eb;
+        color: #1f2421;
+        font-family: "Cardo";
+      }
+
+      /* Header */
+      header {
+        background: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid #e7e2d5;
+        padding: 18px 30px;
+      }
+
+      .header-content {
+        max-width: 1100px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .logo {
+        width: 48px;
+        height: 48px;
+        background: #2d5a43;
+        color: white;
+        border-radius: 14px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+      }
+
+      .header-title {
+        font-family: "Cardo";
+        color: #1e3f2f;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .header-subtitle {
+        color: #6b716d;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      /* Main */
       main {
-        padding: 50px 18px;
+        max-width: 1100px;
+        margin: auto;
+        padding: 70px 25px;
       }
 
       .hero {
-        margin-bottom: 40px;
+        text-align: center;
+        margin-bottom: 55px;
+      }
+
+      .hero h1 {
+        font-family: "Cardo", serif;
+        color: #1e3f2f;
+        font-size: clamp(40px, 6vw, 64px);
+        margin-bottom: 18px;
+      }
+
+      .hero p {
+        max-width: 650px;
+        margin: auto;
+        color: #626862;
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      /* Folder grid */
+      .folders {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 22px;
       }
 
       .folder {
-        padding: 25px;
+        display: block;
+        text-decoration: none;
+        background: white;
+
+        border: 1px solid #e7e2d5;
+        border-radius: 24px;
+
+        padding: 30px;
+
+        box-shadow:
+          0 10px 30px rgba(45, 90, 67, 0.08),
+          0 4px 12px rgba(0, 0, 0, 0.04);
+
+        transition: all 0.2s ease;
       }
-    }
-  </style>
-</head>
 
-<body>
+      .folder:hover {
+        transform: translateY(-5px);
+        border-color: #4a7c59;
+        box-shadow: 0 15px 35px rgba(45, 90, 67, 0.14);
+      }
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-content">
+      .folder-icon {
+        width: 58px;
+        height: 58px;
 
-      <div class="logo">
-        🎓
+        background: #e6efea;
+        color: #2d5a43;
+
+        border-radius: 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 29px;
+
+        margin-bottom: 20px;
+      }
+
+      .folder h2 {
+        font-family: "Cardo";
+        color: #1e3f2f;
+        font-size: 25px;
+        margin-bottom: 8px;
+      }
+
+      .folder p {
+        color: #6b716d;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .open-folder {
+        display: inline-block;
+        margin-top: 20px;
+
+        color: #2d5a43;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 25px;
+        border-top: 1px solid #e7e2d5;
+        color: #777;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Mobile */
+      @media (max-width: 600px) {
+        header {
+          padding: 15px 18px;
+        }
+
+        main {
+          padding: 50px 18px;
+        }
+
+        .hero {
+          margin-bottom: 40px;
+        }
+
+        .folder {
+          padding: 25px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="header-content">
+        <div class="logo">🎓</div>
+
+        <div>
+          <div class="header-title">Handelhub</div>
+
+          <div class="header-subtitle">
+            Interaktiv lärplattform för handel och service
+          </div>
+        </div>
       </div>
+    </header>
 
-      <div>
-        <div class="header-title">
-          Mo-handel
-        </div>
-
-        <div class="header-subtitle">
-Interaktiv lärplattform för handel och service
-        </div>
-      </div>
-
-    </div>
-  </header>
-
-
-  <!-- MAIN -->
-  <main>
-
-    <section class="hero">
-
-      <h1>Välj ett ämne</h1>
-
-      <p>
-        Välkommen! Välj det område eller den kurs du vill arbeta med.
-        Klicka på en mapp för att se tillgängliga quiz och spel.
-      </p>
-
-    </section>
-
-
-    <!-- QUIZ MAPS -->
-    <section class="folders">
-
-      <!-- Försäljning -->
-<a href="forsaljning/index.html" class="folder">
-        <div class="folder-icon">
-          🛍️
-        </div>
-
-        <h2>Försäljning & Service 1 </h2>
+    <!-- MAIN -->
+    <main>
+      <section class="hero">
+        <h1>Välj ett ämne</h1>
 
         <p>
-          Quiz och spel om försäljning, kundservice,
-          kundrelationer och olika försäljningssituationer.
+          Välkommen! Välj det område eller den kurs du vill arbeta med. Klicka
+          på en mapp för att se tillgängliga quiz och spel.
         </p>
+      </section>
 
-        <span class="open-folder">
-          Öppna mappen →
-        </span>
+      <!-- QUIZ MAPS -->
+      <section class="folders">
+        <!-- Försäljning -->
+        <a href="forsaljning/index.html" class="folder">
+          <div class="folder-icon">🛍️</div>
 
-      </a>
+          <h2>Försäljning & Service 1</h2>
 
+          <p>
+            Quiz och spel om försäljning, kundservice, kundrelationer och olika
+            försäljningssituationer.
+          </p>
 
-      <!-- Marknadsföring -->
-      <!-- <a href="marknadsföring/" class="folder">
+          <span class="open-folder"> Öppna mappen → </span>
+        </a>
+
+        <!-- Marknadsföring -->
+        <!-- <a href="marknadsföring/" class="folder">
 
         <div class="folder-icon">
           📢
@@ -281,9 +261,8 @@ Interaktiv lärplattform för handel och service
 
       </a> -->
 
-
-      <!-- Hållbar utveckling -->
-      <!-- <a href="hållbarhet/" class="folder">
+        <!-- Hållbar utveckling -->
+        <!-- <a href="hållbarhet/" class="folder">
 
         <div class="folder-icon">
           🌱
@@ -302,9 +281,8 @@ Interaktiv lärplattform för handel och service
 
       </a> -->
 
-
-      <!-- Exponering -->
-      <!-- <a href="exponering/" class="folder">
+        <!-- Exponering -->
+        <!-- <a href="exponering/" class="folder">
 
         <div class="folder-icon">
           🏪
@@ -322,16 +300,10 @@ Interaktiv lärplattform för handel och service
         </span>
 
       </a> -->
+      </section>
+    </main>
 
-    </section>
-
-  </main>
-
-
-  <!-- FOOTER -->
- <footer>
-  © Moha
-</footer>
-
-</body>
+    <!-- FOOTER -->
+    <footer> Handelhub © Moha</footer>
+  </body>
 </html>
