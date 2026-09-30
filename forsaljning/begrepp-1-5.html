@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Begreppsspel – Försäljning & Service</title>
+  <!-- Länk till din externa CSS-fil -->
+<link rel="stylesheet" href="../css/styles.css"></head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+      <div class="logo">🛍️</div>
+      <div>
+        <h1 class="header-title">Försäljning & Service</h1>
+        <p class="header-subtitle">Träna på centrala begrepp och kundrelationer • Kap 1–5</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="hero">
+     <a href="begrepp.html" class="back-link">
+  ← Tillbaka till begrepp
+</a>
+      <h1>Begreppsjakten</h1>
+      <p>Förstå innebörden av viktiga begrepp inom försäljning och service, testa dina kunskaper mot utmanande svarsalternativ och samla poäng!</p>
+    </div>
+
+    <!-- SPELETS KONTROLLPANEL (POÄNG & NIVÅ) -->
+    <div style="background: white; border: 1px solid #E7E2D5; border-radius: 20px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+      <div>
+        <span style="font-size: 14px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Kort / Fråga:</span>
+        <div id="cardProgress" style="font-size: 22px; color: #1E3F2F; font-weight: bold;">1 av 12</div>
+      </div>
+      <div>
+        <span style="font-size: 14px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Dina Poäng:</span>
+        <div id="scoreDisplay" style="font-size: 22px; color: #2D5A43; font-weight: bold;">0 p</div>
+      </div>
+      <button onclick="restartGame()" class="open-quiz" style="background: #E6EFEA; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer;">
+        🔄 Starta om
+      </button>
+    </div>
+
+    <!-- SPELKORT CONTAINER -->
+    <div id="gameContainer">
+      <!-- Kortet laddas dynamiskt via JavaScript -->
+    </div>
+
+    <!-- SLUTSKÄRM (DOLD FRÅN BÖRJAN) -->
+    <div id="resultScreen" style="display: none; text-align: center; background: white; border: 1px solid #E7E2D5; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08);">
+      <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
+      <h2 style="font-size: 32px; color: #1E3F2F; margin-bottom: 10px;">Bra jobbat!</h2>
+      <p style="color: #6B716D; font-size: 18px; margin-bottom: 25px;" id="resultSummaryText">Du har gått igenom alla begrepp och samlat poäng!</p>
+      
+      <div style="font-size: 28px; color: #2D5A43; font-weight: bold; margin-bottom: 30px;" id="finalScoreText">
+        Totalpoäng: 0 p
+      </div>
+
+      <button onclick="restartGame()" class="open-quiz" style="background: #2D5A43; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 14px; cursor: pointer;">
+        Spela igen
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Försäljning och service 1 • SFI & Gymnasieanpassat begreppsspel       © Moha
+  </footer>
+
+  <!-- JAVASCRIPT LOGIK -->
+  <script>
+    // BEGREPPSDATABAS MED FÖRDJUPADE FÖRKLARINGAR OCH REALISTISKA SVARSALTERNATIV (28 BEGREPP)
+    const concepts = [
+      {
+        word: "Kundbemötande",
+        definition: "Sättet en anställd hälsar, kommunicerar och uppträder mot kunden för att skapa ett tryggt och professionellt intryck.",
+        example: "Exempel: Du ler, söker ögonkontakt och visar genuint intresse för att hjälpa kunden.",
+        options: [
+          "Sättet en anställd hälsar, kommunicerar och bemöter kunden i butiken",
+          "Butikens interna regler för hur varor packas upp på lagerhyllor",
+          "Företagets marknadsföring via sociala medier och reklamblad"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Stamkunder",
+        definition: "Kunder som regelbundet återvänder till samma butik för att handla eftersom de är nöjda med utbudet och servicen.",
+        example: "Exempel: En kund som köper sitt kaffe på samma café varje morgon.",
+        options: [
+          "Kunder som endast handlar i butiken när det är stor rea eller utförsäljning",
+          "Kunder som återvänder regelbundet till samma butik och har en relation till den",
+          "Nya besökare som ännu inte bestämt sig för om de gillar butikens utbud"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Kundtjänst",
+        definition: "En funktion eller avdelning i ett företag som hjälper kunder med frågor, klagomål, returer och support.",
+        example: "Exempel: Du kontaktar kundtjänst om en vara du beställt på nätet är skadad.",
+        options: [
+          "En avdelning som ansvarar för inköp av nya varor från utländska leverantörer",
+          "Butikens kassaområde där alla vanliga betalningar genomförs",
+          "En funktion i företaget som hjälper kunder med frågor, problem och reklamationer"
+        ],
+        correctIndex: 2
+      },
+      {
+        word: "Potentiella kunder",
+        definition: "Personer som tillhör företagets målgrupp och har ett behov, men som ännu inte genomfört ett köp.",
+        example: "Exempel: Människor som passerar butiksfönstret och visar intresse för produkterna.",
+        options: [
+          "Personer i målgruppen som skulle kunna bli kunder men som inte handlat än",
+          "Kunder som har registrerat ett medlemskort och handlar varje vecka",
+          "Tidigare kunder som har valt att helt sluta handla hos företaget"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Sortiment",
+        definition: "Det samlade utbudet av varor eller tjänster som en butik eller ett företag erbjuder sina kunder.",
+        example: "Exempel: En skobutik har skor, strumpor, skoskäft och skokräm i sitt sortiment.",
+        options: [
+          "Mängden varor som för tillfället finns kvar på butikens bakre lager",
+          "Det samlade utbudet av produkter eller tjänster som butiken erbjuder",
+          "Den sammanlagda vinsten som en butik gör under ett räkenskapsår"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Faktura",
+        definition: "Ett skriftligt eller digitalt betalningskrav från en säljare till en köpare med specifikation och förfallodatum.",
+        example: "Exempel: Ett företag får ett dokument där det står att 15 000 kr ska betalas inom 30 dagar.",
+        options: [
+          "Ett kvitto på att en betalning redan har genomförts i stunden",
+          "Ett dokument som beräknar hur mycket skatt företaget ska betala till staten",
+          "Ett skriftligt betalningskrav med information om vad som köpts och när det ska betalas"
+        ],
+        correctIndex: 2
+      },
+      {
+        word: "Kundbehov",
+        definition: "Det grundläggande eller specifika problem/önskemål som kunden vill lösa genom att köpa en vara.",
+        example: "Exempel: Kunden behöver en varm jacka för att inte frysa under vintern.",
+        options: [
+          "Butikens krav på att kunden måste handla för ett visst minsta belopp",
+          "Det problem eller önskemål som kunden vill lösa med hjälp av en produkt",
+          "Säljarens personliga mål att sälja den dyraste varan i hyllan"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Målgrupp",
+        definition: "En definierad grupp av konsumenter som ett företag i första hand inriktar sin försäljning och marknadsföring mot.",
+        example: "Exempel: En leksaksaffär har framför allt barnfamiljer som sin målgrupp.",
+        options: [
+          "En utvald grupp av konsumenter som företaget främst vill nå och sälja till",
+          "Alla konkurrerande företag inom samma geografiska område",
+          "De anställda som arbetar på företagets marknadsavdelning"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Leverans",
+        definition: "Transport och överlämnande av beställda varor från leverantör eller lager till mottagaren.",
+        example: "Exempel: En lastbil anländer på morgonen med nya kläder till butiken.",
+        options: [
+          "Processen när varor transporteras och lämnas över till mottagaren",
+          "När en kund lämnar tillbaka en trasig vara till butiken",
+          "Betalningsöverföringen från kundens bankkonto till butiken"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Lastbrygga",
+        definition: "En upphöjd plattform vid butikens godsmottagning anpassad för smidig av- och pålastning från lastbilar.",
+        example: "Exempel: Chauffören backar intill lastbryggan så att pallyftaren kan rulla rakt in.",
+        options: [
+          "En specialbyggd kassadisk för tunga och skrymmande varor",
+          "En upphöjd plattform vid godsmottagningen för av- och pålastning av transporter",
+          "En utställningshylla i butiken där veckans nyheter visas upp"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Följesedel",
+        definition: "Ett dokument som medföljer en godstransport och specifierar innehållet i leveransen för kontroll.",
+        example: "Exempel: Personalen jämför innehållet i lådorna med följesedeln för att se att inget saknas.",
+        options: [
+          "Ett dokument som följer med en leverans för att visa vilka varor som skickats",
+          "En faktura som visar räntesatsen vid försenad betalning",
+          "Ett garantibevis som kunden får vid köp av elektroniska produkter"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Positiva servicespiralen",
+        definition: "En kedjereaktion där god service ger nöjda kunder, vilket leder till återkommande köp och stärkts lönsamhet.",
+        example: "Exempel: Bra bemötande gör kunden glad -> kunden berömmer butiken -> fler kunder kommer.",
+        options: [
+          "Ett schema för hur personalens arbetstider roterar under högsäsong",
+          "En kedjereaktion där bra service skapar nöjda kunder och ökad lönsamhet",
+          "När butiken höjer priserna stegvis för att täcka högre lokalkostnader"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Merförsäljning",
+        definition: "Att erbjuda kunden komplementvaror eller tillbehör som höjer värdet och nyttan av huvudprodukten.",
+        example: "Exempel: Att erbjuda skokräm och impregneringsspray när kunden köper ett par läderskor.",
+        options: [
+          "Att sälja ut utgående varor till halva priset vid säsongsslut",
+          "Att erbjuda relevanta tillbehör eller tilläggsprodukter vid köpet av en huvudvara",
+          "Att tvinga kunden att teckna en dyr försäkring för att få köpa varan"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Självscanning",
+        definition: "Ett system där kunden själv registrerar varornas streckkoder och slutför betalningen i kassaområdet.",
+        example: "Exempel: Kunden använder en handscanner i butiken och skannar varorna direkt när de läggs i kassen.",
+        options: [
+          "När butikspersonalen kontrollerar alla prislappar med en laserläsare på morgonen",
+          "En metod där kunden själv skannar sina varor och genomför betalningen",
+          "En automatisk säkerhetskontroll av kundernas väskor vid utgången"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Obemannad butik",
+        definition: "En digitaliserad butik utan närvarande personal där kunderna låser upp och handlar med e-legitimation.",
+        example: "Exempel: En dygnet runt-öppen matbutik på landsbygden där du stiger in via BankID.",
+        options: [
+          "En butik som har stängt på grund av personalbrist eller helgdag",
+          "En butik där kunden identifierar sig digitalt och handlar helt utan personal på plats",
+          "Ett tillfälligt varulager som endast tar emot beställningar från grossister"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Aktivt lyssnande",
+        definition: "En kommunikationsteknik där säljaren visar engagemang, ställer följdfrågor och bekräftar kundens budskap.",
+        example: "Exempel: Säljaren nickar och säger: 'Så du behöver alltså en dator som tål tung grafik?'",
+        options: [
+          "Att lyssna på butikens bakgrundsmusik för att hålla sig pigg under arbetspasset",
+          "Att engagera sig i kundens berättelse, bekräfta vad som sägs och ställa följdfrågor",
+          "Att avbryta kunden snabbt för att hinna berätta om alla produkter i butiken"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Kroppsspråk",
+        definition: "Icke-verbal kommunikation genom ansiktsuttryck, hållning, gestikulerande och ögonkontakt.",
+        example: "Exempel: Ett öppet kroppsspråk med leende gör säljaren lätt att närma sig.",
+        options: [
+          "Icke-verbal kommunikation via miner, gestik och kroppshållning som påverkar intrycket",
+          "De skriftliga instruktioner som finns för hur personalen ska lyfta tunga kartonger",
+          "Klädkoden och uniformskraven för personalen i en varuhuskedja"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Öppna frågor",
+        definition: "Frågor som inte kan besvaras med ett enkelt 'ja' eller 'nej', utan uppmuntrar kunden att berätta mer.",
+        example: "Exempel: 'Vilka funktioner är viktigast för dig när du väljer en mobiltelefon?'",
+        options: [
+          "Frågor som kunden ställer när butiken har extraöppet på kvällen",
+          "Frågor som kräver utvecklande svar och oftast börjar med vad, hur eller varför",
+          "Frågor som enbart kan besvaras med ett kort 'ja' eller 'nej'"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Kundnytta",
+        definition: "Det faktiska värdet och den praktiska fördelen en produkt ger kunden i vardagen.",
+        example: "Exempel: Att en regnjacka har hög vattenpelare innebär att kunden håller sig torr.",
+        options: [
+          "Det prispåslag som butiken lägger på en vara för att täcka sina omkostnader",
+          "Den faktiska fördelen och det praktiska värdet som produkten ger användaren",
+          "Den rabatt som kunden får om hen köper tre varor till priset av två"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Efterköpskänsla",
+        definition: "Kundens upplevelse och känsla efter att köpet genomförts och produkten börjat användas.",
+        example: "Exempel: Kunden känner sig nöjd och trygg med sitt val, vilket stärks över tid.",
+        options: [
+          "Känslan kunden har när hen står i kassan och väntar på sin tur att betala",
+          "Upplevelsen och utvärderingen kunden gör i efterhand angående sitt köpbeslut",
+          "Den osäkerhet säljaren känner innan köpet slutgiltigt har slutförts"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Reklamation",
+        definition: "När en kund meddelar säljaren att en köpt vara är felaktig, trasig eller inte uppfyller avtalet.",
+        example: "Exempel: Kunden lämnar tillbaka en tröja där sömmen spruckit efter första tvätten.",
+        options: [
+          "När ett företag sätter upp affischer och delar ut reklamblad i bostadsområden",
+          "När kunden påtalar ett fel på en vara och kräver åtgärd enligt konsumenträtt",
+          "När butiken gör en extra beställning av populära varor som tagit slut"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Ångerrätt",
+        definition: "Konsumentens lagstadgade rätt att ångra ett köp gjort på distans (t.ex. internet) inom 14 dagar.",
+        example: "Exempel: Du köper skor på nätet men ångrar dig och skickar tillbaka dem inom två veckor.",
+        options: [
+          "Säljarens rätt att när som helst ställa in en genomförd försäljning",
+          "Konsumentens lagstadgade rätt att ångra distansköp inom 14 dagar",
+          "Butikens möjlighet att vägra ta emot kontantbetalningar i kassan"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Inventering",
+        definition: "En fysisk räkning och kontroll av alla varor som finns i butiken och på lagret vid en viss tidpunkt.",
+        example: "Exempel: Personalen räknar alla artiklar på hyllorna efter stängning för att kontrollera lagersaldot.",
+        options: [
+          "En fysisk räkning av butikens faktiska varulager för att stämma av mot bokföringen",
+          "Planeringen av var varorna ska placeras i butiksfönstret under julhandeln",
+          "En undersökning av hur många konkurrenter som finns i samma stad"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Varuexponering",
+        definition: "Hur varor skyltas, arrangeras och presenteras i butiken för att väcka kundens köplust.",
+        example: "Exempel: Snyggt färganpassade kläder på gipdockor i blickfånget nära entrén.",
+        options: [
+          "Transporten av skadliga kemikalier mellan lagret och försäljningsytan",
+          "Sättet som varor presenteras, skyltas och placeras på för att locka till köp",
+          "Förvaringen av säsongsartiklar i låsta förråd under lågsäsong"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Impulsköp",
+        definition: "Ett oplanerat köp som kunden gör plötsligt i stunden, ofta påverkad av placeringen i butiken.",
+        example: "Exempel: Kunden plockar med sig ett tuggummi eller en chokladbit vid kassan.",
+        options: [
+          "Ett genomtänkt köp av en kapitalvara som kunden planerat i flera månader",
+          "Ett oplanerat köp som sker spontant i stunden på grund av exponering eller lockpris",
+          "Ett inköp som görs av en butiksägare för att fylla på baslagret"
+        ],
+        correctIndex: 1
+      },
+      {
+        word: "Svinn",
+        definition: "Varor som försvinner eller förstörs utan att bli sålda, t.ex. genom stöld, skador eller datumutgång.",
+        example: "Exempel: Mjölkpaket som passerat bäst före-datum eller varor som blivit snattade.",
+        options: [
+          "Varor som förlorats, skadats, blivit gamla eller stulits så att de inte kan säljas",
+          "Den rabatt som ges till stammisar och personal vid storköp",
+          "Överskottet av varor som blir kvar efter en lyckad reaperiod"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Servicekänsla",
+        definition: "En inre inställning hos säljaren att genuint vilja hjälpa kunden och ge ett positivt mervärde.",
+        example: "Exempel: Att uppmärksamma att en kund har svårt att bära sina kassar och erbjuda bärhjälp.",
+        options: [
+          "En säljares genuina inställning att engagera sig, hjälpa kunden och ge det lilla extra",
+          "Butikens tekniska förmåga att behandla kortbetalningar utan avbrott",
+          "Sättet som en vara förpackas i skyddande kartonger innan leverans"
+        ],
+        correctIndex: 0
+      },
+      {
+        word: "Direktförsäljning",
+        definition: "Försäljning som sker vid personlig kontakt mellan säljare och köpare utan mellanhänder.",
+        example: "Exempel: En säljare som demonstrerar rengöringsprodukter eller möter kunden i butik ansikte mot ansikte.",
+        options: [
+          "Försäljning där kunden enbart interagerar med en automatisk chatbot",
+          "Personlig försäljning genom direktkontakt mellan säljare och kund",
+          "När tillverkaren skickar reklam via vanlig post utan personligt möte"
+        ],
+        correctIndex: 1
+      }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // LADDA AKTUELLT SPELKORT
+    function loadCard() {
+      answered = false;
+      const data = concepts[currentIndex];
+
+      // Uppdatera status
+      document.getElementById('cardProgress').innerText = `${currentIndex + 1} av ${concepts.length}`;
+      document.getElementById('scoreDisplay').innerText = `${score} p`;
+
+      const container = document.getElementById('gameContainer');
+      container.innerHTML = `
+        <div class="quiz-card" style="margin-bottom: 25px; position: relative;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+            <div class="quiz-icon">📖</div>
+            <span style="font-size: 13px; font-weight: bold; color: #2D5A43; background: #E6EFEA; padding: 6px 12px; border-radius: 8px;">
+              Begrepp ${currentIndex + 1} / ${concepts.length}
+            </span>
+          </div>
+
+          <h2 style="font-size: 32px; color: #1E3F2F; margin-bottom: 10px;">${data.word}</h2>
+          
+          <p style="font-size: 16px; color: #1F2421; margin-bottom: 8px;"><strong>Betyder:</strong> ${data.definition}</p>
+          <p style="font-size: 15px; color: #2D5A43; font-style: italic; background: #E6EFEA; padding: 10px 14px; border-radius: 10px; margin-bottom: 25px;">${data.example}</p>
+
+          <hr style="border: 0; border-top: 1px solid #E7E2D5; margin-bottom: 20px;">
+
+          <h3 style="font-size: 18px; color: #1E3F2F; margin-bottom: 15px;">Fråga: Vilket påstående stämmer bäst för "${data.word}"?</h3>
+
+          <!-- SVARSALTERNATIV -->
+          <div style="display: flex; flex-direction: column; gap: 12px;" id="optionsGroup">
+            ${data.options.map((opt, idx) => `
+              <button onclick="checkAnswer(${idx})" class="option-btn" style="text-align: left; background: #FAF8F5; border: 1px solid #E7E2D5; border-radius: 14px; padding: 16px 20px; font-size: 15px; color: #1F2421; cursor: pointer; transition: all 0.2s ease;">
+                <strong>${String.fromCharCode(65 + idx)}:</strong> ${opt}
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- FEEDBACK CONTAINER -->
+          <div id="feedbackBox" style="display: none; margin-top: 20px; padding: 16px; border-radius: 12px; text-align: center; font-weight: bold;"></div>
+
+          <!-- NÄSTA KNAPP -->
+          <button id="nextBtn" onclick="nextCard()" style="display: none; margin-top: 20px; width: 100%; background: #2D5A43; color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer;">
+            Nästa begrepp →
+          </button>
+
+        </div>
+      `;
+    }
+
+    // KONTROLLERA SVAR OCH GE POÄNG
+    function checkAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const data = concepts[currentIndex];
+      const feedbackBox = document.getElementById('feedbackBox');
+      const nextBtn = document.getElementById('nextBtn');
+      const optionBtns = document.querySelectorAll('.option-btn');
+
+      if (selectedIndex === data.correctIndex) {
+        score += 100;
+        document.getElementById('scoreDisplay').innerText = `${score} p`;
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#E6EFEA";
+        feedbackBox.style.color = "#2D5A43";
+        feedbackBox.style.border = "1px solid #4A7C59";
+        feedbackBox.innerHTML = "🎉 Rätt svar! Du får +100 poäng.";
+        optionBtns[selectedIndex].style.background = "#C2D8CB";
+        optionBtns[selectedIndex].style.borderColor = "#2D5A43";
+      } else {
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#FDF2F2";
+        feedbackBox.style.color = "#9B1C1C";
+        feedbackBox.style.border = "1px solid #F8B4B4";
+        feedbackBox.innerHTML = `💡 Inte riktigt. Rätt svar var alternativ <strong>${String.fromCharCode(65 + data.correctIndex)}</strong>.`;
+        optionBtns[selectedIndex].style.background = "#FDE8E8";
+        optionBtns[data.correctIndex].style.background = "#E6EFEA";
+        optionBtns[data.correctIndex].style.borderColor = "#2D5A43";
+      }
+
+      nextBtn.style.display = "block";
+    }
+
+    // GÅ TILL NÄSTA KORT ELLER VISA SLUTSKÄRM
+    function nextCard() {
+      currentIndex++;
+      if (currentIndex < concepts.length) {
+        loadCard();
+      } else {
+        showResults();
+      }
+    }
+
+    // SLUTSKÄRM
+    function showResults() {
+      document.getElementById('gameContainer').style.display = "none";
+      const resultScreen = document.getElementById('resultScreen');
+      resultScreen.style.display = "block";
+      document.getElementById('finalScoreText').innerText = `Totalpoäng: ${score} p av ${concepts.length * 100} p`;
+    }
+
+    // RESTART
+    function restartGame() {
+      currentIndex = 0;
+      score = 0;
+      document.getElementById('gameContainer').style.display = "block";
+      document.getElementById('resultScreen').style.display = "none";
+      loadCard();
+    }
+
+    // STARTA SPELET NÄR SIDAN LADDAS
+    window.onload = loadCard;
+  </script>
+</body>
+</html>
