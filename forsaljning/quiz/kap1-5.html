@@ -188,7 +188,7 @@
               <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
                 <div class="text-xl mb-1">⏱️</div>
                 <div class="font-semibold text-sm text-sage-900">
-                  1 Min / fråga
+                  5 Min / fråga
                 </div>
                 <div class="text-xs text-gray-500">Svara i lugn och ro</div>
               </div>
@@ -960,7 +960,7 @@
       let score = 0;
       let correctCount = 0;
       let wrongCount = 0;
-      let timerSeconds = 60;
+      let timerSeconds = 300;
       let timerInterval = null;
       let soundEnabled = true;
       let answered = false;
@@ -1070,7 +1070,7 @@
       function loadQuestion() {
         answered = false;
         clearInterval(timerInterval);
-        timerSeconds = 60;
+        timerSeconds = 300;
         updateTimerUI();
 
         const q = questions[currentQuestionIndex];
@@ -1136,8 +1136,11 @@
       }
 
       function updateTimerUI() {
-        document.getElementById("timerText").innerText = `${timerSeconds}s`;
-      }
+const minutes = Math.floor(timerSeconds / 60);
+const seconds = timerSeconds % 60;
+
+document.getElementById("timerText").innerText =
+  `${minutes}:${seconds.toString().padStart(2, "0")}`;      }
 
       function selectOption(selectedIndex, clickedBtn) {
         if (answered) return;
@@ -1153,7 +1156,7 @@
         if (isCorrect) {
           correctCount++;
           // Speed bonus: up to 50 extra points based on remaining seconds
-          const speedBonus = Math.round((timerSeconds / 60) * 50);
+          const speedBonus = Math.round((timerSeconds / 300) * 50);
           pointsEarned = 100 + speedBonus;
           score += pointsEarned;
           playSound("correct");
