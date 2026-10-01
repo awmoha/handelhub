@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Begreppsspel – Försäljning & Service (Kap 6–8)</title>
+  <!-- Länk till din externa CSS-fil -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #F5F2EB;
+      color: #1F2421;
+      font-family: "Cardo", Georgia, serif;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #E7E2D5;
+      padding: 18px 30px;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: #2D5A43;
+      color: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .header-title {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      color: #6B716D;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 50px 25px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #2D5A43;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .hero h1 {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: clamp(32px, 5vw, 50px);
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: auto;
+      color: #626862;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* QUIZ CARDS & BUTTONS */
+    .quiz-card {
+      background: white;
+      border: 1px solid #E7E2D5;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .quiz-icon {
+      width: 54px;
+      height: 54px;
+      background: #E6EFEA;
+      color: #2D5A43;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .open-quiz {
+      display: inline-block;
+      color: #2D5A43;
+      font-weight: 700;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+
+    .open-quiz:hover {
+      opacity: 0.8;
+    }
+
+    .option-btn:hover {
+      background: #E6EFEA !important;
+      border-color: #2D5A43 !important;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid #E7E2D5;
+      color: #777;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      header { padding: 15px 18px; }
+      main { padding: 35px 16px; }
+      .quiz-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+      <div class="logo">💬</div>
+      <div>
+        <h1 class="header-title">Försäljning & Service</h1>
+        <p class="header-subtitle">Träna på kommunikation, säljsamtal & kundrelationer • Kap 6–8</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="hero">
+      <a href="#" class="back-link">← Tillbaka till översikten</a>
+      <h1>Begreppsjakten: Kap 6–8</h1>
+      <p>Lär dig centrala begrepp om kommunikation, kroppsspråk, säljsamtalets fyra faser samt konsumenträtt och klagomålshantering på ett enkelt sätt!</p>
+    </div>
+
+    <!-- SPELETS KONTROLLPANEL (POÄNG & NIVÅ) -->
+    <div style="background: white; border: 1px solid #E7E2D5; border-radius: 20px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+      <div>
+        <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Kort / Fråga:</span>
+        <div id="cardProgress" style="font-size: 22px; color: #1E3F2F; font-weight: bold;">1 av 24</div>
+      </div>
+      <div>
+        <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Dina Poäng:</span>
+        <div id="scoreDisplay" style="font-size: 22px; color: #2D5A43; font-weight: bold;">0 p</div>
+      </div>
+      <button onclick="restartGame()" class="open-quiz" style="background: #E6EFEA; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer;">
+        🔄 Starta om
+      </button>
+    </div>
+
+    <!-- SPELKORT CONTAINER -->
+    <div id="gameContainer">
+      <!-- Kortet laddas dynamiskt via JavaScript -->
+    </div>
+
+    <!-- SLUTSKÄRM (DOLD FRÅN BÖRJAN) -->
+    <div id="resultScreen" style="display: none; text-align: center; background: white; border: 1px solid #E7E2D5; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08);">
+      <div style="font-size: 60px; margin-bottom: 15px;">🌟</div>
+      <h2 style="font-size: 32px; color: #1E3F2F; margin-bottom: 10px;">Fantastiskt jobbat!</h2>
+      <p style="color: #6B716D; font-size: 17px; margin-bottom: 25px;" id="resultSummaryText">Du har gått igenom alla begrepp och frågor för Kapitel 6, 7 och 8!</p>
+      
+      <div style="font-size: 28px; color: #2D5A43; font-weight: bold; margin-bottom: 30px;" id="finalScoreText">
+        Totalpoäng: 0 p
+      </div>
+
+      <button onclick="restartGame()" class="open-quiz" style="background: #2D5A43; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 14px; cursor: pointer;">
+        Spela igen
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Försäljning och service 1 • SFI & Gymnasieanpassat begreppsspel (Kap 6–8)
+  </footer>
+
+  <!-- JAVASCRIPT LOGIK -->
+  <script>
+    // BEGREPPSDATABAS FÖR KAPITEL 6, 7 & 8 (ENKEL SVENSKA MED GÅTOR & SITUATIONER)
+    const concepts = [
+      // KAPITEL 6: KOMMUNIKATION
+      {
+        chapter: "Kapitel 6",
+        word: "Verbalt språk",
+        definition: "De ord och meningar vi använder när vi pratar eller skriver till kunden.",
+        example: "Exempel: Att vänligt säga 'Hej! Vad kan jag hjälpa dig med idag?'",
+        question: "Vad innebär det verbala språket i en butik?",
+        options: [
+          "Att vi använder skrivna eller talade ord för att kommunicera",
+          "Att vi visar med miner och kroppshållning vad vi känner",
+          "Att butiken spelar hög bakgrundsmusik för kunderna"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Icke-verbalt språk",
+        definition: "Signalspråk utan ord, som t.ex. kroppsspråk, ögonkontakt, leende, avstånd och klädsel.",
+        example: "Exempel: Att söka ögonkontakt och le mot kunden som kliver in i butiken.",
+        question: "Vilket påstående är ett exempel på icke-verbalt språk?",
+        options: [
+          "Säljaren förklarar högt vad varan kostar",
+          "Säljaren ler varmt och nickar uppmuntrande mot kunden",
+          "Säljaren skickar ett kvitto på e-post till kunden"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Attityd",
+        definition: "Hur du ser på, tänker om eller reagerar i en specifik situation.",
+        example: "Exempel: En kund är arg, men säljaren behåller en lugn och hjälpsam inställning.",
+        question: "Vad är rätt beskrivning av begreppet attityd?",
+        options: [
+          "De lagar och regler som gäller när man köper en klänning",
+          "En persons inställning och sätt att reagera i mötet med andra",
+          "Mängden varor som finns uppställda på lagerhyllorna"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Värderingar",
+        definition: "Våra djupare uppfattningar om vad som är rätt eller fel i livet (våra 'rötter').",
+        example: "Exempel: Att tycka att det alltid är viktigt att vara ärlig och visa respekt.",
+        question: "Gåta: Jag formas under din uppväxt och styr vad du tycker är rätt eller fel. Vad är jag?",
+        options: [
+          "Självscanning",
+          "Värderingar",
+          "Varuexponering"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Kommunikation (Tvävägskommunikation)",
+        definition: "När två eller flera personer pratar MED varandra och utbyter tankar.",
+        example: "Exempel: Du frågar kunden vilken färg hen vill ha, och kunden svarar.",
+        question: "Vad skiljer kommunikation från ren information?",
+        options: [
+          "Kommunikation innebär att båda parter pratar och lyssnar på varandra",
+          "Information sker alltid via en pekskärm i kassaområdet",
+          "Kommunikation är när butiken sänder ut radio-reklam till alla"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Information (Envägskommunikation)",
+        definition: "När någon sänder ett budskap utan att få något direkt svar tillbaka.",
+        example: "Exempel: En skylt i butiken där det står 'REA 50%'.",
+        question: "Vilket av följande är ett exempel på ren information (envägskommunikation)?",
+        options: [
+          "Ett säljsamtal där du ställer frågor till kunden",
+          "En utropstext i högtalaren som säger att butiken stänger om 10 minuter",
+          "En chattsession där du svarar på kundens frågor live"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Interaktion",
+        definition: "När människor möts, påverkar varandra och reagerar på varandras handlingar.",
+        example: "Exempel: Säljaren ler -> Kunden blir glad -> Säljaren erbjuder hjälp.",
+        question: "Vad betyder ordet interaktion i ett kundmöte?",
+        options: [
+          "Att två människor påverkar och reagerar på varandra under samtalet",
+          "Att räkna hur många artiklar som finns i butikens hyllor",
+          "Att skriva ut en faktura till en företagskund"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 6",
+        word: "Fronta",
+        definition: "Att flytta fram varor längst ut på hyllkanten så att butiken ser snygg och välfylld ut.",
+        example: "Exempel: Du drar fram alla konserver så att etiketten syns tydligt längst fram.",
+        question: "Vad gör du när du 'frontar' varor i butiken?",
+        options: [
+          "Du kasserar alla varor som har gått ut i datum",
+          "Du ställer varorna snyggt längst fram på hyllkanten",
+          "Du transporterar varorna från lastbryggan till lagret"
+        ],
+        correctIndex: 1
+      },
+
+      // KAPITEL 7: SÄLJSAMTALET
+      {
+        chapter: "Kapitel 7",
+        word: "Säljsamtalets 4 faser",
+        definition: "De fyra stegen i ett professionellt säljsamtal: Kontakt, Analys, Utbyte och Avslut.",
+        example: "Exempel: 1. Hälsa -> 2. Fråga vad kunden vill ha -> 3. Visa vara -> 4. Slutföra köpet.",
+        question: "I vilken ordning genomförs säljsamtalets fyra faser?",
+        options: [
+          "Kontakt → Analys (Behov) → Utbyte (Lösning) → Avslut",
+          "Avslut → Utbyte → Kontakt → Analys",
+          "Analys → Avslut → Utbyte → Kontakt"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Kontaktfasen",
+        definition: "Säljsamtalets första fas där säljaren hälsar och skapar ett tryggt första intryck.",
+        example: "Exempel: Säljaren ler, får ögonkontakt och säger 'Välkommen in!'.",
+        question: "Vad är huvudmålet med kontaktfasen?",
+        options: [
+          "Att direkt ge kunden fakturan att signera",
+          "Att få kunden att känna sig välkommen och skapa ett positivt första intryck",
+          "Att rabattera varan så mycket som möjligt"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Behovsanalys (Analysfasen)",
+        definition: "Att ställa öppna frågor för att förstå vad kunden faktiskt behöver och önskar.",
+        example: "Exempel: Säljaren frågar 'Hur och var planerar du att använda din nya dator?'",
+        question: "Vad gör säljaren under behovsanalysen?",
+        options: [
+          "Ställer frågor och lyssnar aktivt för att ta reda på kundens behov",
+          "Packar ner varorna i papperskassar bakom kassan",
+          "Ber kunden att läsa bruksanvisningen själv"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Aktivt lyssnande",
+        definition: "Att lyssna uppmärksamt, nicka och ställa följdfrågor för att bekräfta kundens svar.",
+        example: "Exempel: 'Okej, så du behöver alltså skor som tål mycket regn?'",
+        question: "Hur visar en säljare att hen lyssnar aktivt?",
+        options: [
+          "Tittar på sin mobiltelefon medan kunden pratar",
+          "Nickar, har ögonkontakt och ställer följdfrågor på det kunden säger",
+          "Avbryter kunden direkt för att berätta om dagens erbjudande"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Utbytesfasen (Lösningen)",
+        definition: "Säljaren visar lämpliga produkter, förklarar kundnyttan och besvarar ev. invändningar.",
+        example: "Exempel: 'Den här jackan passar dig eftersom den är både varm och vattentät.'",
+        question: "Vad händer under utbytesfasen i säljsamtalet?",
+        options: [
+          "Säljaren presenterar varan och förklarar nyttan för kunden",
+          "Säljaren hälsar välkommen vid dörren för första gången",
+          "Kunden lämnar tillbaka en trasig produkt med kvitto"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Invändningshantering",
+        definition: "Att bemöta kundens tveksamheter (t.ex. pris eller färg) med förståelse och bra argument.",
+        example: "Exempel: 'Jag förstår att den verkar dyr, men den har 5 års garanti och håller längre.'",
+        question: "Situation: Kunden tycker att en jacka är för dyr. Vad är bäst reaktion från säljaren?",
+        options: [
+          "Säga att kunden har fel och inte förstår kvalitet",
+          "Visa förståelse och förklara varför jackans kvalitet gör den prisvärd",
+          "Bli tyst och gå iväg till ett annat rum"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Köpsignaler",
+        definition: "Tecken från kunden på att hen är redo att köpa (t.ex. känner på varan eller frågar om leverans).",
+        example: "Exempel: Kunden frågar 'Finns den här modellen i lager om jag bestämmer mig nu?'",
+        question: "Vilket av följande är en tydlig köpsignal från en kund?",
+        options: [
+          "Kunden tittar på klockan och går mot utgången",
+          "Kunden frågar vilka betalningsalternativ och garantier som finns",
+          "Kunden pratar i telefon om ett helt annat ämne"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 7",
+        word: "Avslutningsfasen",
+        definition: "Att hjälpa kunden att ta köpbeslutet, slutföra betalningen och önska välkommen åter.",
+        example: "Exempel: 'Vill du att jag packar in den som en present? Tack och välkommen åter!'",
+        question: "Vad ska säljaren göra i avslutningsfasen?",
+        options: [
+          "Börja ställa grundläggande frågor om kundens yrke",
+          "Knyta ihop säcken, hjälpa till med köpet och ge ett trevligt sista intryck",
+          "Lämna kassan och gå på kaffepaus"
+        ],
+        correctIndex: 1
+      },
+
+      // KAPITEL 8: SERVICE, KLAGOMÅL & KONSUMENTRÄTT
+      {
+        chapter: "Kapitel 8",
+        word: "Klagomålshantering",
+        definition: "Processen att ta emot och lösa missnöje från en kund på ett professionellt och vänligt sätt.",
+        example: "Exempel: Lyssna utan att avbryta, be om ursäkt för besväret och erbjuda en lösning.",
+        question: "Vad är det viktigaste första steget när du tar emot ett klagomål från en kund?",
+        options: [
+          "Lyssna lugnt på kunden utan att avbryta eller försvara dig",
+          "Säga att det är kundens eget fel att varan gick sönder",
+          "Hänvisa kunden till att ringa polisen"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Öppet köp",
+        definition: "Ett frivilligt löfte från butiken där kunden får lämna tillbaka oanvänd vara och få pengarna tillbaka.",
+        example: "Exempel: Du köper en tröja, ångrar dig hemma och får pengarna tillbaka mot uppvisande av kvitto.",
+        question: "Är 'Öppet köp' i en fysisk butik en lagstadgad rättighet eller ett frivilligt erbjudande?",
+        options: [
+          "Det är alltid en obligatorisk lag i alla fysiska butiker",
+          "Det är ett frivilligt erbjudande från butiken",
+          "Det gäller enbart för matvaror och frukt"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Bytesrätt",
+        definition: "Möjligheten att lämna tillbaka en oanvänd vara och byta till en annan vara eller ett tillgodokvitto.",
+        example: "Exempel: Du byter en tröja i storlek M mot en i storlek L.",
+        question: "Vad får kunden om butiken erbjuder 'Bytesrätt' och kunden inte hittar någon ny vara?",
+        options: [
+          "Kunden får oftast ett tillgodokvitto som kan användas senare",
+          "Kunden får alltid sina kontanter tillbaka direkt enligt lag",
+          "Kunden blir av med både varan och sina pengar"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Reklamation (Reklamationsrätt)",
+        definition: "Kundens lagstadgade rätt att klaga på en vara som var felaktig eller trasig från början (gäller i 3 år).",
+        example: "Exempel: Blixtlåset på en ny jacka går sönder efter två veckors vanlig användning.",
+        question: "Vad innebär en reklamation?",
+        options: [
+          "Att kunden klagar på att en vara har ursprungliga fel och har rätt att få den reparerad eller utbytt",
+          "Att butiken delar ut reklam och broschyrer i brevlådor",
+          "Att kunden vill byta färg på en helt felfri produkt efter ett år"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Garanti",
+        definition: "Ett frivilligt löfte från säljaren/tillverkaren att reparera eller ersätta varan om den går sönder under garantitiden.",
+        example: "Exempel: En TV säljs med 2 års garanti mot tillverkningsfel.",
+        question: "Vad är skillnaden mellan garanti och reklamationsrätt?",
+        options: [
+          "Garanti är ett frivilligt löfte från säljaren, medan reklamationsrätt är en lagstadgad rättighet",
+          "Garanti gäller bara i utlandet, reklamationsrätt gäller i Sverige",
+          "Det finns ingen skillnad, båda orden betyder exakt samma sak"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Kvitto",
+        definition: "Ett skriftligt eller digitalt Bevis på att kunden har betalat för en vara eller tjänst.",
+        example: "Exempel: Pappersremsan du får i kassan som visar pris, datum och moms.",
+        question: "Varför är det så viktigt för kunden att spara sitt kvitto?",
+        options: [
+          "För att kunna bevisa köpet vid öppet köp, byte eller reklamation",
+          "För att kvittot fungerar som ett ID-kort i lokaltrafiken",
+          "För att kvittot krävs för att låsa upp butikens entrédörr"
+        ],
+        correctIndex: 0
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Ångerrätt (Distansavtalslagen)",
+        definition: "Konsumentens lagstadgade rätt att ångra köp gjorda på internet eller distans inom 14 dagar.",
+        example: "Exempel: Du beställer en jacka på nätet, provar den hemma och skickar tillbaka den inom 14 dagar.",
+        question: "Hur många dagars ångerrätt har kunden enligt lag när hen handlar på internet?",
+        options: [
+          "7 dagar",
+          "14 dagar",
+          "30 dagar"
+        ],
+        correctIndex: 1
+      },
+      {
+        chapter: "Kapitel 8",
+        word: "Tillgodokvitto",
+        definition: "Ett bevis på att kunden har tillgodo en viss summa pengar att handla för i butiken vid ett senare tillfälle.",
+        example: "Exempel: Du lämnar tillbaka en vara utan öppet köp och får en värdehandling gällande i butiken.",
+        question: "När får kunden oftast ett tillgodokvitto?",
+        options: [
+          "När kunden lämnar tillbaka en vara vid bytesrätt men inte hittar något nytt att köpa direkt",
+          "När kunden betalar med kontanter i kassan",
+          "När kunden ber om en leveransbeskrivning på godsmottagningen"
+        ],
+        correctIndex: 0
+      }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // LADDA AKTUELLT SPELKORT
+    function loadCard() {
+      answered = false;
+      const data = concepts[currentIndex];
+
+      // Uppdatera status
+      document.getElementById('cardProgress').innerText = `${currentIndex + 1} av ${concepts.length}`;
+      document.getElementById('scoreDisplay').innerText = `${score} p`;
+
+      const container = document.getElementById('gameContainer');
+      container.innerHTML = `
+        <div class="quiz-card" style="margin-bottom: 25px; position: relative;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+            <div class="quiz-icon">📖</div>
+            <span style="font-size: 13px; font-weight: bold; color: #2D5A43; background: #E6EFEA; padding: 6px 12px; border-radius: 8px;">
+              ${data.chapter} • ${currentIndex + 1} / ${concepts.length}
+            </span>
+          </div>
+
+          <h2 style="font-size: 30px; color: #1E3F2F; margin-bottom: 8px;">${data.word}</h2>
+          
+          <p style="font-size: 16px; color: #1F2421; margin-bottom: 8px;"><strong>Betyder:</strong> ${data.definition}</p>
+          <p style="font-size: 15px; color: #2D5A43; font-style: italic; background: #E6EFEA; padding: 10px 14px; border-radius: 10px; margin-bottom: 22px;">${data.example}</p>
+
+          <hr style="border: 0; border-top: 1px solid #E7E2D5; margin-bottom: 20px;">
+
+          <h3 style="font-size: 18px; color: #1E3F2F; margin-bottom: 15px;">Fråga: ${data.question}</h3>
+
+          <!-- SVARSALTERNATIV -->
+          <div style="display: flex; flex-direction: column; gap: 12px;" id="optionsGroup">
+            ${data.options.map((opt, idx) => `
+              <button onclick="checkAnswer(${idx})" class="option-btn" style="text-align: left; background: #FAF8F5; border: 1px solid #E7E2D5; border-radius: 14px; padding: 16px 20px; font-size: 15px; color: #1F2421; cursor: pointer; transition: all 0.2s ease;">
+                <strong>${String.fromCharCode(65 + idx)}:</strong> ${opt}
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- FEEDBACK CONTAINER -->
+          <div id="feedbackBox" style="display: none; margin-top: 20px; padding: 16px; border-radius: 12px; text-align: center; font-weight: bold;"></div>
+
+          <!-- NÄSTA KNAPP -->
+          <button id="nextBtn" onclick="nextCard()" style="display: none; margin-top: 20px; width: 100%; background: #2D5A43; color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer;">
+            Nästa begrepp →
+          </button>
+
+        </div>
+      `;
+    }
+
+    // KONTROLLERA SVAR OCH GE POÄNG
+    function checkAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const data = concepts[currentIndex];
+      const feedbackBox = document.getElementById('feedbackBox');
+      const nextBtn = document.getElementById('nextBtn');
+      const optionBtns = document.querySelectorAll('.option-btn');
+
+      if (selectedIndex === data.correctIndex) {
+        score += 100;
+        document.getElementById('scoreDisplay').innerText = `${score} p`;
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#E6EFEA";
+        feedbackBox.style.color = "#2D5A43";
+        feedbackBox.style.border = "1px solid #4A7C59";
+        feedbackBox.innerHTML = "🎉 Rätt svar! Du får +100 poäng.";
+        optionBtns[selectedIndex].style.background = "#C2D8CB";
+        optionBtns[selectedIndex].style.borderColor = "#2D5A43";
+      } else {
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#FDF2F2";
+        feedbackBox.style.color = "#9B1C1C";
+        feedbackBox.style.border = "1px solid #F8B4B4";
+        feedbackBox.innerHTML = `💡 Inte riktigt. Rätt svar var alternativ <strong>${String.fromCharCode(65 + data.correctIndex)}</strong>.`;
+        optionBtns[selectedIndex].style.background = "#FDE8E8";
+        optionBtns[data.correctIndex].style.background = "#E6EFEA";
+        optionBtns[data.correctIndex].style.borderColor = "#2D5A43";
+      }
+
+      nextBtn.style.display = "block";
+    }
+
+    // GÅ TILL NÄSTA KORT ELLER VISA SLUTSKÄRM
+    function nextCard() {
+      currentIndex++;
+      if (currentIndex < concepts.length) {
+        loadCard();
+      } else {
+        showResults();
+      }
+    }
+
+    // SLUTSKÄRM
+    function showResults() {
+      document.getElementById('gameContainer').style.display = "none";
+      const resultScreen = document.getElementById('resultScreen');
+      resultScreen.style.display = "block";
+      document.getElementById('finalScoreText').innerText = `Totalpoäng: ${score} p av ${concepts.length * 100} p`;
+    }
+
+    // RESTART
+    function restartGame() {
+      currentIndex = 0;
+      score = 0;
+      document.getElementById('gameContainer').style.display = "block";
+      document.getElementById('resultScreen').style.display = "none";
+      loadCard();
+    }
+
+    // STARTA SPELET NÄR SIDAN LADDAS
+    window.onload = loadCard;
+  </script>
+</body>
+</html>
