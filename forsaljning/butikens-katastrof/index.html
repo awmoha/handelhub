@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Butikens Katastrof | Handelhub</title>
+
+  <!-- Cardo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+
+      <div class="logo">
+        HH
+      </div>
+
+      <div>
+        <div class="header-title">
+          Butikens Katastrof
+        </div>
+
+        <div class="header-subtitle">
+          Ett interaktivt spel om försäljning och service
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- START SCREEN -->
+    <section id="startScreen" class="screen active">
+
+      <div class="hero">
+
+        <a href="#" class="back-link">
+          ← Handelhub
+        </a>
+
+        <div class="game-icon">
+          📦
+        </div>
+
+        <h1>
+          Butikens Katastrof
+        </h1>
+
+        <p>
+          Du är butikschef. Kunderna kommer, personalen behöver hjälp
+          och problem dyker upp när du minst anar det.
+          Vad gör du?
+        </p>
+
+      </div>
+
+
+      <div class="start-card">
+
+        <div class="start-card-top">
+
+          <div>
+            <span class="small-label">
+              DITT UPPDRAG
+            </span>
+
+            <h2>
+              Rädda butiken
+            </h2>
+
+            <p>
+              Du bestämmer själv hur problemen ska lösas.
+              Det finns inte alltid ett perfekt svar.
+            </p>
+          </div>
+
+          <div class="big-box-icon">
+            🏪
+          </div>
+
+        </div>
+
+
+        <div class="game-features">
+
+          <div class="feature">
+            <span>👥</span>
+            <strong>Kunder</strong>
+            <small>Reagera på deras behov</small>
+          </div>
+
+          <div class="feature">
+            <span>🚨</span>
+            <strong>Katastrofer</strong>
+            <small>Problem dyker upp</small>
+          </div>
+
+          <div class="feature">
+            <span>🧠</span>
+            <strong>Beslut</strong>
+            <small>Tänk själv</small>
+          </div>
+
+          <div class="feature">
+            <span>📊</span>
+            <strong>Konsekvenser</strong>
+            <small>Dina val påverkar butiken</small>
+          </div>
+
+        </div>
+
+
+        <button
+          id="startGameBtn"
+          class="primary-button"
+        >
+          Börja arbetsdagen
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- STORE SETUP -->
+    <section id="setupScreen" class="screen">
+
+      <div class="setup-container">
+
+        <div class="section-heading">
+          <span class="small-label">
+            STEG 1
+          </span>
+
+          <h2>
+            Välkommen till din butik
+          </h2>
+
+          <p>
+            Innan arbetsdagen börjar behöver du bestämma
+            vilken typ av butik du driver.
+          </p>
+        </div>
+
+
+        <div class="setup-grid">
+
+          <button class="store-choice" data-store="Matbutik">
+            <span>🥦</span>
+            <strong>Matbutik</strong>
+            <small>Mat, dryck och vardagsvaror</small>
+          </button>
+
+          <button class="store-choice" data-store="Klädbutik">
+            <span>👕</span>
+            <strong>Klädbutik</strong>
+            <small>Kläder och accessoarer</small>
+          </button>
+
+          <button class="store-choice" data-store="Teknikbutik">
+            <span>📱</span>
+            <strong>Teknikbutik</strong>
+            <small>Teknik och elektronik</small>
+          </button>
+
+          <button class="store-choice" data-store="Inredningsbutik">
+            <span>🏠</span>
+            <strong>Inredningsbutik</strong>
+            <small>Hem och inredning</small>
+          </button>
+
+        </div>
+
+
+        <div class="custom-store">
+
+          <span>ELLER</span>
+
+          <input
+            type="text"
+            id="customStoreInput"
+            placeholder="Skriv din egen butik..."
+          >
+
+          <button id="customStoreBtn">
+            Använd min butik
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- GAME SCREEN -->
+    <section id="gameScreen" class="screen">
+
+      <!-- GAME HEADER -->
+      <div class="game-header">
+
+        <div>
+          <span class="small-label">
+            DIN BUTIK
+          </span>
+
+          <h2 id="storeName">
+            Butiken
+          </h2>
+        </div>
+
+
+        <div class="game-clock">
+
+          <div>
+            <small>ARBETSDAG</small>
+            <strong id="dayText">Dag 1</strong>
+          </div>
+
+          <div class="clock">
+            <span>🕘</span>
+            <strong id="timeText">09:00</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- STATS -->
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <span>💰</span>
+          <div>
+            <small>Ekonomi</small>
+            <strong id="moneyText">8 500 kr</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span>😊</span>
+          <div>
+            <small>Kundnöjdhet</small>
+            <strong id="customerText">75</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span>📈</span>
+          <div>
+            <small>Försäljning</small>
+            <strong id="salesText">70</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span>🌱</span>
+          <div>
+            <small>Hållbarhet</small>
+            <strong id="sustainabilityText">65</strong>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <!-- GAME AREA -->
+      <div class="game-layout">
+
+
+        <!-- STORE -->
+        <div class="store-wrapper">
+
+          <div class="store-title">
+            <span>🏪</span>
+            <strong>Butiken</strong>
+
+            <span
+              id="alertIndicator"
+              class="alert-indicator hidden"
+            >
+              🚨
+            </span>
+          </div>
+
+
+          <div id="storeFloor" class="store-floor">
+
+
+            <!-- ENTRANCE -->
+            <button
+              class="store-zone entrance-zone"
+              data-zone="entrance"
+            >
+              <span>🚪</span>
+              <strong>Entré</strong>
+              <small>Kunder</small>
+            </button>
+
+
+            <!-- PRODUCTS -->
+            <button
+              class="store-zone products-zone"
+              data-zone="products"
+            >
+              <span>🛒</span>
+              <strong>Produkter</strong>
+              <small>Sortiment</small>
+            </button>
+
+
+            <!-- CLOTHES -->
+            <button
+              class="store-zone clothes-zone"
+              data-zone="clothes"
+            >
+              <span>👕</span>
+              <strong>Avdelning</strong>
+              <small>Exponering</small>
+            </button>
+
+
+            <!-- STOCK -->
+            <button
+              class="store-zone stock-zone"
+              data-zone="stock"
+            >
+              <span>📦</span>
+              <strong>Lager</strong>
+              <small>Lagerstatus</small>
+            </button>
+
+
+            <!-- CHECKOUT -->
+            <button
+              class="store-zone checkout-zone"
+              data-zone="checkout"
+            >
+              <span>🧾</span>
+              <strong>Kassa</strong>
+              <small>Kundkö</small>
+            </button>
+
+
+            <!-- CUSTOMER AREA -->
+            <div id="customerArea" class="customer-area">
+
+              <!-- Customers generated by JS -->
+
+            </div>
+
+
+            <!-- STAFF -->
+            <div class="staff-area">
+
+              <div
+                class="staff-member"
+                data-staff="sara"
+                title="Klicka för information"
+              >
+                <span>👩‍💼</span>
+                <small>Sara</small>
+              </div>
+
+              <div
+                class="staff-member"
+                data-staff="ahmed"
+                title="Klicka för information"
+              >
+                <span>👨‍💼</span>
+                <small>Ahmed</small>
+              </div>
+
+              <div
+                class="staff-member"
+                data-staff="lina"
+                title="Klicka för information"
+              >
+                <span>👩‍💻</span>
+                <small>Lina</small>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- EVENT MESSAGE -->
+          <div
+            id="eventBanner"
+            class="event-banner hidden"
+          >
+
+            <div class="event-icon">
+              🚨
+            </div>
+
+            <div>
+              <strong id="eventTitle">
+                Problem!
+              </strong>
+
+              <p id="eventMessage">
+                Något händer i butiken.
+              </p>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- CONTROL PANEL -->
+        <aside class="control-panel">
+
+          <div class="panel-header">
+
+            <div>
+              <span class="small-label">
+                DIN VERKTYGSLÅDA
+              </span>
+
+              <h3>
+                Vad vill du göra?
+              </h3>
+            </div>
+
+          </div>
+
+
+          <div class="tools">
+
+            <button
+              class="tool-button"
+              data-action="helpCustomer"
+            >
+              <span>🤝</span>
+              <strong>Hjälp kund</strong>
+              <small>Prata med en kund</small>
+            </button>
+
+
+            <button
+              class="tool-button"
+              data-action="openCheckout"
+            >
+              <span>🧾</span>
+              <strong>Öppna kassa</strong>
+              <small>Minska kön</small>
+            </button>
+
+
+            <button
+              class="tool-button"
+              data-action="checkStock"
+            >
+              <span>📦</span>
+              <strong>Kontrollera lager</strong>
+              <small>Se vad som finns</small>
+            </button>
+
+
+            <button
+              class="tool-button"
+              data-action="changeDisplay"
+            >
+              <span>🎨</span>
+              <strong>Ändra exponering</strong>
+              <small>Förbättra butiken</small>
+            </button>
+
+
+            <button
+              class="tool-button"
+              data-action="callStaff"
+            >
+              <span>👥</span>
+              <strong>Flytta personal</strong>
+              <small>Prioritera resurser</small>
+            </button>
+
+
+            <button
+              class="tool-button special-tool"
+              data-action="creative"
+            >
+              <span>💡</span>
+              <strong>Min egen idé</strong>
+              <small>Tänk utanför boxen</small>
+            </button>
+
+          </div>
+
+
+          <div class="current-problems">
+
+            <div class="panel-header">
+              <span class="small-label">
+                JUST NU
+              </span>
+
+              <h3>
+                Händelser
+              </h3>
+            </div>
+
+            <div id="problemList">
+              <div class="empty-problems">
+                ✓ Inga akuta problem
+              </div>
+            </div>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+
+
+      <!-- NEXT DAY -->
+      <div class="day-control">
+
+        <button
+          id="nextDayBtn"
+          class="secondary-button hidden"
+        >
+          Fortsätt arbetsdagen →
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- RESULT SCREEN -->
+    <section id="resultScreen" class="screen">
+
+      <div class="result-container">
+
+        <div class="result-icon">
+          🏆
+        </div>
+
+        <span class="small-label">
+          ARBETSDAGEN ÄR SLUT
+        </span>
+
+        <h1>
+          Butiken stänger
+        </h1>
+
+        <p>
+          Nu kan du se hur dina beslut påverkade butiken.
+        </p>
+
+
+        <div class="final-stats">
+
+          <div>
+            <span>💰</span>
+            <strong id="finalMoney">0 kr</strong>
+            <small>Ekonomi</small>
+          </div>
+
+          <div>
+            <span>😊</span>
+            <strong id="finalCustomer">0</strong>
+            <small>Kundnöjdhet</small>
+          </div>
+
+          <div>
+            <span>📈</span>
+            <strong id="finalSales">0</strong>
+            <small>Försäljning</small>
+          </div>
+
+          <div>
+            <span>🌱</span>
+            <strong id="finalSustainability">0</strong>
+            <small>Hållbarhet</small>
+          </div>
+
+        </div>
+
+
+        <div class="result-message">
+
+          <span id="resultEmoji">
+            ⭐
+          </span>
+
+          <h2 id="resultTitle">
+            Din butik har en egen stil
+          </h2>
+
+          <p id="resultText">
+            Dina beslut skapade en unik butik.
+          </p>
+
+        </div>
+
+
+        <div class="reflection-card">
+
+          <span class="small-label">
+            REFLEKTION
+          </span>
+
+          <h3>
+            Vad skulle du göra annorlunda?
+          </h3>
+
+          <textarea
+            id="reflectionInput"
+            placeholder="Skriv några meningar..."
+          ></textarea>
+
+          <button
+            id="saveReflectionBtn"
+            class="primary-button"
+          >
+            Spara min reflektion
+          </button>
+
+          <p
+            id="reflectionSaved"
+            class="saved-message hidden"
+          >
+            ✓ Din reflektion är sparad i spelet.
+          </p>
+
+        </div>
+
+
+        <button
+          id="restartBtn"
+          class="secondary-button"
+        >
+          Spela igen
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- MODAL -->
+  <div
+    id="modal"
+    class="modal hidden"
+  >
+
+    <div class="modal-card">
+
+      <button
+        id="closeModal"
+        class="close-modal"
+      >
+        ×
+      </button>
+
+      <div id="modalContent">
+        <!-- JS -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- TOAST -->
+  <div
+    id="toast"
+    class="toast hidden"
+  >
+    <span id="toastIcon">✓</span>
+    <span id="toastText">Klart!</span>
+  </div>
+
+
+  <footer>
+    Butikens Katastrof • Handelhub • Försäljning & Service 1
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
