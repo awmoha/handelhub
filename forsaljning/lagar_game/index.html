@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Butiken inför lagen</title>
+    <link rel="stylesheet" href="../../css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .game-shell {
+        max-width: 1100px;
+        margin: auto;
+      }
+      .screen {
+        display: none;
+      }
+      .screen.active {
+        display: block;
+      }
+      .box,
+      .customer-card,
+      .dialog-card,
+      .feedback-card,
+      .result-card {
+        background: #fff;
+        border: 1px solid #e7e2d5;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(45, 90, 67, 0.07);
+      }
+      .name-box {
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 35px;
+        text-align: center;
+      }
+      .name-box input {
+        width: 100%;
+        border: 1px solid #d8d4c9;
+        border-radius: 14px;
+        padding: 15px 16px;
+        font-family: "Cardo", serif;
+        font-size: 16px;
+        background: #fcfbf8;
+        color: #1f2421;
+        outline: none;
+      }
+      .game-button {
+        border: 0;
+        border-radius: 13px;
+        padding: 13px 20px;
+        background: #2d5a43;
+        color: #fff;
+        font-family: "Cardo", serif;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .game-button:hover {
+        background: #1e3f2f;
+      }
+      .game-button.secondary {
+        background: #e6efea;
+        color: #2d5a43;
+      }
+      .store-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+      .store-choice {
+        background: #fff;
+        border: 1px solid #e7e2d5;
+        border-radius: 22px;
+        padding: 28px;
+        cursor: pointer;
+        text-align: left;
+        transition: 0.2s;
+      }
+      .store-choice:hover {
+        transform: translateY(-4px);
+        border-color: #4a7c59;
+      }
+      .store-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e6efea;
+        font-size: 28px;
+        margin-bottom: 18px;
+      }
+      .store-choice,
+      .store-choice h2,
+      .store-choice p,
+      .store-icon,
+      .game-button,
+      .choice {
+        font-family: "Cardo", serif;
+      }
+      .store-choice h2 {
+        color: #1e3f2f;
+        margin-bottom: 8px;
+      }
+      .store-choice p {
+        color: #6b716d;
+        line-height: 1.6;
+        font-size: 14px;
+      }
+      .dashboard {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      .status-bar {
+        background: #fff;
+        border: 1px solid #e7e2d5;
+        border-radius: 18px;
+        padding: 16px 20px;
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+      .stat small {
+        display: block;
+        color: #777;
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      .stat strong {
+        color: #1e3f2f;
+        font-size: 18px;
+      }
+      .progress {
+        height: 7px;
+        background: #e7e2d5;
+        border-radius: 99px;
+        overflow: hidden;
+        margin: 20px 0;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: #4a7c59;
+        transition: width 0.3s;
+      }
+      .customer-scene {
+        display: grid;
+        grid-template-columns: minmax(230px, 0.7fr) 1.3fr;
+        gap: 22px;
+      }
+      .customer-card {
+        padding: 28px;
+        text-align: center;
+      }
+      .customer-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 18px;
+        background: #e6efea;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 44px;
+        color: #2d5a43;
+        font-weight: 700;
+      }
+      .customer-card h2 {
+        color: #1e3f2f;
+        margin-bottom: 6px;
+      }
+      .customer-type {
+        color: #777;
+        font-size: 13px;
+      }
+      .dialog-card {
+        padding: 28px;
+      }
+      .customer-speech {
+        background: #f5f2eb;
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 20px;
+        color: #2c332e;
+        line-height: 1.7;
+        font-size: 18px;
+      }
+      .choices {
+        display: grid;
+        gap: 11px;
+        margin-top: 15px;
+      }
+      .choice {
+        width: 100%;
+        text-align: left;
+        border: 1px solid #ddd8cc;
+        background: #fcfbf8;
+        border-radius: 14px;
+        padding: 15px 16px;
+        cursor: pointer;
+        color: #28302b;
+        font-family: "Cardo", serif;
+        font-size: 16px;
+        line-height: 1.5;
+        transition: 0.18s;
+      }
+      .choice:hover:not(:disabled) {
+        border-color: #4a7c59;
+        background: #f4f8f5;
+      }
+      .choice:disabled {
+        cursor: default;
+      }
+      .choice.right {
+        background: #e4f1e8;
+        border-color: #4a7c59;
+      }
+      .choice.wrong {
+        background: #f6e6e2;
+        border-color: #9a5b50;
+      }
+      .feedback-card {
+        margin-top: 22px;
+        padding: 24px;
+        display: none;
+      }
+      .feedback-card.show {
+        display: block;
+      }
+      .feedback-card.good {
+        border-left: 5px solid #4a7c59;
+      }
+      .feedback-card.warn {
+        border-left: 5px solid #b58a45;
+      }
+      .feedback-card.bad {
+        border-left: 5px solid #9a5b50;
+      }
+      .feedback-title {
+        color: #1e3f2f;
+        font-size: 22px;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      .feedback-text {
+        color: #4f5751;
+        line-height: 1.7;
+      }
+      .source-link {
+        display: inline-block;
+        margin: 13px 0 0;
+        color: #2d5a43;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .source-link:hover {
+        text-decoration: underline;
+      }
+      .law-item {
+        background: #fff;
+        border: 1px solid #e7e2d5;
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .law-item a {
+        color: #2d5a43;
+        font-weight: 700;
+      }
+      .result-card {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 35px;
+        text-align: center;
+      }
+      .result-score {
+        font-size: 48px;
+        color: #1e3f2f;
+        font-weight: 700;
+        margin: 12px 0;
+      }
+      .result-card p {
+        color: #616861;
+        line-height: 1.7;
+      }
+      .result-list {
+        text-align: left;
+        margin: 25px 0;
+        padding-left: 20px;
+        color: #505851;
+        line-height: 1.8;
+      }
+      .result-list a {
+        color: #2d5a43;
+        font-weight: 700;
+      }
+      @media (max-width: 760px) {
+        .customer-scene,
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo">§</div>
+        <div>
+          <div class="header-title">Butiken inför lagen</div>
+          <div class="header-subtitle">
+            Försäljning och service · träna på riktiga kundsituationer
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="game-shell">
+        <section id="screen-start" class="screen active">
+          <div class="hero">
+            <div class="back-link">STEG 1</div>
+            <h1>Välkommen till din butik</h1>
+            <p>
+              Kunder kommer med frågor och problem. Välj det bästa svaret. Du
+              får veta om du hade rätt eller fel, och sedan analyserar du vilken
+              lag ärendet handlade om.
+            </p>
+          </div>
+          <div class="box name-box">
+            <h2 style="color: #1e3f2f; margin-bottom: 10px">
+              Vem arbetar i butiken?
+            </h2>
+            <input
+              id="playerName"
+              type="text"
+              maxlength="40"
+              placeholder="Ditt namn"
+            />
+            <div style="margin-top: 16px">
+              <button class="game-button" id="startNameBtn">Fortsätt</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="screen-store" class="screen">
+          <div class="hero">
+            <div class="back-link">STEG 2</div>
+            <h1>Välj din butik</h1>
+            <p>Varje butik har 15 ärenden.</p>
+          </div>
+          <div class="store-grid">
+            <button class="store-choice" data-store="fashion">
+              <div class="store-icon">◈</div>
+              <h2>Klädbutik</h2>
+              <p>Reklamation, öppet köp, ångerrätt, pris och reklam.</p>
+            </button>
+            <button class="store-choice" data-store="food">
+              <div class="store-icon">✦</div>
+              <h2>Livsmedelsbutik</h2>
+              <p>Allergener, datum, pris, reklamation och reklam.</p>
+            </button>
+            <button class="store-choice" data-store="digital">
+              <div class="store-icon">▣</div>
+              <h2>Digitalbutik</h2>
+              <p>
+                Elektronik, produktsäkerhet, CE, nätköp och personuppgifter.
+              </p>
+            </button>
+          </div>
+        </section>
+
+        <section id="screen-game" class="screen">
+          <div class="dashboard">
+            <div>
+              <div class="back-link" id="gameStep"></div>
+              <h1 id="storeTitle" style="color: #1e3f2f; margin-top: 5px"></h1>
+            </div>
+            <button class="game-button secondary" id="showRulesBtn">
+              Visa lagboken
+            </button>
+          </div>
+
+          <div class="status-bar">
+            <div class="stat">
+              <small>Butikens rykte</small
+              ><strong id="reputation">100</strong>/100
+            </div>
+            <div class="stat">
+              <small>Poäng</small><strong id="knowledge">0</strong>
+            </div>
+            <div class="stat">
+              <small>Ärenden klara</small><strong id="solved">0</strong>
+            </div>
+            <div class="stat">
+              <small>Butik</small><strong id="storeName"></strong>
+            </div>
+          </div>
+          <div class="progress">
+            <span id="progressBar" style="width: 0%"></span>
+          </div>
+
+          <div class="customer-scene">
+            <div class="customer-card">
+              <div class="customer-avatar" id="customerAvatar"></div>
+              <h2 id="customerName"></h2>
+              <div class="customer-type" id="customerType"></div>
+            </div>
+            <div class="dialog-card">
+              <div class="customer-speech">
+                <strong id="customerSpeaker"></strong><br />
+                <span id="customerMessage"></span>
+              </div>
+              <div style="color: #777; font-size: 14px">Vad svarar du?</div>
+              <div id="choiceArea" class="choices"></div>
+            </div>
+          </div>
+
+          <div id="feedback" class="feedback-card">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <div class="feedback-text" id="feedbackText"></div>
+          </div>
+
+          <div id="analysis" class="feedback-card">
+            <div class="feedback-title">
+              Analysera: vad handlade ärendet om?
+            </div>
+            <div class="feedback-text">
+              Välj det område som ärendet hör till. Du måste svara innan du går
+              vidare.
+            </div>
+            <div id="analysisChoices" class="choices"></div>
+            <div
+              class="feedback-text"
+              id="analysisResult"
+              style="margin-top: 14px; font-weight: 700"
+            ></div>
+            <a
+              id="sourceLink"
+              class="source-link"
+              href="#"
+              target="_blank"
+              rel="noopener"
+            ></a>
+            <div style="margin-top: 17px">
+              <button class="game-button" id="nextBtn" style="display: none">
+                Nästa ärende
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="screen-result" class="screen">
+          <div class="hero">
+            <div class="back-link">RESULTAT</div>
+            <h1>Arbetsdagen är slut</h1>
+            <p id="resultIntro"></p>
+          </div>
+          <div class="result-card">
+            <div>Butikens rykte</div>
+            <div class="result-score"><span id="finalRep"></span>/100</div>
+            <p id="resultMessage"></p>
+            <ul class="result-list" id="resultList"></ul>
+            <button class="game-button" id="restartBtn">Spela igen</button>
+          </div>
+        </section>
+
+        <section id="screen-laws" class="screen">
+          <div class="hero">
+            <div class="back-link">LAGBOKEN</div>
+            <h1 id="lawsTitle"></h1>
+            <p id="lawsIntro"></p>
+          </div>
+          <div id="lawsList"></div>
+          <div style="text-align: center; margin-top: 25px">
+            <button class="game-button secondary" id="backToGameBtn">
+              Tillbaka till kunden
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      Butiken inför lagen · Ett lärspel för Försäljning och service
+    </footer>
+    <script src="./lagar_game.js"></script>
+  </body>
+</html>
