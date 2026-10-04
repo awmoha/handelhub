@@ -355,9 +355,9 @@
 
     /* GAME SCREEN */
 
-    #gameScreen {
+    /* #gameScreen {
       display: none;
-    }
+    } */
 
     .game-top {
       margin-bottom: 18px;
@@ -613,10 +613,10 @@
     }
 
     /* RESULT */
-
+/* 
     #resultScreen {
       display: none;
-    }
+    } */
 
     .result-card {
       background: white;

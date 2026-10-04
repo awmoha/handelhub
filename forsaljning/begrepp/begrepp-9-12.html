@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Begreppsspel – Försäljning & Service (Kap 9–12)</title>
+  <!-- Länk till din externa CSS-fil -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #F5F2EB;
+      color: #1F2421;
+      font-family: "Cardo", Georgia, serif;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #E7E2D5;
+      padding: 18px 30px;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: #2D5A43;
+      color: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .header-title {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      color: #6B716D;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 50px 25px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #2D5A43;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .hero h1 {
+      font-family: "Cardo", serif;
+      color: #1E3F2F;
+      font-size: clamp(32px, 5vw, 50px);
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: auto;
+      color: #626862;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* QUIZ CARDS & BUTTONS */
+    .quiz-card {
+      background: white;
+      border: 1px solid #E7E2D5;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .quiz-icon {
+      width: 54px;
+      height: 54px;
+      background: #E6EFEA;
+      color: #2D5A43;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .open-quiz {
+      display: inline-block;
+      color: #2D5A43;
+      font-weight: 700;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+
+    .open-quiz:hover {
+      opacity: 0.8;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #E6EFEA !important;
+      border-color: #2D5A43 !important;
+    }
+
+    .option-btn:disabled {
+      cursor: default !important;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid #E7E2D5;
+      color: #777;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      header { padding: 15px 18px; }
+      main { padding: 35px 16px; }
+      .quiz-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+      <div class="logo">💬</div>
+      <div>
+        <h1 class="header-title">Försäljning & Service</h1>
+        <p class="header-subtitle">Träna på service, yrkesetik, hållbarhet & konsumenträtt • Kap 9–12</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="hero">
+  <a href="begrepp.html" class="back-link">
+  ← Tillbaka till begrepp
+</a>      <h1>Begreppsjakten: Kap 9–12</h1>
+      <p>Lär dig alla viktiga begrepp om att planera och utvärdera service, yrkesetik, hållbarhet och konsumenträtt. Läs förklaringen, titta på exemplet och svara på frågan!</p>
+    </div>
+
+    <!-- SPELETS KONTROLLPANEL (POÄNG & NIVÅ) -->
+    <div style="background: white; border: 1px solid #E7E2D5; border-radius: 20px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+      <div>
+        <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Kort / Fråga:</span>
+        <div id="cardProgress" style="font-size: 22px; color: #1E3F2F; font-weight: bold;">1 av 71</div>
+      </div>
+      <div>
+        <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Dina Poäng:</span>
+        <div id="scoreDisplay" style="font-size: 22px; color: #2D5A43; font-weight: bold;">0 p</div>
+      </div>
+      <button onclick="restartGame()" class="open-quiz" style="background: #E6EFEA; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer;">
+        🔄 Starta om
+      </button>
+    </div>
+
+    <!-- SPELKORT CONTAINER -->
+    <div id="gameContainer">
+      <!-- Kortet laddas dynamiskt via JavaScript -->
+    </div>
+
+    <!-- SLUTSKÄRM (DOLD FRÅN BÖRJAN) -->
+    <div id="resultScreen" style="display: none; text-align: center; background: white; border: 1px solid #E7E2D5; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08);">
+      <div style="font-size: 60px; margin-bottom: 15px;">🌟</div>
+      <h2 style="font-size: 32px; color: #1E3F2F; margin-bottom: 10px;">Fantastiskt jobbat!</h2>
+      <p style="color: #6B716D; font-size: 17px; margin-bottom: 25px;" id="resultSummaryText">Du har gått igenom alla begrepp för Kapitel 9, 10, 11 och 12!</p>
+
+      <div style="font-size: 28px; color: #2D5A43; font-weight: bold; margin-bottom: 30px;" id="finalScoreText">
+        Totalpoäng: 0 p
+      </div>
+
+      <button onclick="restartGame()" class="open-quiz" style="background: #2D5A43; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 14px; cursor: pointer;">
+        Spela igen
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Försäljning och service 1 • SFI & Gymnasieanpassat begreppsspel (Kap 9–12)
+  </footer>
+
+  <!-- JAVASCRIPT LOGIK -->
+  <script>
+    // C(kapitel, ord, förklaring, exempel, rättPåstående, { wrong: [...], group: "..." })
+    //  - rättPåstående = det korrekta svarsalternativet
+    //  - wrong (valfritt) = egna felaktiga alternativ. Om det saknas väljer spelet
+    //    automatiskt två felaktiga alternativ från andra begrepp i samma kapitel (eller samma "group").
+    const C = (chapter, word, definition, example, right, extra = {}) => ({
+      chapter, word, definition, example, right,
+      wrong: extra.wrong || null,
+      group: extra.group || null
+    });
+
+    const K9  = "Kapitel 9 – Planera och utvärdera";
+    const K10 = "Kapitel 10 – Yrkesetik";
+    const K11 = "Kapitel 11 – Hållbarhet";
+    const K12 = "Kapitel 12 – Konsumenträtt";
+
+    const concepts = [
+
+      // ======================= KAPITEL 9: PLANERA OCH UTVÄRDERA SERVICE OCH FÖRSÄLJNING =======================
+      C(K9, "Affärsidé",
+        "Affärsidén berättar vad företaget säljer och till vem. Det är företaget som bestämmer idén.",
+        "Exempel: Sportbutiken säljer löparkläder till personer som tränar.",
+        "Berättar vad företaget säljer och till vem"),
+
+      C(K9, "Profil",
+        "Profilen är butikens ansikte utåt. Det är så kunderna ser och uppfattar butiken. Personalen visar profilen.",
+        "Exempel: Butiken är ljus, spelar snabb musik och personalen har sportkläder.",
+        "Hur kunderna uppfattar butiken utåt"),
+
+      C(K9, "Fronta",
+        "Att fronta är att ställa varor snyggt med framsidan utåt. Då ser butiken snyggare ut, kunden hittar lättare och handlar mer.",
+        "Exempel: Du ställer skorna på rad så att man ser framsidan på varje sko.",
+        "Att ställa varor snyggt med framsidan utåt"),
+
+      C(K9, "Kringtjänster",
+        "Kringtjänster är extra tjänster utöver butikens vanliga varor. Kunden får extra hjälp och stannar längre.",
+        "Exempel: Fri hemleverans, kafé i butiken eller att kunden kan hämta paket.",
+        "Extra tjänster utöver butikens vanliga varor"),
+
+      C(K9, "Servicenivå",
+        "Servicenivån är hur mycket hjälp företaget har bestämt att kunderna ska få. Låg nivå: kunden hjälper sig själv. Högre nivå: personlig service.",
+        "Exempel: I en lågprisbutik scannar kunden själv. I en skobutik mäter personalen kundens fötter.",
+        "Hur mycket hjälp företaget har bestämt att kunden ska få"),
+
+      C(K9, "Servicekompetens",
+        "Servicekompetens är kunskap och förmåga att ge bra service. Du lyssnar, förstår kunden, ger rätt information och löser problem.",
+        "Exempel: Kunden är arg. Säljaren håller sig lugn, lyssnar och kontrollerar vad som har hänt.",
+        "Kunskap och förmåga att ge bra service"),
+
+      C(K9, "Kundbehov",
+        "Kundbehovet är det som kunden behöver eller saknar. Företaget måste förstå behovet för att kunna hjälpa kunden.",
+        "Exempel: Kunden fryser om fötterna på vintern.",
+        "Det som kunden behöver eller saknar"),
+
+      C(K9, "Kundnytta",
+        "Kundnyttan är hur varan hjälper kunden i livet. Den visar varför varan är bra för just den här kunden.",
+        "Exempel: Varma vinterskor ger varma och torra fötter i snön.",
+        "Hur varan hjälper kunden i livet"),
+
+      C(K9, "Kundnöjdhet",
+        "Kundnöjdhet är hur nöjd kunden är med varor, tjänster och service. Företaget måste undersöka och mäta om kunderna är nöjda. Det räcker inte att gissa.",
+        "Exempel: Produkten fungerar, personalen är trevlig och leveransen är snabb.",
+        "Hur nöjd kunden är med varor, tjänster och service"),
+
+      C(K9, "Öppet köp",
+        "Kunden lämnar tillbaka varan och får pengarna tillbaka. Ingen lag tvingar fysiska butiker att erbjuda det. Varan måste oftast vara oanvänd.",
+        "Exempel: 'Vi erbjuder 30 dagars öppet köp på oanvända varor.'",
+        "Kunden lämnar tillbaka varan och får pengarna tillbaka"),
+
+      C(K9, "Bytesrätt",
+        "Kunden byter varan mot en annan vara eller får ett tillgodokvitto eller presentkort. Inga pengar betalas tillbaka. Butiken bestämmer själv sina villkor.",
+        "Exempel: Du byter en blå tröja mot en röd tröja.",
+        "Kunden byter till en annan vara eller får ett tillgodokvitto – inga pengar tillbaka"),
+
+      C(K9, "Kvitto",
+        "Kvittot är beviset på att kunden har köpt varan. Det visar datum, vara, pris och butikens villkor. Kunden behöver kvittot vid byte, öppet köp och reklamation.",
+        "Exempel: Kvittot visar att du köpte löparskor den 22 maj för 1 499 kronor.",
+        "Ett bevis på att kunden har köpt varan"),
+
+      C(K9, "Utvärdering",
+        "Att utvärdera är att undersöka vad som är bra och vad som kan bli bättre. Företaget använder svaren för att planera ännu bättre nästa gång.",
+        "Exempel: Företaget läser kundernas recensioner och gör enkäter direkt efter köpet.",
+        "Att undersöka vad som är bra och vad som kan bli bättre"),
+
+      C(K9, "Mystery shopper",
+        "En mystery shopper är en person som låtsas vara en vanlig kund. Personen testar personalens service i smyg och tittar på bemötande, hjälp och hur butiken ser ut.",
+        "Exempel: Hen ber om hjälp i butiken och skriver sedan en rapport till chefen.",
+        "En låtsaskund som testar personalens service i smyg"),
+
+      // ======================= KAPITEL 10: YRKESETIK I BUTIKEN =======================
+      C(K10, "Etik",
+        "Etik handlar om vad som är rätt och fel i allmänhet. Är mitt sätt att agera bra för andra?",
+        "Exempel: Du hittar en plånbok på gatan. Du vet att det är rätt att lämna tillbaka den.",
+        "Vad som är rätt och fel i allmänhet"),
+
+      C(K10, "Yrkesetik",
+        "Yrkesetik är hur du agerar rätt i ditt jobb mot kunden, kollegorna och företaget. Det är personlig etik som du använder i ditt arbetsliv.",
+        "Exempel: Du ger rätt information om en produkt, även om kunden då väljer att inte köpa den.",
+        "Hur du agerar rätt i din yrkesroll"),
+
+      C(K10, "Ärlighet och korrekt information",
+        "En säljare får aldrig ljuga, vilseleda, lura kunden eller gömma viktig information, till exempel extra kostnader. Ge ärliga priser och tydliga villkor.",
+        "Exempel: Telefonen kostar 500 kronor och abonnemanget kostar 100 kronor i månaden. Säljaren berättar om båda.",
+        "Att ge sann information och inte gömma extra kostnader"),
+
+      C(K10, "Respekt för alla kunder",
+        "Alla kunder har olika behov och önskemål. Alla ska bemötas med respekt, oavsett ålder, bakgrund, kön eller funktionsnedsättning.",
+        "Exempel: Du pratar lika vänligt med en äldre kund som med en ung kund.",
+        "Att behandla alla kunder lika och med respekt"),
+
+      C(K10, "Att pressa kunden",
+        "Att pressa kunden är att stressa eller tvinga kunden att köpa. Det är fel. Kunden har alltid rätt att tänka efter. Följ inte efter kunden och var inte påträngande.",
+        "Exempel: Fel: 'Du måste köpa nu! Sista chansen!' Rätt: 'Ta gärna lite tid och fundera.'",
+        "Att stressa eller tvinga kunden att köpa – det är fel"),
+
+      C(K10, "Sekretess",
+        "Sekretess är din tystnadsplikt. Information om kunden får aldrig delas utan tillstånd – inte ens med nyfikna kollegor.",
+        "Exempel: Din kollega frågar vad kunden köpte. Du svarar: 'Det får jag inte berätta.'",
+        "Tystnadsplikt – du får inte dela information om kunden"),
+
+      C(K10, "Integritet",
+        "Integritet betyder att kundens personliga information ska respekteras och skyddas, till exempel enligt GDPR. Det gäller namn, telefonnummer, personnummer och köphistorik.",
+        "Exempel: Du lämnar aldrig ut en kunds telefonnummer till någon annan.",
+        "Att kundens personliga information respekteras och skyddas"),
+
+      C(K10, "Korruption",
+        "Korruption är att ge eller ta emot något för att få en otillåten fördel i affärer.",
+        "Exempel: En leverantör ger dig en dyr present för att du ska köpa just deras varor.",
+        "Att ge eller ta emot något för att få en otillåten fördel i affärer",
+        { wrong: [
+          "Att ge kunden rabatt när varan är trasig",
+          "Att fråga chefen om hjälp med ett svårt ärende"
+        ] }),
+
+      C(K10, "Muta",
+        "En muta är till exempel pengar, resor eller dyra gåvor som ges för att påverka ditt beslut. Det är olagligt. Som anställd ska du aldrig ta emot privata gåvor för affärsbeslut.",
+        "Exempel: Leverantören säger: 'Väljer du oss får du en dyr present privat.'",
+        "Pengar eller dyra gåvor som ges för att påverka ditt beslut – det är olagligt",
+        { wrong: [
+          "En vanlig rabatt som butiken får av en leverantör",
+          "En present som butiken ger till alla kunder i december"
+        ] }),
+
+      C(K10, "Etisk kultur på arbetsplatsen",
+        "En bra kultur där chefer och medarbetare är goda exempel. Man är ärlig mot varandra, visar respekt, pratar öppet om problem, hanterar konflikter bra och gör rätt – även när det är svårt.",
+        "Exempel: Du är inte ensam. Chefen och kollegorna hjälper dig när du är osäker.",
+        "En arbetsplats där alla är ärliga, visar respekt och gör rätt"),
+
+      C(K10, "Distansförsäljning (yrkesetik)",
+        "Distansförsäljning är försäljning på distans, till exempel i telefon. När du ringer en kund måste du direkt säga ditt namn och vilket företag du ringer från. Var tydlig med villkoren och gör det enkelt att kontakta kundservice efteråt.",
+        "Exempel: 'Hej, jag heter Anna och ringer från Sportbutiken Aktiv.'",
+        "Försäljning på distans, till exempel i telefon, med tydliga regler för säljaren"),
+
+      C(K10, "Handlingsplan vid osäkerhet",
+        "Du vet inte vad som är rätt? 1. Tänk efter. 2. Fråga en kollega eller din chef. 3. Följ reglerna. 4. Tänk på kunden och företagets bästa. Att fråga är ett tecken på styrka, inte på svaghet.",
+        "Exempel: Du är osäker på en regel. Du pausar och frågar chefen istället för att gissa.",
+        "Tänk efter, fråga, följ reglerna och tänk på kunden"),
+
+      // ======================= KAPITEL 11: HÅLLBARHET INOM FÖRSÄLJNING OCH KUNDSERVICE =======================
+      C(K11, "Hållbarhet",
+        "Hållbarhet betyder att vi tänker på framtiden. Vi använder människor, pengar och naturresurser på ett ansvarsfullt sätt. Det har tre delar: ekonomisk, social och ekologisk hållbarhet. De hör ihop.",
+        "Exempel: En butik tänker på ekonomin, personalen och miljön samtidigt.",
+        "Att tänka på framtiden och använda resurser ansvarsfullt",
+        { wrong: [
+          "Att sälja så många varor som möjligt på kort tid",
+          "Att alltid välja den billigaste varan"
+        ] }),
+
+      C(K11, "Ekonomisk hållbarhet",
+        "Ekonomisk hållbarhet är stabil ekonomi och mindre onödiga kostnader. Företaget ska fungera länge. Resurser används rätt utan att skada miljö eller människor.",
+        "Exempel: Matbutiken planerar sina inköp noga för att minska svinnet.",
+        "Stabil ekonomi och mindre onödiga kostnader så att företaget fungerar länge"),
+
+      C(K11, "Social hållbarhet",
+        "Social hållbarhet handlar om människor. Personalen har bra villkor, lön enligt kollektivavtal och mår bra på jobbet. Alla kunder är välkomna.",
+        "Exempel: Personalen får rast, och en stressig arbetsmiljö blir mindre stressig.",
+        "Bra villkor för människor: personalen mår bra och alla kunder är välkomna",
+        { wrong: [
+          "Att butiken sparar el och sorterar sopor",
+          "Att butiken har stabil ekonomi och låga kostnader"
+        ] }),
+
+      C(K11, "Ekologisk hållbarhet",
+        "Ekologisk hållbarhet är att ta ansvar för klimat, miljö, avfall, natur och vatten.",
+        "Exempel: Butiken sorterar kartong och plast och släcker lamporna.",
+        "Ansvar för miljön: avfall, natur, vatten och klimat"),
+
+      C(K11, "Svinn",
+        "Svinn är produkter som företaget måste kasta och inte tjänar pengar på. Mycket svinn är dåligt för företagets ekonomi och dåligt för naturen.",
+        "Exempel: Mat som blir gammal, eller en vara som går sönder.",
+        "Varor som företaget måste kasta och inte tjänar pengar på"),
+
+      C(K11, "Hållbarhetspolicy",
+        "En hållbarhetspolicy är företagets egna regler för hur de arbetar med hållbarhet. Det är ofta ett dokument som visar hur butiken ska jobba.",
+        "Exempel: Reglerna visar hur butiken sorterar avfall och väljer produkter.",
+        "Företagets egna regler för hur de arbetar med hållbarhet"),
+
+      C(K11, "CSR",
+        "CSR betyder Corporate Social Responsibility. Det är företagets ansvar för samhälle, miljö och ekonomi.",
+        "Exempel: Företaget kräver bra arbetsvillkor i fabrikerna som tillverkar varorna.",
+        "Företagets ansvar för samhälle, miljö och ekonomi"),
+
+      C(K11, "Agenda 2030",
+        "Agenda 2030 är FN:s 17 globala mål för en hållbar framtid. Företag kan hjälpa till att nå målen i världen.",
+        "Exempel: Butiken hjälper till att nå målen genom att välja hållbara produkter.",
+        "FN:s 17 globala mål för en hållbar framtid"),
+
+      C(K11, "Kretslopp",
+        "Kretslopp betyder att något cirkulerar (går runt) utan att förloras: produkt, användning, återvinning, ny produkt.",
+        "Exempel: En gammal tröja lämnas till återvinning och blir en ny produkt.",
+        "Något cirkulerar och används igen utan att förloras"),
+
+      C(K11, "Lokal leverantör",
+        "En leverantör är ett företag som säljer varor till butiken. En lokal leverantör finns nära butiken, så transporterna blir kortare. Det är bättre för miljön.",
+        "Exempel: Butiken köper grönsaker från en bonde i närheten istället för från ett land långt bort.",
+        "Ett företag nära butiken som ger kortare transporter"),
+
+      C(K11, "Grön el",
+        "Grön el är el från sol, vind och vatten. Den är förnybar och bra för framtiden.",
+        "Exempel: Butiken köper grön el till belysningen.",
+        "El från sol, vind och vatten som är förnybar"),
+
+      C(K11, "Fossila bränslen",
+        "Fossila bränslen är kol och olja. De smutsar ner miljön och tar slut. De kommer ofta med långa transporter.",
+        "Exempel: En lastbil som kör på olja släpper ut mycket avgaser.",
+        "Kol och olja som smutsar ner miljön och tar slut"),
+
+      C(K11, "Tillgänglig butik",
+        "En tillgänglig butik är en butik där alla kan handla, även personer med rullstol. I praktiken: breda gångar, inga hinder framför dörren och tydlig information som kunden kan förstå.",
+        "Exempel: Butiken bygger en ramp och tar bort tröskeln vid ingången.",
+        "En butik där alla kan handla, även personer med rullstol",
+        { wrong: [
+          "En butik som har öppet dygnet runt",
+          "En butik som bara säljer billiga varor"
+        ] }),
+
+      C(K11, "Inkluderande kundbemötande",
+        "Inkluderande kundbemötande betyder att butiken är välkomnande för precis alla kunder, oavsett vem de är. I praktiken: kommunikation, respekt och att anpassa servicen.",
+        "Exempel: Säljaren går fram och frågar: 'Behöver du hjälp att nå varan?'",
+        "Att möta alla kunder med respekt och anpassa servicen",
+        { wrong: [
+          "Att bara hjälpa kunder som själva ber om hjälp",
+          "Att ha breda gångar och en ramp vid dörren"
+        ] }),
+
+      C(K11, "Lagar och bestämmelser",
+        "Företag kan inte göra vad de vill. De måste följa lagar om arbetsmiljö (hur personalen har det), avfall och återvinning, och information (man får inte luras i reklam).",
+        "Exempel: Butiken får inte skriva i reklamen att en vara är bättre än den är.",
+        "Regler som alla företag måste följa, till exempel om arbetsmiljö och avfall"),
+
+      C(K11, "Social profil",
+        "En social profil betyder att företaget deltar positivt i samhället. Det ger företaget ett gott rykte.",
+        "Exempel: Företaget sponsrar det lokala fotbollslaget eller skänker pengar till välgörenhet.",
+        "Att företaget deltar positivt i samhället, till exempel sponsrar en lokal förening",
+        { wrong: [
+          "Att företaget har en snygg profil på sociala medier",
+          "Att personalen har bra villkor och får rast"
+        ] }),
+
+      C(K11, "Svanen",
+        "Svanen är Nordens officiella miljömärkning. Säljaren kan förklara märkningen för kunden.",
+        "Exempel: En produkt med Svanen-märket har kontrollerats för miljö och kemi.",
+        "Nordens officiella miljömärkning",
+        { group: "märkning" }),
+
+      C(K11, "Bra Miljöval",
+        "Bra Miljöval är Naturskyddsföreningens märkning för produkter som är bra för miljön.",
+        "Exempel: Ett tvättmedel med märket Bra Miljöval har klarat tuffa miljökrav.",
+        "Naturskyddsföreningens miljömärkning",
+        { group: "märkning" }),
+
+      C(K11, "EU-lövet",
+        "EU-lövet är EU:s ekomärke. Du ser det ofta på mat.",
+        "Exempel: Ett paket ekologisk pasta med ett grönt löv av stjärnor.",
+        "EU:s ekomärke, ofta på mat",
+        { group: "märkning" }),
+
+      C(K11, "KRAV",
+        "KRAV är en märkning för ekologisk mat. Maten är odlad utan kemiska bekämpningsmedel. Säljaren kan förklara varför en KRAV-märkt vara kostar lite mer.",
+        "Exempel: Ekologiska äpplen med KRAV-märket.",
+        "Ekologiskt – odlat utan kemiska bekämpningsmedel",
+        { group: "märkning" }),
+
+      C(K11, "Fairtrade",
+        "Fairtrade är en märkning som fokuserar på människor. Bönder får bra villkor och social utveckling.",
+        "Exempel: Kaffe med Fairtrade-märket där odlarna har fått en rättvis betalning.",
+        "Bra villkor för bönder och social utveckling",
+        { group: "märkning" }),
+
+      C(K11, "GOTS",
+        "GOTS är en märkning för kläder. Den betyder att kläderna är ekologiska och socialt hållbara i hela kedjan, från bomullsodling till färdig tröja.",
+        "Exempel: En tröja med GOTS-märkning har ekologisk bomull.",
+        "Ekologiskt och socialt hållbart för kläder i hela kedjan",
+        { group: "märkning" }),
+
+      C(K11, "PETA",
+        "PETA är en märkning som fokuserar på djurens rättigheter.",
+        "Exempel: Ett företag som visar att det bryr sig om djurens rättigheter.",
+        "Märkning för djurens rättigheter",
+        { wrong: [
+          "Ekologiskt och socialt hållbart för kläder",
+          "Bra villkor för bönder och social utveckling"
+        ] }),
+
+      C(K11, "100 % Veganskt",
+        "100 % Veganskt betyder att produkten inte är testad på djur och inte innehåller några animaliska ingredienser.",
+        "Exempel: En schampoflaska som är märkt 100 % veganskt.",
+        "Inte testat på djur och inga animaliska ingredienser",
+        { wrong: [
+          "Nordens officiella miljömärkning",
+          "Ekologiskt – odlat utan kemiska bekämpningsmedel"
+        ] }),
+
+      // ======================= KAPITEL 12: KONSUMENTRÄTT =======================
+      C(K12, "Konsument",
+        "En konsument är en privatperson som köper något av ett företag. Konsumenten skyddas av konsumenträtten.",
+        "Exempel: Du köper en jacka i en butik.",
+        "En privatperson som köper något av ett företag",
+        { wrong: [
+          "Ett företag som köper varor av ett annat företag",
+          "En person som säljer varor i en butik"
+        ] }),
+
+      C(K12, "Kund",
+        "En kund kan vara en privatperson, men också ett företag.",
+        "Exempel: En restaurang som köper ett kylskåp är en kund, men inte en konsument.",
+        "Någon som köper – kan vara en privatperson eller ett företag",
+        { wrong: [
+          "Bara en privatperson som handlar i en butik",
+          "Bara ett företag som köper stora mängder"
+        ] }),
+
+      C(K12, "Konsumentverket",
+        "Konsumentverket är en statlig myndighet. Den ger information om konsumenträtt, arbetar för säkra varor och hjälper företag att förstå lagarna.",
+        "Exempel: Du läser på Konsumentverkets sida vad du har rätt till när en vara går sönder.",
+        "En statlig myndighet som informerar om konsumenträtt och arbetar för säkra varor"),
+
+      C(K12, "Konsumentombudsmannen (KO)",
+        "KO är konsumenternas försvarare. KO kan ingripa mot vilseledande reklam och farliga produkter och driva ärenden i domstol för konsumenternas skull.",
+        "Exempel: Ett företag har en reklam som lurar kunderna. KO tar ärendet till domstol.",
+        "Konsumenternas försvarare som kan driva ärenden i domstol"),
+
+      C(K12, "Konsumentköplagen",
+        "Konsumentköplagen gäller när företag säljer varor till konsumenter. Den är en tvingande lag.",
+        "Exempel: Du köper en tröja i en butik och tröjan visar sig vara trasig.",
+        "Lagen när företag säljer varor till konsumenter"),
+
+      C(K12, "Konsumenttjänstlagen",
+        "Konsumenttjänstlagen gäller när företag säljer tjänster till konsumenter, till exempel reparationer eller byggarbete.",
+        "Exempel: Ett företag bygger om ditt badrum.",
+        "Lagen när företag säljer tjänster till konsumenter, till exempel reparationer"),
+
+      C(K12, "Distanslagen",
+        "Distanslagen gäller när företag säljer varor eller tjänster på distans, till exempel via internet eller telefon.",
+        "Exempel: Du beställer en jacka på nätet.",
+        "Lagen när företag säljer varor eller tjänster på distans, till exempel på internet"),
+
+      C(K12, "Tvingande lag",
+        "En tvingande lag kan inte avtalas bort till konsumentens nackdel. Konsumentköplagen är en tvingande lag.",
+        "Exempel: Butiken kan inte säga: 'Vi tar aldrig tillbaka varor, även om de är trasiga.'",
+        "En lag som inte kan avtalas bort till konsumentens nackdel"),
+
+      C(K12, "Defekt",
+        "En defekt är när något är trasigt eller felaktigt. Varan är fel eller skadad.",
+        "Exempel: Dragkedjan på en ny jacka går sönder.",
+        "Något är trasigt eller felaktigt"),
+
+      C(K12, "Ursprungligt fel",
+        "Ett ursprungligt fel är ett fel som fanns från början, till exempel ett fabrikationsfel som uppstod när varan tillverkades.",
+        "Exempel: Sömmen på tröjan var dåligt sydd redan när den såldes.",
+        "Ett fel som fanns från början, till exempel ett fabrikationsfel"),
+
+      C(K12, "Reklamera",
+        "Att reklamera är att kontakta företaget och berätta vad som är fel. Kunden måste göra det i skälig tid, till exempel inom två månader efter att hen upptäckte felet.",
+        "Exempel: Du ringer butiken och säger att dragkedjan har gått sönder.",
+        "Att meddela företaget om ett fel"),
+
+      C(K12, "Reklamationsrätt",
+        "Reklamationsrätten är kundens lagstadgade rätt att klaga på en vara som har fel. Den gäller i 3 år enligt lag.",
+        "Exempel: En hoodie köpt i november får trasig dragkedja i april. Kunden har rätt att reklamera.",
+        "Kundens lagstadgade rätt att klaga på en vara med fel, i 3 år"),
+
+      C(K12, "Bevisbörda",
+        "Bevisbörda är ansvaret att bevisa om ett fel är ursprungligt. De första 2 åren måste företaget bevisa att felet INTE fanns från början. Efter 2 år (upp till 3 år) måste kunden bevisa att felet fanns från början.",
+        "Exempel: Dragkedjan går sönder efter 5 månader. Då är det företaget som måste bevisa att felet inte fanns från början.",
+        "Ansvaret att bevisa om ett fel är ursprungligt"),
+
+      C(K12, "Garanti",
+        "En garanti är ett extra löfte från företaget. En garanti tar aldrig bort reklamationsrätten.",
+        "Exempel: En TV säljs med 2 års garanti. Efter 14 månader går den sönder av ett fel som fanns från början. Kunden kan fortfarande reklamera.",
+        "Ett extra löfte från företaget som aldrig tar bort reklamationsrätten"),
+
+      C(K12, "Häva avtalet",
+        "Att häva avtalet betyder att köpet bryts. Kunden lämnar tillbaka varan och får pengarna tillbaka.",
+        "Exempel: Varan går inte att reparera eller byta. Köpet hävs och kunden får sina pengar.",
+        "Köpet bryts och kunden får pengarna tillbaka"),
+
+      C(K12, "Prisavdrag",
+        "Prisavdrag betyder att kunden får tillbaka en del av priset, till exempel när varan eller tjänsten har ett fel. Företaget kan också reparera eller byta varan.",
+        "Exempel: Tröjan har en liten fläck. Kunden behåller tröjan och får 100 kronor tillbaka.",
+        "Kunden får tillbaka en del av priset"),
+
+      C(K12, "Skadestånd",
+        "Skadestånd är ekonomisk ersättning vid allvarlig skada eller kraftig försening. Kunden kan kräva skadestånd när en tjänst inte håller måttet.",
+        "Exempel: Ett byggföretag skadar kundens golv och blir mycket försenade. Kunden kräver pengar för skadan.",
+        "Ekonomisk ersättning vid allvarlig skada eller kraftig försening"),
+
+      C(K12, "Ångerrätt",
+        "Ångerrätt betyder att konsumenten har rätt att ångra ett köp inom 14 dagar. Den gäller vid köp på internet eller telefon enligt Distanslagen. I en fysisk butik finns ingen lagstadgad ångerrätt.",
+        "Exempel: Kunden ångrar ett webbköp efter 5 dagar. Det går bra.",
+        "Rätten att ångra ett köp på distans inom 14 dagar"),
+
+      C(K12, "Specialtillverkade varor",
+        "Vissa köp har ingen ångerrätt: specialtillverkade varor, varor som snabbt förstörs (till exempel livsmedel), spel och lotterier samt vissa resor och hotell.",
+        "Exempel: En tröja med ditt eget namn tryckt på kan du inte ångra.",
+        "Varor som är gjorda efter kundens önskemål, där ångerrätten inte gäller"),
+
+      C(K12, "Retur",
+        "Vid retur skickar kunden tillbaka varan. Företaget måste informera om ångerrätt och erbjuda ett returformulär. Kunden betalar returfrakten om inte företaget erbjuder gratis retur.",
+        "Exempel: Kunden skickar tillbaka en jacka som köptes på nätet och betalar frakten själv.",
+        "Kunden skickar tillbaka varan och betalar frakten om returen inte är gratis"),
+
+      C(K12, "Ordinarie pris och säsong",
+        "Ordinarie pris är normalpriset. Säsong betyder tidsbegränsad försäljning, till exempel rea. Lagarna gäller oavsett!",
+        "Exempel: Även en vara som är på rea har samma reklamationsrätt som en vara med ordinarie pris.",
+        "Normalpris jämfört med tidsbegränsad försäljning – lagarna gäller oavsett")
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let currentOptions = [];
+    let currentCorrect = 0;
+
+    // BLANDA EN LISTA
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // BYGG SVARSALTERNATIV (1 rätt + 2 fel, blandade)
+    function buildOptions(data) {
+      let wrongTexts;
+
+      if (data.wrong) {
+        wrongTexts = shuffle(data.wrong).slice(0, 2);
+      } else {
+        const pool = concepts.filter(c =>
+          c !== data &&
+          (data.group ? c.group === data.group : c.chapter === data.chapter)
+        );
+        const texts = [];
+        shuffle(pool).forEach(c => {
+          if (texts.length < 2 && c.right !== data.right && !texts.includes(c.right)) {
+            texts.push(c.right);
+          }
+        });
+        wrongTexts = texts;
+      }
+
+      const items = [{ text: data.right, correct: true }]
+        .concat(wrongTexts.map(t => ({ text: t, correct: false })));
+      return shuffle(items);
+    }
+
+    // LADDA AKTUELLT SPELKORT
+    function loadCard() {
+      answered = false;
+      const data = concepts[currentIndex];
+
+      currentOptions = buildOptions(data);
+      currentCorrect = currentOptions.findIndex(o => o.correct);
+
+      // Uppdatera status
+      document.getElementById('cardProgress').innerText = `${currentIndex + 1} av ${concepts.length}`;
+      document.getElementById('scoreDisplay').innerText = `${score} p`;
+
+      const container = document.getElementById('gameContainer');
+      container.innerHTML = `
+        <div class="quiz-card" style="margin-bottom: 25px; position: relative;">
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 12px;">
+            <div class="quiz-icon">📖</div>
+            <span style="font-size: 13px; font-weight: bold; color: #2D5A43; background: #E6EFEA; padding: 6px 12px; border-radius: 8px; text-align: right;">
+              ${data.chapter} • ${currentIndex + 1} / ${concepts.length}
+            </span>
+          </div>
+
+          <h2 style="font-size: 30px; color: #1E3F2F; margin-bottom: 8px;">${data.word}</h2>
+
+          <p style="font-size: 16px; color: #1F2421; margin-bottom: 8px; line-height: 1.5;"><strong>Betyder:</strong> ${data.definition}</p>
+          <p style="font-size: 15px; color: #2D5A43; font-style: italic; background: #E6EFEA; padding: 10px 14px; border-radius: 10px; margin-bottom: 22px; line-height: 1.5;">${data.example}</p>
+
+          <hr style="border: 0; border-top: 1px solid #E7E2D5; margin-bottom: 20px;">
+
+          <h3 style="font-size: 18px; color: #1E3F2F; margin-bottom: 15px;">Fråga: Vilket påstående stämmer bäst för "${data.word}"?</h3>
+
+          <!-- SVARSALTERNATIV -->
+          <div style="display: flex; flex-direction: column; gap: 12px;" id="optionsGroup">
+            ${currentOptions.map((opt, idx) => `
+              <button onclick="checkAnswer(${idx})" class="option-btn" style="text-align: left; background: #FAF8F5; border: 1px solid #E7E2D5; border-radius: 14px; padding: 16px 20px; font-size: 15px; font-family: inherit; color: #1F2421; cursor: pointer; transition: all 0.2s ease;">
+                <strong>${String.fromCharCode(65 + idx)}:</strong> ${opt.text}
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- FEEDBACK CONTAINER -->
+          <div id="feedbackBox" style="display: none; margin-top: 20px; padding: 16px; border-radius: 12px; text-align: center; font-weight: bold;"></div>
+
+          <!-- NÄSTA KNAPP -->
+          <button id="nextBtn" onclick="nextCard()" style="display: none; margin-top: 20px; width: 100%; background: #2D5A43; color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: bold; font-family: inherit; cursor: pointer;">
+            ${currentIndex + 1 < concepts.length ? 'Nästa begrepp →' : 'Se resultat →'}
+          </button>
+
+        </div>
+      `;
+    }
+
+    // KONTROLLERA SVAR OCH GE POÄNG
+    function checkAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const feedbackBox = document.getElementById('feedbackBox');
+      const nextBtn = document.getElementById('nextBtn');
+      const optionBtns = document.querySelectorAll('.option-btn');
+      optionBtns.forEach(btn => btn.disabled = true);
+
+      if (selectedIndex === currentCorrect) {
+        score += 100;
+        document.getElementById('scoreDisplay').innerText = `${score} p`;
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#E6EFEA";
+        feedbackBox.style.color = "#2D5A43";
+        feedbackBox.style.border = "1px solid #4A7C59";
+        feedbackBox.innerHTML = "🎉 Rätt svar! Du får +100 poäng.";
+        optionBtns[selectedIndex].style.background = "#C2D8CB";
+        optionBtns[selectedIndex].style.borderColor = "#2D5A43";
+      } else {
+        feedbackBox.style.display = "block";
+        feedbackBox.style.background = "#FDF2F2";
+        feedbackBox.style.color = "#9B1C1C";
+        feedbackBox.style.border = "1px solid #F8B4B4";
+        feedbackBox.innerHTML = `💡 Inte riktigt. Rätt svar var alternativ <strong>${String.fromCharCode(65 + currentCorrect)}</strong>.`;
+        optionBtns[selectedIndex].style.background = "#FDE8E8";
+        optionBtns[currentCorrect].style.background = "#E6EFEA";
+        optionBtns[currentCorrect].style.borderColor = "#2D5A43";
+      }
+
+      nextBtn.style.display = "block";
+    }
+
+    // GÅ TILL NÄSTA KORT ELLER VISA SLUTSKÄRM
+    function nextCard() {
+      currentIndex++;
+      if (currentIndex < concepts.length) {
+        loadCard();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        showResults();
+      }
+    }
+
+    // SLUTSKÄRM
+    function showResults() {
+      document.getElementById('gameContainer').style.display = "none";
+      const resultScreen = document.getElementById('resultScreen');
+      resultScreen.style.display = "block";
+      document.getElementById('finalScoreText').innerText = `Totalpoäng: ${score} p av ${concepts.length * 100} p`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // RESTART
+    function restartGame() {
+      currentIndex = 0;
+      score = 0;
+      document.getElementById('gameContainer').style.display = "block";
+      document.getElementById('resultScreen').style.display = "none";
+      loadCard();
+    }
+
+    // STARTA SPELET NÄR SIDAN LADDAS
+    window.onload = loadCard;
+  </script>
+</body>
+</html>

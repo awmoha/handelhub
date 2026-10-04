@@ -1,0 +1,1203 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz – Försäljning och Service 1 • Kap 9–12</title>
+
+  <link rel="stylesheet" href="../../css/styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            beige: {
+              50: "#FAF8F5",
+              100: "#F5F2EB",
+              200: "#E7E2D5",
+              300: "#D5CDBA",
+            },
+            sage: {
+              100: "#E6EFEA",
+              200: "#C2D8CB",
+              500: "#4A7C59",
+              700: "#2D5A43",
+              800: "#1E3F2F",
+              900: "#142B20",
+            },
+            slateText: "#1F2421",
+            accentGold: "#D4A373",
+          },
+          fontFamily: {
+            cardo: ["Cardo", "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #f5f2eb;
+      color: #1f2421;
+      font-family: "Cardo";
+    }
+
+    .font-cardo {
+      font-family: "Cardo";
+    }
+
+    .custom-shadow {
+      box-shadow:
+        0 10px 30px -5px rgba(45, 90, 67, 0.08),
+        0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-bounce {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-bounce:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-bounce:active {
+      transform: translateY(1px);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f5f2eb;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c2d8cb;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900">
+
+  <!-- TOP BAR / HEADER -->
+  <header class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md">
+          🛍️
+        </div>
+
+        <div>
+          <h1 class="font-cardo font-bold text-xl text-sage-900 leading-tight">
+            Försäljning & Service 1
+          </h1>
+          <p class="text-xs text-gray-500 font-medium">
+            Interaktivt Klassrumsquiz • Kap 9–12
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button
+          id="soundToggleBtn"
+          onclick="toggleSound()"
+          class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1"
+          title="Ljud av/på"
+        >
+          <span id="soundIcon">🔊</span>
+        </button>
+
+        <button
+          onclick="openShareModal()"
+          class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Dela</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div class="w-full max-w-4xl">
+
+      <!-- SCREEN 1: START SCREEN -->
+      <section
+        id="startScreen"
+        class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+      >
+        <div class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"></div>
+        <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"></div>
+
+        <div class="relative z-10">
+
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6">
+            <span>✨</span> Utformat för Gymnasiet & SFI
+          </div>
+
+          <h2 class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight">
+            QUIZ – FÖRSÄLJNING OCH SERVICE 1
+          </h2>
+
+          <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+            Testa dina kunskaper i kapitel 9 till 12. Svara på frågor om
+            service, yrkesetik, hållbarhet, konsumenträtt och mycket mer!
+          </p>
+
+          <!-- Feature badges -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left">
+
+            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+              <div class="text-xl mb-1">❓</div>
+              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">31 Frågor</div>
+              <div class="text-xs text-gray-500">Blandade nivåer</div>
+            </div>
+
+            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+              <div class="text-xl mb-1">⏱️</div>
+              <div class="font-semibold text-sm text-sage-900">5 Min / fråga</div>
+              <div class="text-xs text-gray-500">Svara i lugn och ro</div>
+            </div>
+
+            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+              <div class="text-xl mb-1">⭐</div>
+              <div class="font-semibold text-sm text-sage-900">Poäng</div>
+              <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
+            </div>
+
+            <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+              <div class="text-xl mb-1">💡</div>
+              <div class="font-semibold text-sm text-sage-900">Feedback</div>
+              <div class="text-xs text-gray-500">Lär dig direkt</div>
+            </div>
+
+          </div>
+
+          <button
+            onclick="startGame()"
+            class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto"
+          >
+            <span>STARTA SPELET</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              ></path>
+            </svg>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 2: GAMEPLAY SCREEN -->
+      <section id="gameScreen" class="flex-col gap-6" style="display: none;">
+
+        <!-- Top status bar -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+
+          <!-- Question indicator & visual progress -->
+          <div class="w-full sm:w-auto flex-grow max-w-md">
+            <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
+              <span id="questionNumberText">Fråga 1 av 31</span>
+            </div>
+
+            <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
+              <div
+                id="progressBarFill"
+                class="bg-sage-700 h-full transition-all duration-300 rounded-full"
+                style="width: 3%"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Timer & Score -->
+          <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+
+            <!-- Timer badge -->
+            <div class="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-beige-100 border border-beige-200">
+              <span class="text-lg">⏱️</span>
+              <div>
+                <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+                  Tid kvar
+                </div>
+                <div id="timerText" class="font-mono font-bold text-base text-sage-900">
+                  5:00
+                </div>
+              </div>
+            </div>
+
+            <!-- Score badge -->
+            <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
+              <div>
+                <div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">
+                  Poäng
+                </div>
+                <div id="scoreText" class="font-mono font-bold text-base text-white">
+                  0
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]">
+
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span
+                id="categoryTag"
+                class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase"
+              >
+                Begrepp
+              </span>
+
+              <span
+                id="hintBadge"
+                class="hidden sm:inline-block text-xs text-gray-400 font-medium"
+              >
+                💡 Välj ett svar nedan
+              </span>
+            </div>
+
+            <h3
+              id="questionText"
+              class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6"
+            >
+              Laddar fråga...
+            </h3>
+          </div>
+
+          <!-- Answer Option Buttons -->
+          <div
+            id="optionsContainer"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"
+          ></div>
+
+          <!-- Explanation box & Next Button -->
+          <div
+            id="feedbackContainer"
+            class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300"
+          >
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+
+              <div class="flex items-start space-x-3">
+                <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+
+                <div>
+                  <h4
+                    id="feedbackTitle"
+                    class="font-bold text-lg leading-tight mb-1"
+                  ></h4>
+
+                  <p
+                    id="feedbackExplanation"
+                    class="text-sm text-gray-700 leading-relaxed"
+                  ></p>
+                </div>
+              </div>
+
+              <button
+                id="nextBtn"
+                onclick="nextQuestion()"
+                class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
+              >
+                <span id="nextBtnText">Nästa fråga</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 3: RESULT SCREEN -->
+      <section
+        id="resultScreen"
+        class="bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        style="display: none;"
+      >
+        <div class="max-w-xl mx-auto">
+
+          <div class="w-20 h-20 mx-auto rounded-3xl bg-sage-100 text-sage-800 flex items-center justify-center text-4xl mb-6 shadow-inner">
+            🎉
+          </div>
+
+          <h2 class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2">
+            Quizet är klart!
+          </h2>
+
+          <p id="resultSummaryText" class="text-gray-600 text-base sm:text-lg mb-8">
+            Bra jobbat! Här är en sammanfattning av ditt resultat:
+          </p>
+
+          <div class="grid grid-cols-3 gap-3 mb-8">
+
+            <div class="p-4 rounded-2xl bg-beige-100 border border-beige-200">
+              <div class="text-2xl font-black text-sage-900 font-mono" id="finalScore">0</div>
+              <div class="text-xs text-gray-500 font-medium uppercase mt-1">
+                Total poäng
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <div class="text-2xl font-black text-emerald-700 font-mono" id="finalCorrect">0</div>
+              <div class="text-xs text-emerald-800 font-medium uppercase mt-1">
+                Antal rätt
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+              <div class="text-2xl font-black text-rose-700 font-mono" id="finalWrong">0</div>
+              <div class="text-xs text-rose-800 font-medium uppercase mt-1">
+                Antal fel
+              </div>
+            </div>
+
+          </div>
+
+          <div
+            id="encouragementBox"
+            class="p-5 rounded-2xl bg-sage-100 border border-sage-200 mb-8 text-left"
+          >
+            <h4 class="font-bold text-sage-900 text-lg mb-1">
+              Lärarfeedback:
+            </h4>
+
+            <p id="encouragementText" class="text-sm text-sage-800 leading-relaxed">
+              Bra kämpat!
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+
+            <button
+              onclick="startGame()"
+              class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
+            >
+              <span>Spela igen</span>
+            </button>
+
+            <button
+              onclick="openShareModal()"
+              class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+            >
+              <span>Dela länken</span>
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50">
+    Försäljning och service 1 • SFI & Gymnasieanpassat quiz-spel
+  </footer>
+
+  <!-- SHARE MODAL -->
+  <div
+    id="shareModal"
+    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+  >
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center">
+
+      <button
+        onclick="closeShareModal()"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+      >
+        ×
+      </button>
+
+      <div class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner">
+        <div id="qrcode"></div>
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <input
+          id="shareUrlInput"
+          type="text"
+          readonly
+          class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all"
+          value=""
+        />
+
+        <button
+          onclick="copyShareUrl()"
+          class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition"
+        >
+          Kopiera
+        </button>
+      </div>
+
+      <div id="copySuccessMsg" class="hidden text-xs text-emerald-600 font-bold text-center mb-4">
+        ✓ Länken kopierad till urklipp!
+      </div>
+
+      <button
+        onclick="closeShareModal()"
+        class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl"
+      >
+        Stäng
+      </button>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Hjälpfunktion: första alternativet i listan är ALLTID rätt svar.
+    // Spelet blandar ordningen automatiskt när eleven startar.
+    const Q = (chapter, type, question, opts, explanation) => ({
+      chapter,
+      type,
+      question,
+      options: opts.map((text, i) => ({ text, isCorrect: i === 0 })),
+      explanation
+    });
+
+    const K9 = "Kapitel 9 – Planera och utvärdera service och försäljning";
+    const K10 = "Kapitel 10 – Yrkesetik i butiken";
+    const K11 = "Kapitel 11 – Hållbarhet inom försäljning och kundservice";
+    const K12 = "Kapitel 12 – Konsumenträtt";
+
+    const questions = [
+
+      // ======================= KAPITEL 9 =======================
+      Q(K9, "Gåta",
+        "Jag berättar vad ett företag säljer och till vem. Vad är jag?",
+        [
+          "Affärsidé",
+          "Profil",
+          "Servicenivå",
+          "Kringtjänst"
+        ],
+        "Affärsidén berättar vad företaget säljer och till vem. Exempel: Sportbutiken Aktiv säljer löparkläder till personer som tränar."
+      ),
+      Q(K9, "Situation",
+        "En butik är ljus, spelar snabb musik och personalen har sportkläder. Vad visar butiken på det sättet?",
+        [
+          "Sin profil – hur kunderna ser butiken",
+          "Sin affärsidé – vad butiken säljer",
+          "Sin servicenivå – hur mycket hjälp man får",
+          "Sin kundnöjdhet – hur nöjda kunderna är"
+        ],
+        "Profilen är butikens ansikte utåt. Det är så kunderna uppfattar butiken. Personalen visar profilen."
+      ),
+      Q(K9, "Jämförelse",
+        "Vad är skillnaden mellan att fronta och kringtjänster?",
+        [
+          "Att fronta är att ställa varor snyggt med framsidan utåt. En kringtjänst är en extra tjänst, till exempel kafé eller hemleverans.",
+          "Att fronta är en extra tjänst, till exempel kafé. En kringtjänst är att ställa varor snyggt med framsidan utåt.",
+          "Det är samma sak. Båda betyder att butiken har ett kafé.",
+          "Att fronta görs bara på lagret. Kringtjänster finns bara på internet."
+        ],
+        "Att fronta gör att butiken ser snygg ut och kunden hittar lättare. Kringtjänster (fri hemleverans, kafé, hämta paket) ger kunden extra hjälp."
+      ),
+      Q(K9, "Situation",
+        "En kund är arg: 'Jag har väntat på min beställning i en vecka!' Vilket svar visar bäst servicekompetens?",
+        [
+          "'Jag förstår att du har väntat länge. Jag kontrollerar i datorn vad som har hänt.'",
+          "'Det är inte vårt fel. Leveransen brukar vara sen.'",
+          "'Kom tillbaka nästa vecka, då vet vi mer.'",
+          "'Du behöver inte vara arg, det är bara en beställning.'"
+        ],
+        "Servicekompetens är att hålla sig lugn, lyssna, förstå problemet och försöka lösa det direkt."
+      ),
+      Q(K9, "Begrepp",
+        "Vad betyder kundnytta?",
+        [
+          "Hur varan hjälper kunden i livet",
+          "Hur mycket varan kostar för butiken",
+          "Hur många varor butiken har i lager",
+          "Hur snyggt varan står på hyllan"
+        ],
+        "Kundnytta är det som varan ger kunden. Exempel: Kunden fryser om fötterna (behov). Varma vinterskor ger varma och torra fötter (nytta)."
+      ),
+      Q(K9, "Jämförelse",
+        "Vad är skillnaden mellan öppet köp och bytesrätt?",
+        [
+          "Öppet köp ger pengarna tillbaka. Bytesrätt ger en annan vara eller ett tillgodokvitto.",
+          "Öppet köp ger en annan vara eller ett tillgodokvitto. Bytesrätt ger pengarna tillbaka.",
+          "Öppet köp är en lag. Bytesrätt är frivilligt.",
+          "Båda ger alltid pengarna tillbaka enligt lag."
+        ],
+        "Ingen lag tvingar fysiska butiker att erbjuda öppet köp eller bytesrätt. Företaget bestämmer själv sina villkor, och varan måste oftast vara oanvänd."
+      ),
+      Q(K9, "Gåta",
+        "Jag låtsas vara en vanlig kund, men i smyg testar jag personalens service. Vem är jag?",
+        [
+          "Mystery shopper",
+          "Säljare",
+          "Leverantör",
+          "Servicechef"
+        ],
+        "En mystery shopper testar bemötande, hjälp och butikens utseende. Företaget använder en mystery shopper eftersom personalen kan svara det chefen vill höra."
+      ),
+
+      // ======================= KAPITEL 10 =======================
+      Q(K10, "Jämförelse",
+        "Vad är skillnaden mellan etik och yrkesetik?",
+        [
+          "Etik handlar om rätt och fel i allmänhet. Yrkesetik handlar om hur du agerar rätt i ditt jobb.",
+          "Yrkesetik handlar om rätt och fel i allmänhet. Etik handlar om hur du agerar rätt i ditt jobb.",
+          "Etik gäller bara chefer. Yrkesetik gäller bara säljare.",
+          "Etik är en lag. Yrkesetik är bara en önskan."
+        ],
+        "Exempel på etik: Du hittar en plånbok och lämnar tillbaka den. Exempel på yrkesetik: Du ger kunden rätt information, även om kunden då inte köper."
+      ),
+      Q(K10, "Situation",
+        "Säljaren säger: 'Telefonen kostar bara 500 kronor!' men säger inte att abonnemanget kostar 100 kronor i månaden. Varför är det fel?",
+        [
+          "Säljaren gömmer viktig information om en extra kostnad",
+          "Priset på telefonen är för lågt",
+          "Säljaren pratar för snabbt med kunden",
+          "Säljaren får aldrig nämna priser"
+        ],
+        "En säljare får aldrig ljuga, vilseleda eller gömma viktig information. Ärlighet betyder rätt pris och tydliga villkor."
+      ),
+      Q(K10, "Situation",
+        "En kund är osäker och vill tänka efter. Vad gör en yrkesetisk säljare?",
+        [
+          "Säger att kunden får ta den tid hen behöver och att du finns här vid frågor",
+          "Säger att det är sista chansen att köpa varan",
+          "Följer efter kunden runt i butiken för att vara hjälpsam",
+          "Bestämmer åt kunden vilken vara som är bäst"
+        ],
+        "Kunden har alltid rätt att tänka efter. Säljaren ska ge tid, låta kunden bestämma själv och hålla lite avstånd."
+      ),
+      Q(K10, "Situation",
+        "Din kollega är nyfiken och frågar vad en kund köpte. Kunden har inte gett tillstånd. Vad svarar du?",
+        [
+          "'Det får jag inte berätta. Sekretessen gäller även mot kollegor.'",
+          "'Det går bra, vi jobbar ju på samma ställe.'",
+          "'Jag berättar om du lovar att inte säga det vidare.'",
+          "'Jag berättar bara kundens namn, inte vad hen köpte.'"
+        ],
+        "Information om kunden får aldrig delas utan tillstånd. Sekretessen gäller även nyfikna kollegor."
+      ),
+      Q(K10, "Gåta",
+        "Jag är din tystnadsplikt om kunden. Vad är jag?",
+        [
+          "Sekretess",
+          "Integritet",
+          "Korruption",
+          "Yrkesetik"
+        ],
+        "Sekretess är tystnadsplikt. Integritet är något annat: att kundens personliga information ska respekteras och skyddas, till exempel enligt GDPR."
+      ),
+      Q(K10, "Begrepp",
+        "Vad betyder korruption?",
+        [
+          "Att ge eller ta emot något för att få en otillåten fördel i affärer",
+          "Att ge kunden rabatt på varor som är trasiga",
+          "Att fråga en kollega om hjälp med ett svårt ärende",
+          "Att byta ut en trasig vara åt en kund"
+        ],
+        "Korruption är att ge eller ta emot något för en otillåten fördel. Mutor kan vara pengar, resor eller dyra gåvor. Det är olagligt."
+      ),
+      Q(K10, "Situation",
+        "En leverantör säger: 'Om du väljer vårt företag till butiken får du en dyr present privat.' Vad är det här?",
+        [
+          "En muta – det är korruption och olagligt",
+          "En vanlig rabatt till butiken",
+          "Ett exempel på god kundservice",
+          "En tillåten gåva som alla anställda får ta emot"
+        ],
+        "Som anställd ska du aldrig ta emot privata gåvor för affärsbeslut. Det är en muta."
+      ),
+      Q(K10, "Situation",
+        "Du vet inte vad som är rätt att göra i en situation. Vad är bästa första steg?",
+        [
+          "Pausa, fråga en kollega eller din chef och kontrollera reglerna",
+          "Gissa, så att kunden slipper vänta",
+          "Låta kunden bestämma vad som är rätt",
+          "Vänta tills kunden går hem"
+        ],
+        "Handlingsplan: 1. Tänk efter. 2. Fråga. 3. Följ reglerna. 4. Tänk på kunden. Att fråga är ett tecken på styrka, inte svaghet."
+      ),
+
+      // ======================= KAPITEL 11 =======================
+      Q(K11, "Situation",
+        "En butik ser till att personalen har bra villkor och får rast. Alla kunder är också välkomna. Vilken sorts hållbarhet är det?",
+        [
+          "Social hållbarhet",
+          "Ekonomisk hållbarhet",
+          "Ekologisk hållbarhet",
+          "Hållbarhetspolicy"
+        ],
+        "Social hållbarhet handlar om människor: bra villkor för personalen och att alla kunder är välkomna."
+      ),
+      Q(K11, "Situation",
+        "Vilket sätt hjälper en matbutik att minska svinnet?",
+        [
+          "Planera inköpen noga och sälja varor med kort datum till lägre pris",
+          "Köpa in mycket mer varor än kunderna behöver",
+          "Kasta varorna så fort de är lite mogna",
+          "Sluta sälja all färsk mat"
+        ],
+        "Svinn är varor som företaget måste kasta och inte tjänar pengar på. Mycket svinn är dåligt för ekonomin och för naturen."
+      ),
+      Q(K11, "Jämförelse",
+        "Vad är skillnaden mellan grön el och fossila bränslen?",
+        [
+          "Grön el kommer från sol, vind och vatten och är förnybar. Fossila bränslen är kol och olja som tar slut.",
+          "Grön el kommer från kol och olja. Fossila bränslen kommer från sol och vind.",
+          "Det finns ingen skillnad. Båda är lika bra för miljön.",
+          "Grön el används bara i butiker. Fossila bränslen används bara i hem."
+        ],
+        "Fossila bränslen smutsar ner miljön och tar slut. Grön el är bra för framtiden. Butiken kan välja grön el till belysningen."
+      ),
+      Q(K11, "Situation",
+        "En kund vill köpa en tröja av ekologisk bomull, med bra arbetsvillkor i hela kedjan. Vilken märkning ska säljaren peka på?",
+        [
+          "GOTS",
+          "KRAV",
+          "Svanen",
+          "EU-lövet"
+        ],
+        "GOTS är ekologiskt och socialt hållbart för kläder i hela kedjan. KRAV och EU-lövet gäller ofta mat. Svanen är Nordens miljömärkning."
+      ),
+      Q(K11, "Gåta",
+        "Jag är företagets ansvar för samhälle, miljö och ekonomi. Ett exempel är att kräva bra arbetsvillkor i fabriker. Vad är jag?",
+        [
+          "CSR",
+          "Hållbarhetspolicy",
+          "Kretslopp",
+          "Svinn"
+        ],
+        "CSR betyder Corporate Social Responsibility. Hållbarhetspolicy är något annat: företagets regler för hur de arbetar med hållbarhet."
+      ),
+      Q(K11, "Situation",
+        "Vad gör en butik mer tillgänglig för alla kunder?",
+        [
+          "Breda gångar, ingen tröskel vid dörren och tydlig information",
+          "Fler reklamskyltar vid ingången",
+          "Längre öppettider på lördagar",
+          "Lägre priser på alla varor"
+        ],
+        "I en tillgänglig butik kan alla handla, även personer med rullstol. Säljaren kan gå fram och fråga: 'Behöver du hjälp att nå varan?'"
+      ),
+      Q(K11, "Gåta",
+        "Jag får en gammal tröja att bli en ny produkt istället för skräp. Vad är jag?",
+        [
+          "Kretslopp",
+          "Svinn",
+          "Social profil",
+          "Fossila bränslen"
+        ],
+        "Kretslopp betyder att något cirkulerar utan att förloras: produkt → användning → återvinning → ny produkt."
+      ),
+      Q(K11, "Situation",
+        "En kund frågar: 'Är den här tröjan bra för miljön?' Du vet inte säkert. Vad är rätt att göra?",
+        [
+          "Kontrollera märkningen eller fråga en kollega, och ge sedan rätt information",
+          "Säga att tröjan är 100 % miljövänlig så att kunden köper",
+          "Säga att alla tröjor i butiken är bra för miljön",
+          "Byta ämne och prata om priset istället"
+        ],
+        "Man får inte vilseleda eller ljuga för kunden. Säg bara det du vet är sant, till exempel: 'Tröjan har GOTS-märkning. Det betyder att bomullen är ekologisk.'"
+      ),
+
+      // ======================= KAPITEL 12 =======================
+      Q(K12, "Jämförelse",
+        "Vad är skillnaden mellan en konsument och en kund?",
+        [
+          "En konsument är en privatperson som köper av ett företag. En kund kan också vara ett företag.",
+          "En kund är alltid en privatperson. En konsument är alltid ett företag.",
+          "Det är samma sak. Orden betyder exakt likadant.",
+          "En konsument handlar bara på internet. En kund handlar bara i butik."
+        ],
+        "Konsumenten skyddas av konsumenträtt. Exempel: En restaurang som köper ett kylskåp är en kund, men inte en konsument."
+      ),
+      Q(K12, "Gåta",
+        "Jag gäller när företag säljer varor eller tjänster på distans, till exempel på internet. Jag ger konsumenten 14 dagars ångerrätt. Vilken lag är jag?",
+        [
+          "Distanslagen",
+          "Konsumentköplagen",
+          "Konsumenttjänstlagen",
+          "Kollektivavtalet"
+        ],
+        "Distanslagen ger 14 dagars ångerrätt vid köp på nätet eller i telefon. I en fysisk butik finns ingen lagstadgad ångerrätt."
+      ),
+      Q(K12, "Situation",
+        "En familj anlitar ett företag för att bygga om badrummet. Vilken lag gäller i första hand?",
+        [
+          "Konsumenttjänstlagen",
+          "Konsumentköplagen",
+          "Distanslagen",
+          "Ingen lag gäller för byggarbete"
+        ],
+        "Konsumenttjänstlagen gäller för tjänster som reparationer och byggarbete. Kunden kan hålla inne betalning, kräva att felet rättas och få prisavdrag."
+      ),
+      Q(K12, "Situation",
+        "Säljaren säger: 'Vi tar aldrig tillbaka varor, även om de är trasiga.' Varför är det fel?",
+        [
+          "Konsumentköplagen är tvingande och kan inte avtalas bort till konsumentens nackdel",
+          "Butiken måste alltid ge pengarna tillbaka på alla varor",
+          "Öppet köp är en lag som alla butiker måste följa",
+          "Kunden har alltid rätt, oavsett vad som har hänt"
+        ],
+        "En tvingande lag kan inte avtalas bort till konsumentens nackdel. Kunden har rätt att reklamera en trasig vara."
+      ),
+      Q(K12, "Situation",
+        "En kund köpte en hoodie i november. I april går dragkedjan sönder och kunden reklamerar. Vem måste bevisa vad?",
+        [
+          "Företaget måste bevisa att felet inte fanns från början",
+          "Kunden måste bevisa att felet fanns från början",
+          "Konsumentverket måste bevisa vem som har rätt",
+          "Ingen behöver bevisa något"
+        ],
+        "De första 2 åren har företaget bevisbördan. Efter 2 år (upp till 3 år) måste kunden bevisa att felet är ursprungligt."
+      ),
+      Q(K12, "Situation",
+        "Varan hade 1 års garanti. Efter 14 månader går den sönder på grund av ett fel som fanns från början. Kan kunden reklamera?",
+        [
+          "Ja. Reklamationsrätten gäller i 3 år och försvinner inte på grund av garantin.",
+          "Nej. Garantin har gått ut, så kunden har inga rättigheter.",
+          "Nej. Man kan bara reklamera inom 14 dagar.",
+          "Ja, men bara om butiken själv vill det."
+        ],
+        "Garanti är ett extra löfte från företaget. En garanti tar aldrig bort reklamationsrätten, som gäller i 3 år enligt lag."
+      ),
+      Q(K12, "Situation",
+        "Vilken vara har INGEN ångerrätt vid ett köp på internet?",
+        [
+          "En tröja med kundens eget namn tryckt på",
+          "En vanlig jacka i standardmodell",
+          "Ett par skor som var fel storlek",
+          "En mobiltelefon i originalförpackning"
+        ],
+        "Ingen ångerrätt för specialtillverkade varor, varor som snabbt förstörs (livsmedel), spel och lotterier samt vissa resor och hotell."
+      ),
+      Q(K12, "Jämförelse",
+        "Vad är skillnaden mellan Konsumentverket och Konsumentombudsmannen (KO)?",
+        [
+          "Konsumentverket ger information om konsumenträtt. KO kan ingripa mot vilseledande reklam och driva ärenden i domstol.",
+          "KO ger information om konsumenträtt. Konsumentverket kan driva ärenden i domstol.",
+          "Konsumentverket är ett företag. KO är en butikskedja.",
+          "Båda bestämmer vilka priser butikerna ska ha."
+        ],
+        "Konsumentverket är en statlig myndighet som informerar och arbetar för säkra varor. KO är konsumenternas försvarare."
+      )
+    ];
+
+    const TIME_PER_QUESTION = 300; // 5 minuter per fråga
+    const POINTS_PER_CORRECT = 100;
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+
+    let timerSeconds = TIME_PER_QUESTION;
+    let timerInterval = null;
+
+    let soundEnabled = true;
+    let answered = false;
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx && AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+
+    function playSound(type) {
+      if (!soundEnabled || !audioCtx) return;
+
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === "correct") {
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
+        } else {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(164.81, audioCtx.currentTime + 0.2);
+        }
+
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById("soundIcon").innerText = soundEnabled ? "🔊" : "🔇";
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Blandar bara svarsalternativen. Frågorna går i kapitelordning (9 → 12).
+    function shuffleOptionsOnly() {
+      questions.forEach((question) => shuffleArray(question.options));
+    }
+
+    // Visa/dölj skärmar med inline-stil (fungerar även om CSS-filen har egna regler)
+    function showScreen(name) {
+      document.getElementById("startScreen").style.display = name === "start" ? "block" : "none";
+      document.getElementById("gameScreen").style.display = name === "game" ? "flex" : "none";
+      document.getElementById("resultScreen").style.display = name === "result" ? "block" : "none";
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerSeconds = TIME_PER_QUESTION;
+      updateTimerUI();
+
+      timerInterval = setInterval(() => {
+        timerSeconds--;
+        updateTimerUI();
+
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          handleTimeOut();
+        }
+      }, 1000);
+    }
+
+    function startGame() {
+      initAudio();
+shuffleArray(questions);
+shuffleOptionsOnly();
+      currentQuestionIndex = 0;
+      score = 0;
+      correctCount = 0;
+      wrongCount = 0;
+
+      showScreen("game");
+      document.getElementById("scoreText").innerText = "0";
+
+      loadQuestion();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function loadQuestion() {
+      answered = false;
+
+      const q = questions[currentQuestionIndex];
+
+      document.getElementById("questionNumberText").innerText =
+        `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
+
+      document.getElementById("categoryTag").innerText = q.type;
+      document.getElementById("hintBadge").innerText =
+        `${q.chapter.split(" – ")[0]} • 💡 Välj ett svar nedan`;
+      document.getElementById("questionText").innerText = q.question;
+
+      const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+      document.getElementById("progressBarFill").style.width = `${percent}%`;
+
+      const feedbackContainer = document.getElementById("feedbackContainer");
+      feedbackContainer.className =
+        "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+      document.getElementById("nextBtnText").innerText =
+        currentQuestionIndex + 1 < questions.length ? "Nästa fråga" : "Se resultat";
+
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+
+        btn.className =
+          "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-sage-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+
+        btn.onclick = () => selectOption(idx);
+
+        const badge = document.createElement("span");
+        badge.className =
+          "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+        badge.innerText = String.fromCharCode(65 + idx);
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "mt-0.5 leading-snug";
+        textSpan.innerText = opt.text;
+
+        btn.appendChild(badge);
+        btn.appendChild(textSpan);
+        optionsContainer.appendChild(btn);
+      });
+
+      startTimer();
+    }
+
+    function updateTimerUI() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      const el = document.getElementById("timerText");
+
+      el.innerText = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+      el.style.color = timerSeconds <= 60 ? "#be123c" : "";
+    }
+
+    function selectOption(selectedIndex) {
+      if (answered) return;
+
+      answered = true;
+      clearInterval(timerInterval);
+
+      const q = questions[currentQuestionIndex];
+      const isCorrect = q.options[selectedIndex].isCorrect;
+      const optionBtns = document.getElementById("optionsContainer").children;
+
+      let pointsEarned = 0;
+
+      if (isCorrect) {
+        correctCount++;
+        pointsEarned = POINTS_PER_CORRECT;
+        score += pointsEarned;
+        playSound("correct");
+      } else {
+        wrongCount++;
+        playSound("wrong");
+      }
+
+      document.getElementById("scoreText").innerText = score;
+
+      Array.from(optionBtns).forEach((btn, idx) => {
+        btn.disabled = true;
+
+        btn.classList.remove("hover:bg-sage-100", "hover:border-sage-500", "btn-bounce");
+        btn.classList.add("cursor-default");
+
+        if (q.options[idx].isCorrect) {
+          btn.className =
+            "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+
+          const badge = btn.querySelector("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+          badge.innerText = "✓";
+
+        } else if (idx === selectedIndex) {
+          btn.className =
+            "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+
+          const badge = btn.querySelector("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+          badge.innerText = "✕";
+
+        } else {
+          btn.classList.add("opacity-40");
+        }
+      });
+
+      showFeedback(isCorrect, q.explanation, pointsEarned);
+    }
+
+    function handleTimeOut() {
+      if (answered) return;
+
+      answered = true;
+      wrongCount++;
+
+      playSound("wrong");
+
+      const q = questions[currentQuestionIndex];
+      const optionBtns = document.getElementById("optionsContainer").children;
+
+      Array.from(optionBtns).forEach((btn, idx) => {
+        btn.disabled = true;
+        btn.classList.add("cursor-default", "opacity-40");
+
+        if (q.options[idx].isCorrect) {
+          btn.className =
+            "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 opacity-100";
+
+          const badge = btn.querySelector("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+          badge.innerText = "✓";
+        }
+      });
+
+      showFeedback(false, `Tiden tog slut! ${q.explanation}`, 0, true);
+    }
+
+    function showFeedback(isCorrect, explanation, pointsEarned, isTimeout = false) {
+      const feedbackContainer = document.getElementById("feedbackContainer");
+      const feedbackIcon = document.getElementById("feedbackIcon");
+      const feedbackTitle = document.getElementById("feedbackTitle");
+      const feedbackExplanation = document.getElementById("feedbackExplanation");
+
+      feedbackContainer.classList.remove("hidden");
+
+      if (isCorrect) {
+        feedbackContainer.className =
+          "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
+
+        feedbackIcon.innerText = "🎉";
+        feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
+
+      } else if (isTimeout) {
+        feedbackContainer.className =
+          "mt-6 p-5 rounded-2xl border-2 border-amber-300 bg-amber-50/90 text-amber-950 transition-all duration-300";
+
+        feedbackIcon.innerText = "⏰";
+        feedbackTitle.innerText = "Tiden tog slut!";
+
+      } else {
+        feedbackContainer.className =
+          "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+
+        feedbackIcon.innerText = "💡";
+        feedbackTitle.innerText = "Inte riktigt!";
+      }
+
+      feedbackExplanation.innerText = explanation;
+
+      setTimeout(() => {
+        feedbackContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 100);
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      clearInterval(timerInterval);
+
+      showScreen("result");
+
+      document.getElementById("finalScore").innerText = score;
+      document.getElementById("finalCorrect").innerText = correctCount;
+      document.getElementById("finalWrong").innerText = wrongCount;
+
+      const percentage = Math.round((correctCount / questions.length) * 100);
+
+      document.getElementById("resultSummaryText").innerText =
+        `Du fick ${correctCount} av ${questions.length} rätt (${percentage} %).`;
+
+      const encouragementText = document.getElementById("encouragementText");
+
+      if (percentage >= 85) {
+        encouragementText.innerText =
+          "Strålande resultat! Du visar mycket god förståelse för kapitel 9–12.";
+      } else if (percentage >= 60) {
+        encouragementText.innerText =
+          "Bra jobbat! Du har koll på många av begreppen. Repetera gärna de frågor som var svåra.";
+      } else {
+        encouragementText.innerText =
+          "Bra kämpat! Repetera kapitel 9–12 och försök igen.";
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    let qrcodeObj = null;
+
+    function openShareModal() {
+      const currentUrl = window.location.href;
+
+      document.getElementById("shareUrlInput").value = currentUrl;
+
+      const qrcodeContainer = document.getElementById("qrcode");
+      qrcodeContainer.innerHTML = "";
+
+      if (typeof QRCode !== "undefined") {
+        qrcodeObj = new QRCode(qrcodeContainer, {
+          text: currentUrl,
+          width: 140,
+          height: 140,
+          colorDark: "#1E3F2F",
+          colorLight: "#ffffff"
+        });
+      } else {
+        qrcodeContainer.innerText = "QR-kod blir tillgänglig när sidan är publicerad.";
+      }
+
+      document.getElementById("shareModal").classList.remove("hidden");
+    }
+
+    function closeShareModal() {
+      document.getElementById("shareModal").classList.add("hidden");
+      document.getElementById("copySuccessMsg").classList.add("hidden");
+    }
+
+    function copyShareUrl() {
+      const input = document.getElementById("shareUrlInput");
+      input.select();
+
+      navigator.clipboard
+        .writeText(input.value)
+        .then(() => {
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
+        })
+        .catch(() => {
+          document.execCommand("copy");
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
+        });
+    }
+
+    // Sätt rätt antal frågor på startsidan
+    document.getElementById("startQuestionCount").innerText = `${questions.length} Frågor`;
+    document.getElementById("questionNumberText").innerText = `Fråga 1 av ${questions.length}`;
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</body>
+</html>
