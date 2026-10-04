@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Min första APL-dag</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#F4F1E9;color:#1F2421;font-family:"Cardo",Georgia,serif;font-size:18px}
+    header{background:#2D5A43;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px}
+    .logo{width:42px;height:42px;border-radius:12px;background:#fff;color:#2D5A43;font-weight:700;display:flex;align-items:center;justify-content:center}
+    header small{display:block;opacity:.85;font-size:13px}
+    main{max-width:860px;margin:0 auto;padding:22px 16px 50px}
+    .screen{display:none}.screen.active{display:block}
+    .card{background:#fff;border:1px solid #E7E2D5;border-radius:22px;padding:26px;box-shadow:0 8px 26px rgba(45,90,67,.08)}
+    h1{color:#1E3F2F;margin:0 0 10px}
+    p{line-height:1.6}
+    .btn{border:0;border-radius:13px;padding:13px 22px;background:#2D5A43;color:#fff;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer}
+    .btn:hover{background:#1E3F2F}
+    input{width:100%;padding:14px;border:1px solid #D8D4C9;border-radius:12px;font:inherit;margin:10px 0 16px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+    .clock{font-size:26px;font-weight:700;color:#1E3F2F}
+    .place{background:#E6EFEA;color:#2D5A43;padding:6px 14px;border-radius:99px;font-weight:700;font-size:15px}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+    .st{background:#fff;border:1px solid #E7E2D5;border-radius:12px;padding:8px;font-size:12px;text-align:center}
+    .bar{height:6px;background:#E7E2D5;border-radius:9px;margin-top:5px;overflow:hidden}
+    .bar span{display:block;height:100%;background:#4A7C59;transition:width .4s}
+    .who{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+    .face{width:70px;height:70px;border-radius:50%;background:#E6EFEA;display:flex;align-items:center;justify-content:center;font-size:36px;flex:none}
+    .who b{color:#1E3F2F;font-size:19px}
+    .bubble{background:#F5F2EB;border-radius:16px;padding:16px 18px;font-size:20px;line-height:1.6}
+    .choices{display:grid;gap:10px;margin-top:16px}
+    .choice{text-align:left;border:1px solid #DDD8CC;background:#FCFBF8;border-radius:14px;padding:15px 16px;font:inherit;font-size:18px;cursor:pointer}
+    .choice:hover:not(:disabled){border-color:#4A7C59;background:#F4F8F5}
+    .choice:disabled{cursor:default;opacity:.6}
+    .choice.picked{opacity:1;border-color:#4A7C59;background:#E4F1E8}
+    .result{margin-top:18px;display:none}.result.show{display:block}
+    .reply{background:#FFF8E8;border-left:5px solid #B58A45;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+    .tip{background:#E6EFEA;border-left:5px solid #4A7C59;border-radius:12px;padding:14px 16px;margin-bottom:14px}
+    .w{border-bottom:2px dotted #4A7C59;cursor:help;color:#1E3F2F}
+    #wordBox{display:none;position:sticky;bottom:10px;margin-top:14px;background:#1E3F2F;color:#fff;padding:12px 16px;border-radius:14px}
+    .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #ECE8DE}
+    ul{line-height:1.8;padding-left:22px}
+    @media(max-width:560px){.stats{grid-template-columns:repeat(3,1fr)}.bubble{font-size:18px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">APL</div>
+    <div><strong>Min första APL-dag</strong><small>Försäljning och service</small></div>
+  </header>
+
+  <main>
+    <section id="start" class="screen active">
+      <div class="card">
+        <h1>Din första dag på APL</h1>
+        <p>Du är ny i en butik. Du träffar din handledare, kollegor och kunder. Du väljer vad du gör. Dina val påverkar resten av dagen.</p>
+        <p>Det finns inte bara ett rätt svar. Läs, tänk och välj.</p>
+        <p style="font-size:15px;color:#555;">Tips: Klicka på ord med prickad linje under. Då får du en förklaring.</p>
+        <label>Vad heter du?</label>
+        <input id="name" type="text" maxlength="30" placeholder="Skriv ditt förnamn">
+        <button class="btn" id="startBtn">Börja dagen</button>
+      </div>
+    </section>
+
+    <section id="game" class="screen">
+      <div class="topbar">
+        <div class="clock" id="clock">07:30</div>
+        <div class="place" id="place">Hemma</div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="card">
+        <div class="who"><div class="face" id="face"></div><div><b id="speaker"></b></div></div>
+        <div class="bubble" id="text"></div>
+        <div class="choices" id="choices"></div>
+        <div class="result" id="result">
+          <div class="reply" id="reply"></div>
+          <div class="tip" id="tip"></div>
+          <button class="btn" id="nextBtn">Fortsätt</button>
+        </div>
+      </div>
+      <div id="wordBox"></div>
+    </section>
+
+    <section id="end" class="screen">
+      <div class="card">
+        <h1>Arbetsdagen är slut</h1>
+        <p id="endIntro"></p>
+        <div id="scores"></div>
+        <h2 style="color:#1E3F2F">Det du gjorde bra</h2>
+        <ul id="good"></ul>
+        <h2 style="color:#1E3F2F">Det du kan träna mer på</h2>
+        <ul id="train"></ul>
+        <h2 style="color:#1E3F2F">Relationer</h2>
+        <div id="rels"></div>
+        <br><button class="btn" id="again">Spela igen</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./apl_game.js"></script>
+</body>
+</html>
