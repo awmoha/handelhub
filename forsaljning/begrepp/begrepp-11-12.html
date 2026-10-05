@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Begreppsspel – Försäljning & Service (Kap 9–12)</title>
+  <title>Begreppsspel – Försäljning & Service (Kap 11–12)</title>
   <!-- Länk till din externa CSS-fil -->
   <link rel="stylesheet" href="style.css">
   <style>
@@ -166,10 +166,10 @@
   <!-- HEADER -->
   <header>
     <div class="header-content">
-      <div class="logo">💬</div>
+      <div class="logo">🛍️</div>
       <div>
         <h1 class="header-title">Försäljning & Service</h1>
-        <p class="header-subtitle">Träna på service, yrkesetik, hållbarhet & konsumenträtt • Kap 9–12</p>
+        <p class="header-subtitle">Träna på hållbarhet & konsumenträtt • Kap 11–12</p>
       </div>
     </div>
   </header>
@@ -179,15 +179,15 @@
     <div class="hero">
   <a href="begrepp.html" class="back-link">
   ← Tillbaka till begrepp
-</a>      <h1>Begreppsjakten: Kap 9–12</h1>
-      <p>Lär dig alla viktiga begrepp om att planera och utvärdera service, yrkesetik, hållbarhet och konsumenträtt. Läs förklaringen, titta på exemplet och svara på frågan!</p>
+</a>      <h1>Begreppsjakten: Kap 11–12</h1>
+      <p>Lär dig alla viktiga begrepp om hållbarhet och konsumenträtt. Läs förklaringen, titta på exemplet och svara på frågan!</p>
     </div>
 
     <!-- SPELETS KONTROLLPANEL (POÄNG & NIVÅ) -->
     <div style="background: white; border: 1px solid #E7E2D5; border-radius: 20px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
       <div>
         <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Kort / Fråga:</span>
-        <div id="cardProgress" style="font-size: 22px; color: #1E3F2F; font-weight: bold;">1 av 71</div>
+        <div id="cardProgress" style="font-size: 22px; color: #1E3F2F; font-weight: bold;">1 av 45</div>
       </div>
       <div>
         <span style="font-size: 13px; color: #6B716D; font-weight: bold; text-transform: uppercase;">Dina Poäng:</span>
@@ -207,7 +207,7 @@
     <div id="resultScreen" style="display: none; text-align: center; background: white; border: 1px solid #E7E2D5; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(45, 90, 67, 0.08);">
       <div style="font-size: 60px; margin-bottom: 15px;">🌟</div>
       <h2 style="font-size: 32px; color: #1E3F2F; margin-bottom: 10px;">Fantastiskt jobbat!</h2>
-      <p style="color: #6B716D; font-size: 17px; margin-bottom: 25px;" id="resultSummaryText">Du har gått igenom alla begrepp för Kapitel 9, 10, 11 och 12!</p>
+      <p style="color: #6B716D; font-size: 17px; margin-bottom: 25px;" id="resultSummaryText">Du har gått igenom alla begrepp för Kapitel 11 och 12!</p>
 
       <div style="font-size: 28px; color: #2D5A43; font-weight: bold; margin-bottom: 30px;" id="finalScoreText">
         Totalpoäng: 0 p
@@ -222,7 +222,7 @@
 
   <!-- FOOTER -->
   <footer>
-    Försäljning och service 1 • SFI & Gymnasieanpassat begreppsspel (Kap 9–12)
+    Försäljning och service 1 • SFI & Gymnasieanpassat begreppsspel (Kap 11–12)
   </footer>
 
   <!-- JAVASCRIPT LOGIK -->
@@ -237,152 +237,10 @@
       group: extra.group || null
     });
 
-    const K9  = "Kapitel 9 – Planera och utvärdera";
-    const K10 = "Kapitel 10 – Yrkesetik";
     const K11 = "Kapitel 11 – Hållbarhet";
     const K12 = "Kapitel 12 – Konsumenträtt";
 
     const concepts = [
-
-      // ======================= KAPITEL 9: PLANERA OCH UTVÄRDERA SERVICE OCH FÖRSÄLJNING =======================
-      C(K9, "Affärsidé",
-        "Affärsidén berättar vad företaget säljer och till vem. Det är företaget som bestämmer idén.",
-        "Exempel: Sportbutiken säljer löparkläder till personer som tränar.",
-        "Berättar vad företaget säljer och till vem"),
-
-      C(K9, "Profil",
-        "Profilen är butikens ansikte utåt. Det är så kunderna ser och uppfattar butiken. Personalen visar profilen.",
-        "Exempel: Butiken är ljus, spelar snabb musik och personalen har sportkläder.",
-        "Hur kunderna uppfattar butiken utåt"),
-
-      C(K9, "Fronta",
-        "Att fronta är att ställa varor snyggt med framsidan utåt. Då ser butiken snyggare ut, kunden hittar lättare och handlar mer.",
-        "Exempel: Du ställer skorna på rad så att man ser framsidan på varje sko.",
-        "Att ställa varor snyggt med framsidan utåt"),
-
-      C(K9, "Kringtjänster",
-        "Kringtjänster är extra tjänster utöver butikens vanliga varor. Kunden får extra hjälp och stannar längre.",
-        "Exempel: Fri hemleverans, kafé i butiken eller att kunden kan hämta paket.",
-        "Extra tjänster utöver butikens vanliga varor"),
-
-      C(K9, "Servicenivå",
-        "Servicenivån är hur mycket hjälp företaget har bestämt att kunderna ska få. Låg nivå: kunden hjälper sig själv. Högre nivå: personlig service.",
-        "Exempel: I en lågprisbutik scannar kunden själv. I en skobutik mäter personalen kundens fötter.",
-        "Hur mycket hjälp företaget har bestämt att kunden ska få"),
-
-      C(K9, "Servicekompetens",
-        "Servicekompetens är kunskap och förmåga att ge bra service. Du lyssnar, förstår kunden, ger rätt information och löser problem.",
-        "Exempel: Kunden är arg. Säljaren håller sig lugn, lyssnar och kontrollerar vad som har hänt.",
-        "Kunskap och förmåga att ge bra service"),
-
-      C(K9, "Kundbehov",
-        "Kundbehovet är det som kunden behöver eller saknar. Företaget måste förstå behovet för att kunna hjälpa kunden.",
-        "Exempel: Kunden fryser om fötterna på vintern.",
-        "Det som kunden behöver eller saknar"),
-
-      C(K9, "Kundnytta",
-        "Kundnyttan är hur varan hjälper kunden i livet. Den visar varför varan är bra för just den här kunden.",
-        "Exempel: Varma vinterskor ger varma och torra fötter i snön.",
-        "Hur varan hjälper kunden i livet"),
-
-      C(K9, "Kundnöjdhet",
-        "Kundnöjdhet är hur nöjd kunden är med varor, tjänster och service. Företaget måste undersöka och mäta om kunderna är nöjda. Det räcker inte att gissa.",
-        "Exempel: Produkten fungerar, personalen är trevlig och leveransen är snabb.",
-        "Hur nöjd kunden är med varor, tjänster och service"),
-
-      C(K9, "Öppet köp",
-        "Kunden lämnar tillbaka varan och får pengarna tillbaka. Ingen lag tvingar fysiska butiker att erbjuda det. Varan måste oftast vara oanvänd.",
-        "Exempel: 'Vi erbjuder 30 dagars öppet köp på oanvända varor.'",
-        "Kunden lämnar tillbaka varan och får pengarna tillbaka"),
-
-      C(K9, "Bytesrätt",
-        "Kunden byter varan mot en annan vara eller får ett tillgodokvitto eller presentkort. Inga pengar betalas tillbaka. Butiken bestämmer själv sina villkor.",
-        "Exempel: Du byter en blå tröja mot en röd tröja.",
-        "Kunden byter till en annan vara eller får ett tillgodokvitto – inga pengar tillbaka"),
-
-      C(K9, "Kvitto",
-        "Kvittot är beviset på att kunden har köpt varan. Det visar datum, vara, pris och butikens villkor. Kunden behöver kvittot vid byte, öppet köp och reklamation.",
-        "Exempel: Kvittot visar att du köpte löparskor den 22 maj för 1 499 kronor.",
-        "Ett bevis på att kunden har köpt varan"),
-
-      C(K9, "Utvärdering",
-        "Att utvärdera är att undersöka vad som är bra och vad som kan bli bättre. Företaget använder svaren för att planera ännu bättre nästa gång.",
-        "Exempel: Företaget läser kundernas recensioner och gör enkäter direkt efter köpet.",
-        "Att undersöka vad som är bra och vad som kan bli bättre"),
-
-      C(K9, "Mystery shopper",
-        "En mystery shopper är en person som låtsas vara en vanlig kund. Personen testar personalens service i smyg och tittar på bemötande, hjälp och hur butiken ser ut.",
-        "Exempel: Hen ber om hjälp i butiken och skriver sedan en rapport till chefen.",
-        "En låtsaskund som testar personalens service i smyg"),
-
-      // ======================= KAPITEL 10: YRKESETIK I BUTIKEN =======================
-      C(K10, "Etik",
-        "Etik handlar om vad som är rätt och fel i allmänhet. Är mitt sätt att agera bra för andra?",
-        "Exempel: Du hittar en plånbok på gatan. Du vet att det är rätt att lämna tillbaka den.",
-        "Vad som är rätt och fel i allmänhet"),
-
-      C(K10, "Yrkesetik",
-        "Yrkesetik är hur du agerar rätt i ditt jobb mot kunden, kollegorna och företaget. Det är personlig etik som du använder i ditt arbetsliv.",
-        "Exempel: Du ger rätt information om en produkt, även om kunden då väljer att inte köpa den.",
-        "Hur du agerar rätt i din yrkesroll"),
-
-      C(K10, "Ärlighet och korrekt information",
-        "En säljare får aldrig ljuga, vilseleda, lura kunden eller gömma viktig information, till exempel extra kostnader. Ge ärliga priser och tydliga villkor.",
-        "Exempel: Telefonen kostar 500 kronor och abonnemanget kostar 100 kronor i månaden. Säljaren berättar om båda.",
-        "Att ge sann information och inte gömma extra kostnader"),
-
-      C(K10, "Respekt för alla kunder",
-        "Alla kunder har olika behov och önskemål. Alla ska bemötas med respekt, oavsett ålder, bakgrund, kön eller funktionsnedsättning.",
-        "Exempel: Du pratar lika vänligt med en äldre kund som med en ung kund.",
-        "Att behandla alla kunder lika och med respekt"),
-
-      C(K10, "Att pressa kunden",
-        "Att pressa kunden är att stressa eller tvinga kunden att köpa. Det är fel. Kunden har alltid rätt att tänka efter. Följ inte efter kunden och var inte påträngande.",
-        "Exempel: Fel: 'Du måste köpa nu! Sista chansen!' Rätt: 'Ta gärna lite tid och fundera.'",
-        "Att stressa eller tvinga kunden att köpa – det är fel"),
-
-      C(K10, "Sekretess",
-        "Sekretess är din tystnadsplikt. Information om kunden får aldrig delas utan tillstånd – inte ens med nyfikna kollegor.",
-        "Exempel: Din kollega frågar vad kunden köpte. Du svarar: 'Det får jag inte berätta.'",
-        "Tystnadsplikt – du får inte dela information om kunden"),
-
-      C(K10, "Integritet",
-        "Integritet betyder att kundens personliga information ska respekteras och skyddas, till exempel enligt GDPR. Det gäller namn, telefonnummer, personnummer och köphistorik.",
-        "Exempel: Du lämnar aldrig ut en kunds telefonnummer till någon annan.",
-        "Att kundens personliga information respekteras och skyddas"),
-
-      C(K10, "Korruption",
-        "Korruption är att ge eller ta emot något för att få en otillåten fördel i affärer.",
-        "Exempel: En leverantör ger dig en dyr present för att du ska köpa just deras varor.",
-        "Att ge eller ta emot något för att få en otillåten fördel i affärer",
-        { wrong: [
-          "Att ge kunden rabatt när varan är trasig",
-          "Att fråga chefen om hjälp med ett svårt ärende"
-        ] }),
-
-      C(K10, "Muta",
-        "En muta är till exempel pengar, resor eller dyra gåvor som ges för att påverka ditt beslut. Det är olagligt. Som anställd ska du aldrig ta emot privata gåvor för affärsbeslut.",
-        "Exempel: Leverantören säger: 'Väljer du oss får du en dyr present privat.'",
-        "Pengar eller dyra gåvor som ges för att påverka ditt beslut – det är olagligt",
-        { wrong: [
-          "En vanlig rabatt som butiken får av en leverantör",
-          "En present som butiken ger till alla kunder i december"
-        ] }),
-
-      C(K10, "Etisk kultur på arbetsplatsen",
-        "En bra kultur där chefer och medarbetare är goda exempel. Man är ärlig mot varandra, visar respekt, pratar öppet om problem, hanterar konflikter bra och gör rätt – även när det är svårt.",
-        "Exempel: Du är inte ensam. Chefen och kollegorna hjälper dig när du är osäker.",
-        "En arbetsplats där alla är ärliga, visar respekt och gör rätt"),
-
-      C(K10, "Distansförsäljning (yrkesetik)",
-        "Distansförsäljning är försäljning på distans, till exempel i telefon. När du ringer en kund måste du direkt säga ditt namn och vilket företag du ringer från. Var tydlig med villkoren och gör det enkelt att kontakta kundservice efteråt.",
-        "Exempel: 'Hej, jag heter Anna och ringer från Sportbutiken Aktiv.'",
-        "Försäljning på distans, till exempel i telefon, med tydliga regler för säljaren"),
-
-      C(K10, "Handlingsplan vid osäkerhet",
-        "Du vet inte vad som är rätt? 1. Tänk efter. 2. Fråga en kollega eller din chef. 3. Följ reglerna. 4. Tänk på kunden och företagets bästa. Att fråga är ett tecken på styrka, inte på svaghet.",
-        "Exempel: Du är osäker på en regel. Du pausar och frågar chefen istället för att gissa.",
-        "Tänk efter, fråga, följ reglerna och tänk på kunden"),
 
       // ======================= KAPITEL 11: HÅLLBARHET INOM FÖRSÄLJNING OCH KUNDSERVICE =======================
       C(K11, "Hållbarhet",

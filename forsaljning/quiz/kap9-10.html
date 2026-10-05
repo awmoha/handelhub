@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz – Försäljning och Service 1 • Kap 9–12</title>
+  <title>Quiz – Försäljning och Service 1 • Kap 9–10</title>
 
   <link rel="stylesheet" href="../../css/styles.css">
 
@@ -106,7 +106,7 @@
             Försäljning & Service 1
           </h1>
           <p class="text-xs text-gray-500 font-medium">
-            Interaktivt Klassrumsquiz • Kap 9–12
+            Interaktivt Klassrumsquiz • Kap 9–10
           </p>
         </div>
       </div>
@@ -162,8 +162,7 @@
           </h2>
 
           <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Testa dina kunskaper i kapitel 9 till 12. Svara på frågor om
-            service, yrkesetik, hållbarhet, konsumenträtt och mycket mer!
+            Testa dina kunskaper i kapitel 9 och 10. Svara på frågor om planering, utvärdering, service och yrkesetik!
           </p>
 
           <!-- Feature badges -->
@@ -171,7 +170,7 @@
 
             <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
               <div class="text-xl mb-1">❓</div>
-              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">31 Frågor</div>
+              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">15 Frågor</div>
               <div class="text-xs text-gray-500">Blandade nivåer</div>
             </div>
 
@@ -222,7 +221,7 @@
           <!-- Question indicator & visual progress -->
           <div class="w-full sm:w-auto flex-grow max-w-md">
             <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
-              <span id="questionNumberText">Fråga 1 av 31</span>
+              <span id="questionNumberText">Fråga 1 av 15</span>
             </div>
 
             <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
@@ -493,8 +492,6 @@
 
     const K9 = "Kapitel 9 – Planera och utvärdera service och försäljning";
     const K10 = "Kapitel 10 – Yrkesetik i butiken";
-    const K11 = "Kapitel 11 – Hållbarhet inom försäljning och kundservice";
-    const K12 = "Kapitel 12 – Konsumenträtt";
 
     const questions = [
 
@@ -650,170 +647,6 @@
           "Vänta tills kunden går hem"
         ],
         "Handlingsplan: 1. Tänk efter. 2. Fråga. 3. Följ reglerna. 4. Tänk på kunden. Att fråga är ett tecken på styrka, inte svaghet."
-      ),
-
-      // ======================= KAPITEL 11 =======================
-      Q(K11, "Situation",
-        "En butik ser till att personalen har bra villkor och får rast. Alla kunder är också välkomna. Vilken sorts hållbarhet är det?",
-        [
-          "Social hållbarhet",
-          "Ekonomisk hållbarhet",
-          "Ekologisk hållbarhet",
-          "Hållbarhetspolicy"
-        ],
-        "Social hållbarhet handlar om människor: bra villkor för personalen och att alla kunder är välkomna."
-      ),
-      Q(K11, "Situation",
-        "Vilket sätt hjälper en matbutik att minska svinnet?",
-        [
-          "Planera inköpen noga och sälja varor med kort datum till lägre pris",
-          "Köpa in mycket mer varor än kunderna behöver",
-          "Kasta varorna så fort de är lite mogna",
-          "Sluta sälja all färsk mat"
-        ],
-        "Svinn är varor som företaget måste kasta och inte tjänar pengar på. Mycket svinn är dåligt för ekonomin och för naturen."
-      ),
-      Q(K11, "Jämförelse",
-        "Vad är skillnaden mellan grön el och fossila bränslen?",
-        [
-          "Grön el kommer från sol, vind och vatten och är förnybar. Fossila bränslen är kol och olja som tar slut.",
-          "Grön el kommer från kol och olja. Fossila bränslen kommer från sol och vind.",
-          "Det finns ingen skillnad. Båda är lika bra för miljön.",
-          "Grön el används bara i butiker. Fossila bränslen används bara i hem."
-        ],
-        "Fossila bränslen smutsar ner miljön och tar slut. Grön el är bra för framtiden. Butiken kan välja grön el till belysningen."
-      ),
-      Q(K11, "Situation",
-        "En kund vill köpa en tröja av ekologisk bomull, med bra arbetsvillkor i hela kedjan. Vilken märkning ska säljaren peka på?",
-        [
-          "GOTS",
-          "KRAV",
-          "Svanen",
-          "EU-lövet"
-        ],
-        "GOTS är ekologiskt och socialt hållbart för kläder i hela kedjan. KRAV och EU-lövet gäller ofta mat. Svanen är Nordens miljömärkning."
-      ),
-      Q(K11, "Gåta",
-        "Jag är företagets ansvar för samhälle, miljö och ekonomi. Ett exempel är att kräva bra arbetsvillkor i fabriker. Vad är jag?",
-        [
-          "CSR",
-          "Hållbarhetspolicy",
-          "Kretslopp",
-          "Svinn"
-        ],
-        "CSR betyder Corporate Social Responsibility. Hållbarhetspolicy är något annat: företagets regler för hur de arbetar med hållbarhet."
-      ),
-      Q(K11, "Situation",
-        "Vad gör en butik mer tillgänglig för alla kunder?",
-        [
-          "Breda gångar, ingen tröskel vid dörren och tydlig information",
-          "Fler reklamskyltar vid ingången",
-          "Längre öppettider på lördagar",
-          "Lägre priser på alla varor"
-        ],
-        "I en tillgänglig butik kan alla handla, även personer med rullstol. Säljaren kan gå fram och fråga: 'Behöver du hjälp att nå varan?'"
-      ),
-      Q(K11, "Gåta",
-        "Jag får en gammal tröja att bli en ny produkt istället för skräp. Vad är jag?",
-        [
-          "Kretslopp",
-          "Svinn",
-          "Social profil",
-          "Fossila bränslen"
-        ],
-        "Kretslopp betyder att något cirkulerar utan att förloras: produkt → användning → återvinning → ny produkt."
-      ),
-      Q(K11, "Situation",
-        "En kund frågar: 'Är den här tröjan bra för miljön?' Du vet inte säkert. Vad är rätt att göra?",
-        [
-          "Kontrollera märkningen eller fråga en kollega, och ge sedan rätt information",
-          "Säga att tröjan är 100 % miljövänlig så att kunden köper",
-          "Säga att alla tröjor i butiken är bra för miljön",
-          "Byta ämne och prata om priset istället"
-        ],
-        "Man får inte vilseleda eller ljuga för kunden. Säg bara det du vet är sant, till exempel: 'Tröjan har GOTS-märkning. Det betyder att bomullen är ekologisk.'"
-      ),
-
-      // ======================= KAPITEL 12 =======================
-      Q(K12, "Jämförelse",
-        "Vad är skillnaden mellan en konsument och en kund?",
-        [
-          "En konsument är en privatperson som köper av ett företag. En kund kan också vara ett företag.",
-          "En kund är alltid en privatperson. En konsument är alltid ett företag.",
-          "Det är samma sak. Orden betyder exakt likadant.",
-          "En konsument handlar bara på internet. En kund handlar bara i butik."
-        ],
-        "Konsumenten skyddas av konsumenträtt. Exempel: En restaurang som köper ett kylskåp är en kund, men inte en konsument."
-      ),
-      Q(K12, "Gåta",
-        "Jag gäller när företag säljer varor eller tjänster på distans, till exempel på internet. Jag ger konsumenten 14 dagars ångerrätt. Vilken lag är jag?",
-        [
-          "Distanslagen",
-          "Konsumentköplagen",
-          "Konsumenttjänstlagen",
-          "Kollektivavtalet"
-        ],
-        "Distanslagen ger 14 dagars ångerrätt vid köp på nätet eller i telefon. I en fysisk butik finns ingen lagstadgad ångerrätt."
-      ),
-      Q(K12, "Situation",
-        "En familj anlitar ett företag för att bygga om badrummet. Vilken lag gäller i första hand?",
-        [
-          "Konsumenttjänstlagen",
-          "Konsumentköplagen",
-          "Distanslagen",
-          "Ingen lag gäller för byggarbete"
-        ],
-        "Konsumenttjänstlagen gäller för tjänster som reparationer och byggarbete. Kunden kan hålla inne betalning, kräva att felet rättas och få prisavdrag."
-      ),
-      Q(K12, "Situation",
-        "Säljaren säger: 'Vi tar aldrig tillbaka varor, även om de är trasiga.' Varför är det fel?",
-        [
-          "Konsumentköplagen är tvingande och kan inte avtalas bort till konsumentens nackdel",
-          "Butiken måste alltid ge pengarna tillbaka på alla varor",
-          "Öppet köp är en lag som alla butiker måste följa",
-          "Kunden har alltid rätt, oavsett vad som har hänt"
-        ],
-        "En tvingande lag kan inte avtalas bort till konsumentens nackdel. Kunden har rätt att reklamera en trasig vara."
-      ),
-      Q(K12, "Situation",
-        "En kund köpte en hoodie i november. I april går dragkedjan sönder och kunden reklamerar. Vem måste bevisa vad?",
-        [
-          "Företaget måste bevisa att felet inte fanns från början",
-          "Kunden måste bevisa att felet fanns från början",
-          "Konsumentverket måste bevisa vem som har rätt",
-          "Ingen behöver bevisa något"
-        ],
-        "De första 2 åren har företaget bevisbördan. Efter 2 år (upp till 3 år) måste kunden bevisa att felet är ursprungligt."
-      ),
-      Q(K12, "Situation",
-        "Varan hade 1 års garanti. Efter 14 månader går den sönder på grund av ett fel som fanns från början. Kan kunden reklamera?",
-        [
-          "Ja. Reklamationsrätten gäller i 3 år och försvinner inte på grund av garantin.",
-          "Nej. Garantin har gått ut, så kunden har inga rättigheter.",
-          "Nej. Man kan bara reklamera inom 14 dagar.",
-          "Ja, men bara om butiken själv vill det."
-        ],
-        "Garanti är ett extra löfte från företaget. En garanti tar aldrig bort reklamationsrätten, som gäller i 3 år enligt lag."
-      ),
-      Q(K12, "Situation",
-        "Vilken vara har INGEN ångerrätt vid ett köp på internet?",
-        [
-          "En tröja med kundens eget namn tryckt på",
-          "En vanlig jacka i standardmodell",
-          "Ett par skor som var fel storlek",
-          "En mobiltelefon i originalförpackning"
-        ],
-        "Ingen ångerrätt för specialtillverkade varor, varor som snabbt förstörs (livsmedel), spel och lotterier samt vissa resor och hotell."
-      ),
-      Q(K12, "Jämförelse",
-        "Vad är skillnaden mellan Konsumentverket och Konsumentombudsmannen (KO)?",
-        [
-          "Konsumentverket ger information om konsumenträtt. KO kan ingripa mot vilseledande reklam och driva ärenden i domstol.",
-          "KO ger information om konsumenträtt. Konsumentverket kan driva ärenden i domstol.",
-          "Konsumentverket är ett företag. KO är en butikskedja.",
-          "Båda bestämmer vilka priser butikerna ska ha."
-        ],
-        "Konsumentverket är en statlig myndighet som informerar och arbetar för säkra varor. KO är konsumenternas försvarare."
       )
     ];
 
@@ -880,7 +713,7 @@
       }
     }
 
-    // Blandar bara svarsalternativen. Frågorna går i kapitelordning (9 → 12).
+    // Blandar bara svarsalternativen. Frågorna går i kapitelordning.
     function shuffleOptionsOnly() {
       questions.forEach((question) => shuffleArray(question.options));
     }
@@ -910,8 +743,8 @@
 
     function startGame() {
       initAudio();
-shuffleArray(questions);
-shuffleOptionsOnly();
+      shuffleArray(questions);
+      shuffleOptionsOnly();
       currentQuestionIndex = 0;
       score = 0;
       correctCount = 0;
@@ -1135,13 +968,13 @@ shuffleOptionsOnly();
 
       if (percentage >= 85) {
         encouragementText.innerText =
-          "Strålande resultat! Du visar mycket god förståelse för kapitel 9–12.";
+          "Strålande resultat! Du visar mycket god förståelse för kapitel 9–10.";
       } else if (percentage >= 60) {
         encouragementText.innerText =
           "Bra jobbat! Du har koll på många av begreppen. Repetera gärna de frågor som var svåra.";
       } else {
         encouragementText.innerText =
-          "Bra kämpat! Repetera kapitel 9–12 och försök igen.";
+          "Bra kämpat! Repetera kapitel 9–10 och försök igen.";
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
