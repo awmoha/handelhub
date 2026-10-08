@@ -171,14 +171,13 @@
 
             <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
               <div class="text-xl mb-1">❓</div>
-              <div class="font-semibold text-sm text-sage-900">21 Frågor</div>
+              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">21 Frågor</div>
               <div class="text-xs text-gray-500">Blandade nivåer</div>
             </div>
 
             <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
               <div class="text-xl mb-1">⏱️</div>
-              <div class="font-semibold text-sm text-sage-900">                  5 Min / fråga
-</div>
+              <div class="font-semibold text-sm text-sage-900">5 Min / fråga</div>
               <div class="text-xs text-gray-500">Svara i lugn och ro</div>
             </div>
 
@@ -251,7 +250,7 @@
               </div>
             </div>
 
-            <!-- Score badge — no trophy emoji -->
+            <!-- Score badge -->
             <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
               <div>
                 <div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">
@@ -328,7 +327,7 @@
                 onclick="nextQuestion()"
                 class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
               >
-                <span>Nästa fråga</span>
+                <span id="nextBtnText">Nästa fråga</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
@@ -481,11 +480,11 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-const questions = [
+    const questions = [
       // KAPITEL 6
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Begrepp",question: "Vad betyder attityd i kundservice?",
+        type: "Begrepp", question: "Vad betyder attityd i kundservice?",
         options: [
           { text: "Hur du ser på eller reagerar på en situation", isCorrect: true },
           { text: "Vilka produkter butiken säljer", isCorrect: false },
@@ -496,7 +495,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Begrepp",question: "Vad är värderingar?",
+        type: "Begrepp", question: "Vad är värderingar?",
         options: [
           { text: "Vad vi tycker är rätt eller fel", isCorrect: true },
           { text: "Hur snabbt vi arbetar", isCorrect: false },
@@ -507,7 +506,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Jämförelse",question: "Vad är skillnaden mellan information och kommunikation?",
+        type: "Jämförelse", question: "Vad är skillnaden mellan information och kommunikation?",
         options: [
           { text: "Information är något någon berättar eller visar, medan kommunikation innebär att personer samtalar med varandra", isCorrect: true },
           { text: "Information och kommunikation betyder alltid exakt samma sak", isCorrect: false },
@@ -518,7 +517,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Begrepp",question: "Vad betyder interaktion?",
+        type: "Begrepp", question: "Vad betyder interaktion?",
         options: [
           { text: "Att människor påverkar och reagerar på varandra", isCorrect: true },
           { text: "Att kunden alltid bestämmer priset", isCorrect: false },
@@ -529,7 +528,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Begrepp",question: "Vad är verbalt språk?",
+        type: "Begrepp", question: "Vad är verbalt språk?",
         options: [
           { text: "De ord vi använder när vi pratar", isCorrect: true },
           { text: "Kroppens signaler utan ord", isCorrect: false },
@@ -540,7 +539,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
-        type: "Situation",question: "Vilket är ett exempel på icke-verbalt språk?",
+        type: "Situation", question: "Vilket är ett exempel på icke-verbalt språk?",
         options: [
           { text: "Ögonkontakt, kroppsspråk och leende", isCorrect: true },
           { text: "Att förklara en produkt med ord", isCorrect: false },
@@ -553,7 +552,7 @@ const questions = [
       // KAPITEL 7
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Begrepp",question: "Vilken ordning har säljsamtalets fyra faser?",
+        type: "Begrepp", question: "Vilken ordning har säljsamtalets fyra faser?",
         options: [
           { text: "Kontakt → analys → utbyte → avslut", isCorrect: true },
           { text: "Avslut → kontakt → analys → utbyte", isCorrect: false },
@@ -564,7 +563,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Situation",question: "Vad är målet med kontaktfasen?",
+        type: "Situation", question: "Vad är målet med kontaktfasen?",
         options: [
           { text: "Att hälsa och skapa den första kontakten med kunden", isCorrect: true },
           { text: "Att avsluta samtalet direkt", isCorrect: false },
@@ -575,7 +574,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Jämförelse",question: "Vilken fråga är en öppen fråga?",
+        type: "Jämförelse", question: "Vilken fråga är en öppen fråga?",
         options: [
           { text: "Vad letar du efter för typ av jacka?", isCorrect: true },
           { text: "Vill du ha den svarta jackan?", isCorrect: false },
@@ -586,7 +585,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Situation",question: "Varför är det viktigt att lyssna aktivt i analysfasen?",
+        type: "Situation", question: "Varför är det viktigt att lyssna aktivt i analysfasen?",
         options: [
           { text: "För att förstå kundens behov och önskemål", isCorrect: true },
           { text: "För att säljaren ska kunna prata hela tiden", isCorrect: false },
@@ -597,7 +596,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Situation",question: "Vad ska ett förslag i utbytesfasen bygga på?",
+        type: "Situation", question: "Vad ska ett förslag i utbytesfasen bygga på?",
         options: [
           { text: "Kundens behov", isCorrect: true },
           { text: "Vad säljaren själv tycker om", isCorrect: false },
@@ -608,7 +607,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Situation",question: "Vad ska säljaren göra om kunden inte köper?",
+        type: "Situation", question: "Vad ska säljaren göra om kunden inte köper?",
         options: [
           { text: "Avsluta professionellt och välkomna kunden tillbaka", isCorrect: true },
           { text: "Försöka tvinga kunden att köpa", isCorrect: false },
@@ -619,7 +618,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 7 – Säljsamtalet",
-        type: "Situation",question: "Varför är produktkunskap viktig i utbytesfasen?",
+        type: "Situation", question: "Varför är produktkunskap viktig i utbytesfasen?",
         options: [
           { text: "Säljaren behöver kunna koppla produktens egenskaper till kundens behov", isCorrect: true },
           { text: "Säljaren ska kunna prata om helt andra produkter", isCorrect: false },
@@ -632,7 +631,7 @@ const questions = [
       // KAPITEL 8
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Gåta",question: "Vad betyder e-handel?",
+        type: "Gåta", question: "Vad betyder e-handel?",
         options: [
           { text: "Försäljning som sker via internet", isCorrect: true },
           { text: "Försäljning som bara sker i en fysisk butik", isCorrect: false },
@@ -643,7 +642,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Situation",question: "Vad kan en chatbot hjälpa en kund med?",
+        type: "Situation", question: "Vad kan en chatbot hjälpa en kund med?",
         options: [
           { text: "Att få svar på vanliga frågor och hjälp online", isCorrect: true },
           { text: "Att automatiskt lämna den fysiska butiken", isCorrect: false },
@@ -654,7 +653,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Begrepp",question: "Vad är en ambassadör i en digital kundresa?",
+        type: "Begrepp", question: "Vad är en ambassadör i en digital kundresa?",
         options: [
           { text: "En person som pratar positivt om ett varumärke eller rekommenderar det", isCorrect: true },
           { text: "En person som bara arbetar i butikens lager", isCorrect: false },
@@ -665,7 +664,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Begrepp",question: "Vad innebär one-to-one-försäljning?",
+        type: "Begrepp", question: "Vad innebär one-to-one-försäljning?",
         options: [
           { text: "Säljaren ger personlig hjälp till en enskild kund", isCorrect: true },
           { text: "Säljaren pratar samtidigt med en stor grupp", isCorrect: false },
@@ -676,7 +675,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Begrepp",question: "Vad innebär one-to-many-försäljning?",
+        type: "Begrepp", question: "Vad innebär one-to-many-försäljning?",
         options: [
           { text: "Säljaren presenterar eller säljer till många kunder samtidigt", isCorrect: true },
           { text: "Säljaren hjälper exakt en kund åt gången", isCorrect: false },
@@ -687,7 +686,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Situation",question: "Vad är omnikanalförsäljning?",
+        type: "Situation", question: "Vad är omnikanalförsäljning?",
         options: [
           { text: "Att flera försäljningskanaler samverkar kring kunden", isCorrect: true },
           { text: "Att företaget bara använder en fysisk butik", isCorrect: false },
@@ -698,7 +697,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Jämförelse",question: "Vad är en showroom-butik i den digitala försäljningen?",
+        type: "Jämförelse", question: "Vad är en showroom-butik i den digitala försäljningen?",
         options: [
           { text: "En plats där kunden kan prova eller uppleva produkten innan köp", isCorrect: true },
           { text: "En butik där kunden aldrig får se produkterna", isCorrect: false },
@@ -709,7 +708,7 @@ const questions = [
       },
       {
         chapter: "Kapitel 8 – E-handel, AI och omnikanal",
-        type: "Situation",question: "Vad är en viktig skillnad mellan en fysisk butik och digital teknik i den 'fygitala' modellen?",
+        type: "Situation", question: "Vad är en viktig skillnad mellan en fysisk butik och digital teknik i den 'fygitala' modellen?",
         options: [
           { text: "De kombineras för att skapa en sammanhängande försäljningsupplevelse", isCorrect: true },
           { text: "Den fysiska butiken och internet får aldrig användas tillsammans", isCorrect: false },
@@ -720,13 +719,15 @@ const questions = [
       }
     ];
 
+    // ===== INSTÄLLNINGAR =====
+    const TIME_PER_QUESTION = 300; // 5 minuter PER FRÅGA
+
     let currentQuestionIndex = 0;
     let score = 0;
     let correctCount = 0;
     let wrongCount = 0;
 
-    // 5 minuter för hela quizet
-    let timerSeconds = 300;
+    let timerSeconds = TIME_PER_QUESTION;
     let timerInterval = null;
 
     let soundEnabled = true;
@@ -754,24 +755,15 @@ const questions = [
         if (type === "correct") {
           osc.type = "sine";
           osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(
-            659.25,
-            audioCtx.currentTime + 0.15
-          );
+          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
         } else {
           osc.type = "triangle";
           osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(
-            164.81,
-            audioCtx.currentTime + 0.2
-          );
+          osc.frequency.exponentialRampToValueAtTime(164.81, audioCtx.currentTime + 0.2);
         }
 
         gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioCtx.currentTime + 0.3
-        );
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
 
         osc.start();
         osc.stop(audioCtx.currentTime + 0.3);
@@ -780,8 +772,7 @@ const questions = [
 
     function toggleSound() {
       soundEnabled = !soundEnabled;
-      document.getElementById("soundIcon").innerText =
-        soundEnabled ? "🔊" : "🔇";
+      document.getElementById("soundIcon").innerText = soundEnabled ? "🔊" : "🔇";
     }
 
     function shuffleArray(array) {
@@ -799,31 +790,11 @@ const questions = [
       });
     }
 
-    function startGame() {
-      initAudio();
-
-      shuffleQuestions();
-
-      currentQuestionIndex = 0;
-      score = 0;
-      correctCount = 0;
-      wrongCount = 0;
-      timerSeconds = 300;
-
-      document.getElementById("startScreen").classList.add("hidden");
-      document.getElementById("gameScreen").classList.remove("hidden");
-      document.getElementById("gameScreen").classList.add("flex");
-      document.getElementById("resultScreen").classList.add("hidden");
-
-      document.getElementById("scoreText").innerText = "0";
-
+    // ===== TIMER: startas om för VARJE fråga =====
+    function startTimer() {
       clearInterval(timerInterval);
-      loadQuestion();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      timerSeconds = TIME_PER_QUESTION;
+      updateTimerUI();
 
       timerInterval = setInterval(() => {
         timerSeconds--;
@@ -834,6 +805,31 @@ const questions = [
           handleTimeOut();
         }
       }, 1000);
+    }
+
+    function startGame() {
+      initAudio();
+
+      shuffleQuestions();
+
+      currentQuestionIndex = 0;
+      score = 0;
+      correctCount = 0;
+      wrongCount = 0;
+
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("hidden");
+      document.getElementById("gameScreen").classList.add("flex");
+      document.getElementById("resultScreen").classList.add("hidden");
+
+      document.getElementById("scoreText").innerText = "0";
+
+      loadQuestion(); // loadQuestion startar timern
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
     function loadQuestion() {
@@ -847,21 +843,17 @@ const questions = [
       document.getElementById("categoryTag").innerText = q.type;
       document.getElementById("questionText").innerText = q.question;
 
-      const percent =
-        ((currentQuestionIndex + 1) / questions.length) * 100;
+      const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+      document.getElementById("progressBarFill").style.width = `${percent}%`;
 
-      document.getElementById("progressBarFill").style.width =
-        `${percent}%`;
-
-      const feedbackContainer =
-        document.getElementById("feedbackContainer");
-
+      const feedbackContainer = document.getElementById("feedbackContainer");
       feedbackContainer.className =
         "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
 
-      const optionsContainer =
-        document.getElementById("optionsContainer");
+      document.getElementById("nextBtnText").innerText =
+        currentQuestionIndex + 1 < questions.length ? "Nästa fråga" : "Se resultat";
 
+      const optionsContainer = document.getElementById("optionsContainer");
       optionsContainer.innerHTML = "";
 
       q.options.forEach((opt, idx) => {
@@ -873,10 +865,8 @@ const questions = [
         btn.onclick = () => selectOption(idx);
 
         const badge = document.createElement("span");
-
         badge.className =
           "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
-
         badge.innerText = String.fromCharCode(65 + idx);
 
         const textSpan = document.createElement("span");
@@ -885,11 +875,10 @@ const questions = [
 
         btn.appendChild(badge);
         btn.appendChild(textSpan);
-
         optionsContainer.appendChild(btn);
       });
 
-      updateTimerUI();
+      startTimer(); // ny 5-minuters timer för den här frågan
     }
 
     function updateTimerUI() {
@@ -904,20 +893,20 @@ const questions = [
       if (answered) return;
 
       answered = true;
+      clearInterval(timerInterval); // stoppa timern när eleven svarat
 
       const q = questions[currentQuestionIndex];
       const isCorrect = q.options[selectedIndex].isCorrect;
 
-      const optionBtns =
-        document.getElementById("optionsContainer").children;
+      const optionBtns = document.getElementById("optionsContainer").children;
 
       let pointsEarned = 0;
 
       if (isCorrect) {
         correctCount++;
 
-        // Max 150 poäng per rätt svar.
-        const speedBonus = Math.round((timerSeconds / 300) * 50);
+        // Max 150 poäng per rätt svar (100 + upp till 50 i snabbhetsbonus).
+        const speedBonus = Math.round((timerSeconds / TIME_PER_QUESTION) * 50);
         pointsEarned = 100 + speedBonus;
 
         score += pointsEarned;
@@ -933,12 +922,7 @@ const questions = [
       Array.from(optionBtns).forEach((btn, idx) => {
         btn.disabled = true;
 
-        btn.classList.remove(
-          "hover:bg-sage-100",
-          "hover:border-sage-500",
-          "btn-bounce"
-        );
-
+        btn.classList.remove("hover:bg-sage-100", "hover:border-sage-500", "btn-bounce");
         btn.classList.add("cursor-default");
 
         if (q.options[idx].isCorrect) {
@@ -946,10 +930,8 @@ const questions = [
             "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
 
           const badge = btn.querySelector("span");
-
           badge.className =
             "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
-
           badge.innerText = "✓";
 
         } else if (idx === selectedIndex) {
@@ -957,10 +939,8 @@ const questions = [
             "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
 
           const badge = btn.querySelector("span");
-
           badge.className =
             "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
-
           badge.innerText = "✕";
 
         } else {
@@ -980,8 +960,7 @@ const questions = [
       playSound("wrong");
 
       const q = questions[currentQuestionIndex];
-      const optionBtns =
-        document.getElementById("optionsContainer").children;
+      const optionBtns = document.getElementById("optionsContainer").children;
 
       Array.from(optionBtns).forEach((btn, idx) => {
         btn.disabled = true;
@@ -990,34 +969,22 @@ const questions = [
         if (q.options[idx].isCorrect) {
           btn.className =
             "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 opacity-100";
+
+          const badge = btn.querySelector("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+          badge.innerText = "✓";
         }
       });
 
-      showFeedback(
-        false,
-        `Tiden tog slut! ${q.explanation}`,
-        0,
-        true
-      );
+      showFeedback(false, `Tiden tog slut! ${q.explanation}`, 0, true);
     }
 
-    function showFeedback(
-      isCorrect,
-      explanation,
-      pointsEarned,
-      isTimeout = false
-    ) {
-      const feedbackContainer =
-        document.getElementById("feedbackContainer");
-
-      const feedbackIcon =
-        document.getElementById("feedbackIcon");
-
-      const feedbackTitle =
-        document.getElementById("feedbackTitle");
-
-      const feedbackExplanation =
-        document.getElementById("feedbackExplanation");
+    function showFeedback(isCorrect, explanation, pointsEarned, isTimeout = false) {
+      const feedbackContainer = document.getElementById("feedbackContainer");
+      const feedbackIcon = document.getElementById("feedbackIcon");
+      const feedbackTitle = document.getElementById("feedbackTitle");
+      const feedbackExplanation = document.getElementById("feedbackExplanation");
 
       feedbackContainer.classList.remove("hidden");
 
@@ -1026,8 +993,7 @@ const questions = [
           "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
 
         feedbackIcon.innerText = "🎉";
-        feedbackTitle.innerText =
-          `Rätt svar! (+${pointsEarned} p)`;
+        feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
 
       } else if (isTimeout) {
         feedbackContainer.className =
@@ -1075,14 +1041,12 @@ const questions = [
       document.getElementById("finalCorrect").innerText = correctCount;
       document.getElementById("finalWrong").innerText = wrongCount;
 
-      const percentage =
-        Math.round((correctCount / questions.length) * 100);
+      const percentage = Math.round((correctCount / questions.length) * 100);
 
       document.getElementById("resultSummaryText").innerText =
         `Du fick ${correctCount} av ${questions.length} rätt (${percentage} %).`;
 
-      const encouragementText =
-        document.getElementById("encouragementText");
+      const encouragementText = document.getElementById("encouragementText");
 
       if (percentage >= 85) {
         encouragementText.innerText =
@@ -1094,6 +1058,8 @@ const questions = [
         encouragementText.innerText =
           "Bra kämpat! Repetera kapitel 6–8 och försök igen.";
       }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     let qrcodeObj = null;
@@ -1101,12 +1067,9 @@ const questions = [
     function openShareModal() {
       const currentUrl = window.location.href;
 
-      document.getElementById("shareUrlInput").value =
-        currentUrl;
+      document.getElementById("shareUrlInput").value = currentUrl;
 
-      const qrcodeContainer =
-        document.getElementById("qrcode");
-
+      const qrcodeContainer = document.getElementById("qrcode");
       qrcodeContainer.innerHTML = "";
 
       if (typeof QRCode !== "undefined") {
@@ -1131,26 +1094,24 @@ const questions = [
     }
 
     function copyShareUrl() {
-      const input =
-        document.getElementById("shareUrlInput");
+      const input = document.getElementById("shareUrlInput");
 
       input.select();
 
       navigator.clipboard
         .writeText(input.value)
         .then(() => {
-          document
-            .getElementById("copySuccessMsg")
-            .classList.remove("hidden");
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
         })
         .catch(() => {
           document.execCommand("copy");
-
-          document
-            .getElementById("copySuccessMsg")
-            .classList.remove("hidden");
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
         });
     }
+
+    // Sätt rätt antal frågor på startsidan
+    document.getElementById("startQuestionCount").innerText = `${questions.length} Frågor`;
+    document.getElementById("questionNumberText").innerText = `Fråga 1 av ${questions.length}`;
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
