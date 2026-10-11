@@ -162,6 +162,7 @@
       .customer-card {
         padding: 28px;
         text-align: center;
+        align-self: start;
       }
       .customer-avatar {
         width: 100px;
@@ -179,23 +180,110 @@
       .customer-card h2 {
         color: #1e3f2f;
         margin-bottom: 6px;
+        font-size: 26px;
       }
-      .customer-type {
-        color: #777;
-        font-size: 13px;
+      .customer-tip {
+        margin-top: 20px;
+        padding: 14px 16px;
+        background: #f4f8f5;
+        border-radius: 14px;
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.7;
+        color: #4f5751;
+      }
+      .customer-tip strong {
+        color: #1e3f2f;
       }
       .dialog-card {
         padding: 28px;
       }
-      .customer-speech {
+
+      /* ÄRENDET – ska synas tydligt */
+      .case-box {
         background: #f5f2eb;
+        border-left: 6px solid #2d5a43;
         border-radius: 18px;
-        padding: 18px;
-        margin-bottom: 20px;
-        color: #2c332e;
-        line-height: 1.7;
-        font-size: 18px;
+        padding: 20px 24px;
+        margin-bottom: 8px;
       }
+      .case-label {
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        color: #2d5a43;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .case-speaker {
+        color: #1e3f2f;
+        font-weight: 700;
+        font-size: 17px;
+        margin-bottom: 4px;
+      }
+      .case-text {
+        font-size: 23px;
+        line-height: 1.5;
+        font-weight: 700;
+        color: #1f2421;
+      }
+
+      /* STEG 1 och 2 */
+      .step-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e3f2f;
+        margin: 24px 0 4px;
+      }
+      .step-badge {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #2d5a43;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      .step-help {
+        color: #777;
+        font-size: 14px;
+        margin-left: 44px;
+      }
+      .step-result {
+        margin-top: 14px;
+        font-weight: 700;
+        line-height: 1.6;
+      }
+      .step-result.ok {
+        color: #2d5a43;
+      }
+      .step-result.no {
+        color: #9a5b50;
+      }
+      .step-reply {
+        display: none;
+        margin-top: 8px;
+        padding-top: 6px;
+        border-top: 1px dashed #d8d4c9;
+        animation: fadeIn 0.35s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       .choices {
         display: grid;
         gap: 11px;
@@ -314,6 +402,9 @@
         .dashboard {
           grid-template-columns: 1fr;
         }
+        .case-text {
+          font-size: 20px;
+        }
       }
     </style>
   </head>
@@ -333,14 +424,15 @@
 
     <main>
       <div class="game-shell">
+        <!-- STEG 1: NAMN -->
         <section id="screen-start" class="screen active">
           <div class="hero">
             <div class="back-link">STEG 1</div>
             <h1>Välkommen till din butik</h1>
             <p>
-              Kunder kommer med frågor och problem. Välj det bästa svaret. Du
-              får veta om du hade rätt eller fel, och sedan analyserar du vilken
-              lag ärendet handlade om.
+              Kunder kommer med frågor och problem. Först avgör du vad ärendet
+              handlar om. Sedan väljer du det bästa svaret till kunden. Till sist
+              får du veta om du hade rätt eller fel.
             </p>
           </div>
           <div class="box name-box">
@@ -359,6 +451,7 @@
           </div>
         </section>
 
+        <!-- STEG 2: VÄLJ BUTIK -->
         <section id="screen-store" class="screen">
           <div class="hero">
             <div class="back-link">STEG 2</div>
@@ -386,6 +479,7 @@
           </div>
         </section>
 
+        <!-- SPELET -->
         <section id="screen-game" class="screen">
           <div class="dashboard">
             <div>
@@ -417,55 +511,68 @@
           </div>
 
           <div class="customer-scene">
+            <!-- KUNDEN -->
             <div class="customer-card">
               <div class="customer-avatar" id="customerAvatar"></div>
-              <h2 id="customerName"></h2>
-              <div class="customer-type" id="customerType"></div>
-            </div>
-            <div class="dialog-card">
-              <div class="customer-speech">
-                <strong id="customerSpeaker"></strong><br />
-                <span id="customerMessage"></span>
+              <h2>Kund: <span id="customerName"></span></h2>
+              <div class="customer-tip">
+                <strong>Så här gör du:</strong><br />
+                1. Läs ärendet noga.<br />
+                2. Välj vad ärendet handlar om.<br />
+                3. Välj hur du svarar kunden.
               </div>
-              <div style="color: #777; font-size: 14px">Vad svarar du?</div>
-              <div id="choiceArea" class="choices"></div>
+            </div>
+
+            <!-- ÄRENDE + STEG -->
+            <div class="dialog-card">
+              <div class="case-box">
+                <div class="case-label">Ärende</div>
+                <div class="case-speaker" id="customerSpeaker"></div>
+                <div class="case-text" id="customerMessage"></div>
+              </div>
+
+              <!-- STEG 1: ANALYS (kommer först) -->
+              <div id="stepAnalysis">
+                <div class="step-title">
+                  <span class="step-badge">1</span> Vad handlar ärendet om?
+                </div>
+                <div class="step-help">
+                  Välj det område som ärendet hör till.
+                </div>
+                <div id="analysisChoices" class="choices"></div>
+                <div class="step-result" id="analysisResult"></div>
+              </div>
+
+              <!-- STEG 2: SVAR (visas efter steg 1) -->
+              <div id="stepReply" class="step-reply">
+                <div class="step-title">
+                  <span class="step-badge">2</span> Hur svarar du kunden?
+                </div>
+                <div class="step-help">Välj det svar som passar bäst.</div>
+                <div id="choiceArea" class="choices"></div>
+              </div>
             </div>
           </div>
 
+          <!-- FEEDBACK (visas efter steg 2) -->
           <div id="feedback" class="feedback-card">
             <div class="feedback-title" id="feedbackTitle"></div>
             <div class="feedback-text" id="feedbackText"></div>
-          </div>
-
-          <div id="analysis" class="feedback-card">
-            <div class="feedback-title">
-              Analysera: vad handlade ärendet om?
-            </div>
-            <div class="feedback-text">
-              Välj det område som ärendet hör till. Du måste svara innan du går
-              vidare.
-            </div>
-            <div id="analysisChoices" class="choices"></div>
-            <div
-              class="feedback-text"
-              id="analysisResult"
-              style="margin-top: 14px; font-weight: 700"
-            ></div>
             <a
               id="sourceLink"
               class="source-link"
               href="#"
               target="_blank"
               rel="noopener"
+              style="display: none"
             ></a>
             <div style="margin-top: 17px">
-              <button class="game-button" id="nextBtn" style="display: none">
-                Nästa ärende
-              </button>
+              <button class="game-button" id="nextBtn">Nästa ärende</button>
             </div>
           </div>
         </section>
 
+        <!-- RESULTAT -->
         <section id="screen-result" class="screen">
           <div class="hero">
             <div class="back-link">RESULTAT</div>
@@ -481,18 +588,18 @@
           </div>
         </section>
 
+        <!-- LAGBOKEN -->
         <section id="screen-laws" class="screen">
           <div class="hero">
             <div class="back-link">LAGBOKEN</div>
             <h1 id="lawsTitle"></h1>
             <p id="lawsIntro"></p>
-          </div>
-          <div id="lawsList"></div>
-          <div style="text-align: center; margin-top: 25px">
             <button class="game-button secondary" id="backToGameBtn">
               Tillbaka till kunden
             </button>
           </div>
+
+          <div id="lawsList"></div>
         </section>
       </div>
     </main>

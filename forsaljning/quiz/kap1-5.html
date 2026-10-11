@@ -183,22 +183,25 @@
             >
               <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
                 <div class="text-xl mb-1">❓</div>
-                <div class="font-semibold text-sm text-sage-900">24 Frågor</div>
+                <div
+                  id="startQuestionCount"
+                  class="font-semibold text-sm text-sage-900"
+                >
+                  24 Frågor
+                </div>
                 <div class="text-xs text-gray-500">Blandade nivåer</div>
               </div>
               <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
-                <div class="text-xl mb-1">⏱️</div>
+                <div class="text-xl mb-1">🧘</div>
                 <div class="font-semibold text-sm text-sage-900">
-                  5 Min / fråga
+                  Ingen tidspress
                 </div>
                 <div class="text-xs text-gray-500">Svara i lugn och ro</div>
               </div>
               <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
                 <div class="text-xl mb-1">⭐</div>
-                <div class="font-semibold text-sm text-sage-900">
-                  Snabbhetsbonus
-                </div>
-                <div class="text-xs text-gray-500">Få extra poäng</div>
+                <div class="font-semibold text-sm text-sage-900">Poäng</div>
+                <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
               </div>
               <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
                 <div class="text-xl mb-1">💡</div>
@@ -209,7 +212,53 @@
               </div>
             </div>
 
+            <!-- FILTER: ELEVEN VÄLJER FRÅGETYP -->
+            <div
+              class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left"
+            >
+              <div
+                class="flex flex-wrap items-center justify-between gap-2 mb-1"
+              >
+                <h3 class="font-cardo font-bold text-xl text-sage-900">
+                  Välj frågetyper
+                </h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onclick="selectAllTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Välj alla
+                  </button>
+                  <span class="text-beige-300">|</span>
+                  <button
+                    type="button"
+                    onclick="clearTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Rensa
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">
+                Klicka på en typ för att välja eller ta bort den.
+              </p>
+
+              <div
+                id="typeFilter"
+                class="flex flex-wrap justify-center gap-3"
+              ></div>
+
+              <div
+                class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800"
+              >
+                <span>📋</span>
+                <span id="filterSummary">24 frågor valda</span>
+              </div>
+            </div>
+
             <button
+              id="startBtn"
               onclick="startGame()"
               class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto"
             >
@@ -260,30 +309,10 @@
               </div>
             </div>
 
-            <!-- Timer & Score -->
+            <!-- Score -->
             <div
               class="flex items-center justify-between w-full sm:w-auto gap-4"
             >
-              <!-- Timer badge -->
-              <div
-                class="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-beige-100 border border-beige-200"
-              >
-                <span class="text-lg">⏱️</span>
-                <div>
-                  <div
-                    class="text-[10px] text-gray-500 font-bold uppercase tracking-wider"
-                  >
-                    Tid kvar
-                  </div>
-                  <div
-                    id="timerText"
-                    class="font-mono font-bold text-base text-sage-900"
-                  >
-                    60s
-                  </div>
-                </div>
-              </div>
-
               <!-- Score badge -->
               <div
                 class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm"
@@ -369,7 +398,7 @@
                   onclick="nextQuestion()"
                   class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
                 >
-                  <span>Nästa fråga</span>
+                  <span id="nextBtnText">Nästa fråga</span>
                   <svg
                     class="w-5 h-5"
                     fill="none"
@@ -494,6 +523,12 @@
                 <span>Spela igen</span>
               </button>
               <button
+                onclick="backToStart()"
+                class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+              >
+                <span>Ändra frågetyper</span>
+              </button>
+              <button
                 onclick="openShareModal()"
                 class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
               >
@@ -527,11 +562,6 @@
         >
           &times;
         </button>
-        <!-- <div class="text-3xl mb-2">📱</div>
-      <h3 class="font-cardo text-2xl font-bold text-sage-900 mb-2">Dela med eleverna</h3>
-      <p class="text-xs text-gray-600 mb-4">
-        Låt eleverna skanna QR-koden direkt på projektorn med mobilkameran, eller kopiera länken nedan:
-      </p> -->
 
         <!-- Dynamic QR Code Container -->
         <div
@@ -573,7 +603,7 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
       // QUESTIONS DATABASE (24 Questions strictly covering Chapters 1–5 in clear SFI Swedish)
-      const questions = [
+      const allQuestions = [
         {
           type: "Gåta",
           question:
@@ -957,12 +987,21 @@
       ];
 
       // GAME STATE VARIABLES
+      let questions = [...allQuestions]; // de frågor som spelas (efter filter)
+      const TYPE_ORDER = ["Gåta", "Begrepp", "Situation", "Jämförelse", "Kunskap"];
+      const TYPE_INFO = {
+        "Gåta": { icon: "🧩", hint: "Gissa ordet" },
+        "Begrepp": { icon: "📖", hint: "Vad betyder ordet?" },
+        "Situation": { icon: "🛒", hint: "Vad gör du?" },
+        "Jämförelse": { icon: "⚖️", hint: "Vad är skillnaden?" },
+        "Kunskap": { icon: "🎓", hint: "Fakta och regler" },
+      };
+      let selectedTypes = new Set(allQuestions.map((q) => q.type));
+      const POINTS_PER_CORRECT = 100; // Fast poäng: lika många poäng för varje rätt svar
       let currentQuestionIndex = 0;
       let score = 0;
       let correctCount = 0;
       let wrongCount = 0;
-      let timerSeconds = 300;
-      let timerInterval = null;
       let soundEnabled = true;
       let answered = false;
 
@@ -1035,44 +1074,46 @@
       }
 
       // GAME NAVIGATION LOGIC
-     function startGame() {
-  initAudio();
+      function startGame() {
+        initAudio();
 
-  // Blanda frågorna
-  shuffleQuestions();
+        // Välj ut frågor enligt elevens filter
+        questions = allQuestions.filter((q) => selectedTypes.has(q.type));
+        if (questions.length === 0) return;
 
-  // Återställ spelet
-  currentQuestionIndex = 0;
-  score = 0;
-  correctCount = 0;
-  wrongCount = 0;
+        // Blanda frågorna
+        shuffleQuestions();
 
-  // Visa spelskärmen
-  document.getElementById("startScreen").classList.add("hidden");
+        // Återställ spelet
+        currentQuestionIndex = 0;
+        score = 0;
+        correctCount = 0;
+        wrongCount = 0;
 
-  document.getElementById("gameScreen").classList.remove("hidden");
-  document.getElementById("gameScreen").classList.add("flex");
+        // Visa spelskärmen
+        document.getElementById("startScreen").classList.add("hidden");
 
-  // Dölj resultatskärmen
-  document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
 
-  // Uppdatera poäng
-  document.getElementById("scoreText").innerText = "0";
+        // Dölj resultatskärmen
+        document.getElementById("resultScreen").classList.add("hidden");
 
-  // Ladda första frågan
-  loadQuestion();
+        // Uppdatera poäng
+        document.getElementById("scoreText").innerText = "0";
 
-  // Börja längst upp på sidan
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
+        // Ladda första frågan
+        loadQuestion();
+
+        // Börja längst upp på sidan
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
       function loadQuestion() {
         answered = false;
-        clearInterval(timerInterval);
-        timerSeconds = 300;
-        updateTimerUI();
 
         const q = questions[currentQuestionIndex];
 
@@ -1095,9 +1136,14 @@
         document.getElementById("progressTextVisual").innerText =
           `${asciiBar} ${currentQuestionIndex + 1}/${questions.length}`;
 
+        // Next-button text (last question shows "Se resultat")
+        document.getElementById("nextBtnText").innerText =
+          currentQuestionIndex + 1 < questions.length
+            ? "Nästa fråga"
+            : "Se resultat";
+
         // Reset feedback section
         const feedbackContainer = document.getElementById("feedbackContainer");
-        feedbackContainer.classList.add("hidden");
         feedbackContainer.className =
           "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
 
@@ -1124,41 +1170,21 @@
           btn.appendChild(textSpan);
           optionsContainer.appendChild(btn);
         });
-
-        // Start Countdown Timer
-        timerInterval = setInterval(() => {
-          timerSeconds--;
-          updateTimerUI();
-          if (timerSeconds <= 0) {
-            clearInterval(timerInterval);
-            handleTimeOut();
-          }
-        }, 1000);
       }
-
-      function updateTimerUI() {
-const minutes = Math.floor(timerSeconds / 60);
-const seconds = timerSeconds % 60;
-
-document.getElementById("timerText").innerText =
-  `${minutes}:${seconds.toString().padStart(2, "0")}`;      }
 
       function selectOption(selectedIndex, clickedBtn) {
         if (answered) return;
         answered = true;
-        clearInterval(timerInterval);
 
         const q = questions[currentQuestionIndex];
         const isCorrect = q.options[selectedIndex].isCorrect;
         const optionBtns = document.getElementById("optionsContainer").children;
 
-        // Calculate score
+        // Calculate score: fast poäng för rätt svar, 0 för fel svar
         let pointsEarned = 0;
         if (isCorrect) {
           correctCount++;
-          // Speed bonus: up to 50 extra points based on remaining seconds
-          const speedBonus = Math.round((timerSeconds / 300) * 50);
-          pointsEarned = 100 + speedBonus;
+          pointsEarned = POINTS_PER_CORRECT;
           score += pointsEarned;
           playSound("correct");
         } else {
@@ -1200,33 +1226,7 @@ document.getElementById("timerText").innerText =
         showFeedback(isCorrect, q.explanation, pointsEarned);
       }
 
-      function handleTimeOut() {
-        if (answered) return;
-        answered = true;
-        wrongCount++;
-        playSound("wrong");
-
-        const q = questions[currentQuestionIndex];
-        const optionBtns = document.getElementById("optionsContainer").children;
-
-        Array.from(optionBtns).forEach((btn, idx) => {
-          btn.disabled = true;
-          btn.classList.add("cursor-default", "opacity-40");
-          if (q.options[idx].isCorrect) {
-            btn.className =
-              "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 opacity-100";
-          }
-        });
-
-        showFeedback(false, `Tiden tog slut! ${q.explanation}`, 0, true);
-      }
-
-      function showFeedback(
-        isCorrect,
-        explanation,
-        pointsEarned,
-        isTimeout = false,
-      ) {
+      function showFeedback(isCorrect, explanation, pointsEarned) {
         const feedbackContainer = document.getElementById("feedbackContainer");
         const feedbackIcon = document.getElementById("feedbackIcon");
         const feedbackTitle = document.getElementById("feedbackTitle");
@@ -1241,11 +1241,6 @@ document.getElementById("timerText").innerText =
             "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
           feedbackIcon.innerText = "🎉";
           feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
-        } else if (isTimeout) {
-          feedbackContainer.className =
-            "mt-6 p-5 rounded-2xl border-2 border-amber-300 bg-amber-50/90 text-amber-950 transition-all duration-300";
-          feedbackIcon.innerText = "⏰";
-          feedbackTitle.innerText = "Tiden tog slut!";
         } else {
           feedbackContainer.className =
             "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
@@ -1274,7 +1269,6 @@ document.getElementById("timerText").innerText =
       }
 
       function showResults() {
-        clearInterval(timerInterval);
         document.getElementById("gameScreen").classList.add("hidden");
         document.getElementById("gameScreen").classList.remove("flex");
         document.getElementById("resultScreen").classList.remove("hidden");
@@ -1284,6 +1278,10 @@ document.getElementById("timerText").innerText =
         document.getElementById("finalWrong").innerText = wrongCount;
 
         const percentage = Math.round((correctCount / questions.length) * 100);
+
+        document.getElementById("resultSummaryText").innerText =
+          `Du fick ${correctCount} av ${questions.length} rätt (${percentage} %).`;
+
         const encouragementText = document.getElementById("encouragementText");
 
         if (percentage >= 85) {
@@ -1296,6 +1294,8 @@ document.getElementById("timerText").innerText =
           encouragementText.innerText =
             "Bra kämpat! Försök igen och läs extra noga om målgrupper, kundbeteende och geografisk/demografisk indelning.";
         }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       // SHARE MODAL UTILITIES
@@ -1347,6 +1347,105 @@ document.getElementById("timerText").innerText =
               .classList.remove("hidden");
           });
       }
+
+      // FILTER: ELEVEN VÄLJER FRÅGETYP
+      function countType(type) {
+        return allQuestions.filter((q) => q.type === type).length;
+      }
+
+      function buildTypeFilter() {
+        const container = document.getElementById("typeFilter");
+        container.innerHTML = "";
+
+        const types = [
+          ...TYPE_ORDER.filter((t) => countType(t) > 0),
+          ...[...new Set(allQuestions.map((q) => q.type))].filter(
+            (t) => !TYPE_ORDER.includes(t),
+          ),
+        ];
+
+        types.forEach((type) => {
+          const info = TYPE_INFO[type] || { icon: "❓", hint: "" };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.type = type;
+          btn.onclick = () => toggleType(type);
+          btn.innerHTML = `
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>
+          `;
+          container.appendChild(btn);
+        });
+
+        updateFilterUI();
+      }
+
+      function toggleType(type) {
+        if (selectedTypes.has(type)) {
+          selectedTypes.delete(type);
+        } else {
+          selectedTypes.add(type);
+        }
+        updateFilterUI();
+      }
+
+      function selectAllTypes() {
+        selectedTypes = new Set(allQuestions.map((q) => q.type));
+        updateFilterUI();
+      }
+
+      function clearTypes() {
+        selectedTypes = new Set();
+        updateFilterUI();
+      }
+
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach((btn) => {
+          const on = selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed", on);
+          btn.className =
+            "btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer " +
+            (on
+              ? "bg-sage-700 border-sage-700 text-white shadow-md"
+              : "bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display = on ? "flex" : "none";
+          btn.querySelector(".chip-hint").className =
+            "chip-hint block text-xs " + (on ? "text-sage-200" : "text-gray-500");
+          btn.querySelector(".chip-count").className =
+            "chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg " +
+            (on ? "bg-sage-800 text-white" : "bg-beige-100 text-sage-800");
+        });
+
+        const total = allQuestions.filter((q) =>
+          selectedTypes.has(q.type),
+        ).length;
+
+        document.getElementById("startQuestionCount").innerText =
+          `${total} Frågor`;
+        document.getElementById("filterSummary").innerText =
+          total === 0
+            ? "Välj minst en frågetyp för att starta"
+            : `${total} ${total === 1 ? "fråga vald" : "frågor valda"}`;
+
+        const startBtn = document.getElementById("startBtn");
+        startBtn.disabled = total === 0;
+        startBtn.classList.toggle("opacity-50", total === 0);
+        startBtn.classList.toggle("cursor-not-allowed", total === 0);
+      }
+
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      buildTypeFilter();
     </script>
   </body>
 </html>

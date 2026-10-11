@@ -1,4 +1,5 @@
-/* BUTIKEN INFÖR LAGEN – lärspel. Ärende -> val -> rätt/fel -> analysfråga -> nästa. */
+/* BUTIKEN INFÖR LAGEN – lärspel.
+   Flöde: ärende -> 1. analys (vad handlar ärendet om?) -> 2. svar till kunden -> feedback -> nästa. */
 
 const K = "https://www.konsumentverket.se/";
 const LAW = {
@@ -12,9 +13,12 @@ const LAW = {
   saker:   ["Produktsäkerhet", K + "omrade/produktsakerhet/"],
   ce:      ["CE-märkning", K + "omrade/produktsakerhet/"],
   mat:     ["Livsmedel och allergener", "https://www.livsmedelsverket.se/"],
-  gdpr:    ["Personuppgifter (GDPR)", "https://www.imy.se/"],
+  gdpr:    ["Personuppgifter (GDPR)", "https://www.konsumentverket.se/om-oss/behandling-av-personuppgifter/#2WUZmiddPP7CK8q9oMMM1e"],
   arn:     ["ARN – när butik och kund är oense", "https://www.arn.se/konsument/"]
 };
+
+/* Områden som lätt förväxlas. Då visas inte båda i samma analysfråga. */
+const RELATED = { kkl: "rekl", rekl: "kkl" };
 
 const STORES = {
   fashion: "Klädbutik",
@@ -22,7 +26,9 @@ const STORES = {
   digital: "Digitalbutik"
 };
 
-/* [kund, ämne, kunden säger, RÄTT svar, fel svar 1, fel svar 2, förklaring, lag] */
+/* [kund, ämne, kunden säger, RÄTT svar, fel svar 1, fel svar 2, förklaring, lag]
+   OBS: "ämne" (index 1) visas inte för eleven under spelet, eftersom det avslöjar svaret på analysfrågan.
+   Det används bara i slutresultatet. */
 const CASES = {
   fashion: [
     ["Elin","Reklamation","Dragkedjan i min jacka gick sönder efter tre veckor. Jag vill reklamera den.",
@@ -185,7 +191,11 @@ function showScreen(id) {
 }
 
 function freshState() {
-  return { name: "", store: null, i: 0, rep: 100, know: 0, solved: 0, wrong: [], answered: false, analysed: false };
+  return {
+    name: "", store: null, cases: [], i: 0,
+    rep: 100, know: 0, solved: 0, wrong: [],
+    stage: "analysis"   // "analysis" -> "reply" -> "done"
+  };
 }
 
 function startGame() {
@@ -211,104 +221,123 @@ function dash() {
   $("knowledge").textContent = S.know;
   $("solved").textContent = S.solved;
   $("storeName").textContent = STORES[S.store];
-  $("progressBar").style.width = `${(S.i / S.cases.length) * 100}%`;
+  $("progressBar").style.width = `${(S.solved / S.cases.length) * 100}%`;
 }
 
+/* ---------- Visa ett nytt ärende (steg 1 först) ---------- */
 function loadCase() {
   const c = S.cases[S.i];
-  S.answered = false;
-  S.analysed = false;
-  S.wasRight = false;
+  S.stage = "analysis";
 
   $("gameStep").textContent = `ÄRENDE ${S.i + 1} AV ${S.cases.length}`;
   $("customerName").textContent = c[0];
-  $("customerType").textContent = c[1];
   $("customerAvatar").textContent = c[0][0];
-  $("customerSpeaker").textContent = c[0] + ":";
+  $("customerSpeaker").textContent = c[0] + " säger:";
   $("customerMessage").textContent = c[2];
+
+  // Nollställ steg 2 och feedback så att inget svar syns i förväg
+  $("analysisResult").textContent = "";
+  $("analysisResult").className = "step-result";
+  $("stepReply").style.display = "none";
+  $("choiceArea").innerHTML = "";
   $("feedback").className = "feedback-card";
-  $("analysis").className = "feedback-card";
-  $("nextBtn").style.display = "none";
   $("sourceLink").style.display = "none";
 
+  buildAnalysis(c);
+  dash();
+}
+
+/* ---------- STEG 1: Vad handlar ärendet om? ---------- */
+function buildAnalysis(c) {
+  const correct = c[7];
+  const pool = [...new Set(S.cases.map(x => x[7]))]
+    .filter(k => k !== correct && k !== RELATED[correct]);
+  const options = shuffle([correct, ...shuffle(pool).slice(0, 2)]);
+
+  const box = $("analysisChoices");
+  box.innerHTML = "";
+  options.forEach(k => {
+    const b = document.createElement("button");
+    b.className = "choice";
+    b.dataset.key = k;
+    b.textContent = LAW[k][0];
+    b.addEventListener("click", () => analyse(k === correct, b, c));
+    box.appendChild(b);
+  });
+}
+
+function analyse(ok, btn, c) {
+  if (S.stage !== "analysis") return;
+  S.stage = "reply";
+
+  document.querySelectorAll("#analysisChoices .choice").forEach(b => {
+    b.disabled = true;
+    if (b.dataset.key === c[7]) b.classList.add("right");
+  });
+  if (!ok) btn.classList.add("wrong");
+
+  if (ok) S.know += 1; else S.rep = clamp(S.rep - 3, 0, 100);
+
+  const res = $("analysisResult");
+  res.className = "step-result " + (ok ? "ok" : "no");
+  res.textContent = ok
+    ? "✔ Rätt! Ärendet handlar om: " + LAW[c[7]][0] + "."
+    : "✘ Fel. Ärendet handlar om: " + LAW[c[7]][0] + ".";
+
+  buildReply(c);
+  $("stepReply").style.display = "block";
+  $("stepReply").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  dash();
+}
+
+/* ---------- STEG 2: Hur svarar du kunden? ---------- */
+function buildReply(c) {
   const opts = shuffle([{ t: c[3], ok: true }, { t: c[4], ok: false }, { t: c[5], ok: false }]);
   const area = $("choiceArea");
   area.innerHTML = "";
   opts.forEach((o, idx) => {
     const b = document.createElement("button");
     b.className = "choice";
+    b.dataset.ok = o.ok ? "1" : "0";
     b.innerHTML = `<strong>${"ABC"[idx]}</strong> ${o.t}`;
-    b.addEventListener("click", () => answer(o.ok, b));
+    b.addEventListener("click", () => answer(o.ok, b, c));
     area.appendChild(b);
   });
-  dash();
 }
 
-function answer(ok, btn) {
-  if (S.answered) return;
-  S.answered = true;
-  S.wasRight = ok;
-  const c = S.cases[S.i];
+function answer(ok, btn, c) {
+  if (S.stage !== "reply") return;
+  S.stage = "done";
 
-  document.querySelectorAll(".choice").forEach(b => (b.disabled = true));
-  btn.classList.add(ok ? "right" : "wrong");
+  document.querySelectorAll("#choiceArea .choice").forEach(b => {
+    b.disabled = true;
+    if (b.dataset.ok === "1") b.classList.add("right");
+  });
+  if (!ok) btn.classList.add("wrong");
 
   if (ok) { S.know += 1; }
   else { S.rep = clamp(S.rep - 8, 0, 100); S.wrong.push(c); }
   S.solved++;
 
   $("feedback").className = `feedback-card show ${ok ? "good" : "bad"}`;
-  $("feedbackTitle").textContent = ok ? "✔ Rätt!" : "✘ Fel";
+  $("feedbackTitle").textContent = ok ? "✔ Rätt svar!" : "✘ Fel svar";
   $("feedbackText").textContent = ok
     ? c[6]
     : "Det svaret var inte bäst. Rätt svar var: " + c[3] + " " + c[6];
-
-  showAnalysis(c);
-  dash();
-  $("feedback").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function showAnalysis(c) {
-  const used = [...new Set(S.cases.map(x => x[7]))].filter(k => k !== c[7]);
-  const options = shuffle([c[7], ...shuffle(used).slice(0, 2)]);
-  $("analysis").className = "feedback-card show warn";
-  $("analysisResult").textContent = "";
-  const box = $("analysisChoices");
-  box.innerHTML = "";
-  options.forEach(k => {
-    const b = document.createElement("button");
-    b.className = "choice";
-    b.textContent = LAW[k][0];
-    b.addEventListener("click", () => analyse(k === c[7], b, c));
-    box.appendChild(b);
-  });
-}
-
-function analyse(ok, btn, c) {
-  if (S.analysed) return;
-  S.analysed = true;
-  document.querySelectorAll("#analysisChoices .choice").forEach(b => (b.disabled = true));
-  btn.classList.add(ok ? "right" : "wrong");
-
-  if (ok) S.know += 1; else S.rep = clamp(S.rep - 3, 0, 100);
-
-  $("analysisResult").textContent = ok
-    ? "✔ Rätt analys! Ärendet handlar om " + LAW[c[7]][0] + "."
-    : "✘ Fel. Ärendet handlar om " + LAW[c[7]][0] + ".";
 
   const link = $("sourceLink");
   link.href = LAW[c[7]][1];
   link.textContent = "Läs mer: " + LAW[c[7]][0];
   link.style.display = "inline-block";
 
-  const next = $("nextBtn");
-  next.textContent = S.i === S.cases.length - 1 ? "Visa resultat" : "Nästa ärende";
-  next.style.display = "inline-block";
+  $("nextBtn").textContent = S.i === S.cases.length - 1 ? "Visa resultat" : "Nästa ärende";
+
   dash();
+  $("feedback").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function nextCase() {
-  if (!S.analysed) return;
+  if (S.stage !== "done") return;
   if (S.i < S.cases.length - 1) { S.i++; loadCase(); window.scrollTo({ top: 0, behavior: "smooth" }); }
   else showResult();
 }
