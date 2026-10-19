@@ -1,0 +1,70 @@
+/* CASE – extra CSS för alla case i mappen "case".
+   Bygger på ../css/styles.css (game-header, start-card, shop, answer-button m.fl.).
+   Här finns bara det som styles.css inte redan har. */
+
+#gameScreen .shop-scene { min-height: 0; padding: 22px 30px; }
+#gameScreen .shop-sign { margin-bottom: 10px; }
+
+.mood { margin-top: 12px; font-size: 14px; color: #555; }
+.mood .progress-bar { margin-top: 5px; }
+
+.casefile {
+  background: #faf8f3;
+  border: 1px dashed #cfc9b8;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  font-size: 15px;
+}
+.casefile h4 { margin: 0 0 6px; font-family: "Cardo", serif; color: #285b43; font-size: 17px; }
+.casefile ul { margin: 0; padding-left: 20px; line-height: 1.7; }
+
+.story { margin: 0 0 16px; color: #555; line-height: 1.7; font-style: italic; }
+
+.answer-button.picked { border-color: #285b43; background: #f0f6f1; }
+
+.reflect, .final {
+  margin-top: 20px;
+  padding: 18px;
+  background: #faf8f3;
+  border: 1px solid #ddd8cd;
+  border-radius: 12px;
+  text-align: left;
+}
+.reflect { display: none; }
+.reflect p, .final p { line-height: 1.6; margin: 8px 0 12px; }
+.reflect textarea, .final textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: 12px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  font: 17px/1.5 "Times New Roman", serif;
+  resize: vertical;
+}
+.reflect textarea:focus, .final textarea:focus { outline: 2px solid #9fbea9; border-color: #376b50; }
+.wordcount { font-size: 14px; color: #777; margin: 6px 0 12px; }
+
+.feedback-text p { margin: 0 0 10px; }
+.next-button { font-size: 17px; }
+
+.primary-button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.button-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.button-row .secondary { background: #e6efea; color: #285b43; }
+.copy-msg { margin-top: 12px; color: #285b43; font-weight: bold; min-height: 20px; }
+
+.report-item { text-align: left; border-top: 1px solid #e5e1d6; padding: 12px 0; line-height: 1.6; }
+.report-item p { margin: 4px 0 0; }
+.rating {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 10px;
+  border: 1px solid #9bb9a5;
+  border-radius: 99px;
+  font-size: 13px;
+  color: #285b43;
+}
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+}

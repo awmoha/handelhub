@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case: Reklamationen utan kvitto – Försäljning & Service 1</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../../css/styles.css" />
+    <link rel="stylesheet" href="./case.css" />
+  </head>
+
+  <body>
+    <div class="game-wrapper">
+      <!-- HEADER -->
+      <header class="game-header">
+        <div class="brand">
+          <div class="brand-logo">C</div>
+          <div>
+            <h1>Försäljning & Service 1</h1>
+            <p>Case: Reklamationen utan kvitto</p>
+          </div>
+        </div>
+
+        <div class="score-box no-print">
+          <span class="score-label">Poäng</span>
+          <span class="score" id="score">0</span>
+        </div>
+      </header>
+
+      <!-- START -->
+      <main class="screen" id="startScreen">
+        <div class="start-card">
+          <h2>Reklamationen utan kvitto</h2>
+
+          <p>
+            Du arbetar som säljare i Sportbutiken Aktiv. En arg kund kommer med
+            en trasig jacka. Hon har tappat kvittot och vill ha pengarna
+            tillbaka. Vad gör du?
+          </p>
+
+          <p>
+            Spelet har 7 scener. I varje scen väljer du vad du gör. Sedan
+            skriver du <strong>varför</strong> du valde så. Därefter ser du vad
+            som händer och lär dig mer. Svaren är inte alltid lätta: flera kan
+            låta bra, men bara ett är bäst.
+          </p>
+
+          <p><strong>Det finns ingen tid.</strong> Ta den tid du behöver och tänk efter.</p>
+
+          <input
+            type="text"
+            id="playerName"
+            class="name-input"
+            placeholder="Skriv ditt namn"
+            maxlength="30"
+          />
+
+          <br />
+
+          <button class="primary-button" onclick="startGame()">Börja spela</button>
+        </div>
+      </main>
+
+      <!-- SPELET (dolt tills spelet startar) -->
+      <main class="screen" id="gameScreen" style="display: none;">
+        <div class="game-top">
+          <div class="game-top-row">
+            <div class="game-title" id="sceneTitle"></div>
+            <div class="progress-text" id="sceneNumber"></div>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="mood">
+            Kundens förtroende: <strong id="moodText"></strong>
+            <div class="progress-bar">
+              <div class="progress-fill" id="moodFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="shop">
+          <div class="shop-scene">
+            <div class="shop-sign">Sportbutiken Aktiv</div>
+
+            <div class="characters">
+              <div class="character">
+                <div class="character-figure" id="customerFigure">😕</div>
+                <div class="character-name">Kund: <span id="customerName"></span></div>
+              </div>
+
+              <div class="character">
+                <div class="character-figure">🧑‍💼</div>
+                <div class="character-name">
+                  <span id="playerDisplay">Du</span> (säljare)
+                </div>
+                <div class="counter">KASSA</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dialog-area">
+            <div class="casefile">
+              <h4>Ärendekort – det här vet du</h4>
+              <ul id="caseFacts"></ul>
+            </div>
+
+            <p class="story" id="story"></p>
+
+            <div class="customer-message">
+              <div class="customer-name" id="speaker"></div>
+              <div class="customer-text" id="say"></div>
+            </div>
+
+            <div class="question-title" id="askTitle"></div>
+            <div class="answer-list" id="answers"></div>
+
+            <!-- REFLEKTION (efter att eleven har valt) -->
+            <div class="reflect" id="reflectBox">
+              <strong>Reflektera innan du går vidare</strong>
+              <p id="reflectPrompt"></p>
+              <textarea
+                id="reflectText"
+                placeholder="Skriv med egna ord. Förklara varför du valde så."
+              ></textarea>
+              <div class="wordcount" id="wordCount"></div>
+              <button class="primary-button" id="reflectBtn" onclick="submitReflection()">
+                Skicka och se vad som händer
+              </button>
+            </div>
+
+            <!-- FEEDBACK (efter reflektionen) -->
+            <div class="feedback" id="feedback">
+              <div class="feedback-title" id="fbTitle"></div>
+              <div class="feedback-text">
+                <p><strong>Det här händer:</strong> <span id="fbReaction"></span></p>
+                <p><strong>Förklaring:</strong> <span id="fbText"></span></p>
+                <p id="fbBest"></p>
+                <p><strong>Kunskap att ta med:</strong> <span id="fbKnow"></span></p>
+                <p><strong>Tänk vidare:</strong> <span id="fbThink"></span></p>
+              </div>
+            </div>
+
+            <button class="next-button" id="nextBtn" onclick="nextScene()"></button>
+          </div>
+        </section>
+      </main>
+
+      <!-- RESULTAT (dolt tills spelet är slut) -->
+      <main class="screen" id="resultScreen" style="display: none;">
+        <div class="result-card">
+          <h2>Casen är klart!</h2>
+          <p>Bra jobbat, <strong id="resultName"></strong>.</p>
+
+          <div class="final-score" id="finalScore"></div>
+          <div class="result-info" id="resultInfo"></div>
+          <div class="result-message" id="resultMessage"></div>
+
+          <div id="reportList"></div>
+
+          <div class="final">
+            <strong id="finalPrompt"></strong>
+            <textarea id="finalReflect" placeholder="Skriv din slutreflektion här."></textarea>
+            <div class="wordcount" id="finalCount"></div>
+          </div>
+
+          <div class="button-row no-print">
+            <button class="primary-button" id="copyBtn" onclick="copyReport()" disabled>
+              Kopiera min rapport
+            </button>
+            <button class="primary-button secondary" id="printBtn" onclick="window.print()" disabled>
+              Skriv ut
+            </button>
+            <button class="primary-button secondary" onclick="restartGame()">Spela igen</button>
+          </div>
+          <div class="copy-msg" id="copyMsg"></div>
+        </div>
+      </main>
+    </div>
+
+    <footer>Reklamationen utan kvitto · Ett case för Försäljning och service</footer>
+
+    <script src="./scenes.js"></script>
+    <script src="./case.js"></script>
+  </body>
+</html>
