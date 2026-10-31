@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz – Försäljning och Service 1 • Kap 9–10</title>
+  <title>Quiz – Försäljning och Service 1 • Kap 6–8</title>
 
   <link rel="stylesheet" href="../../css/styles.css">
 
@@ -106,7 +106,7 @@
             Försäljning & Service 1
           </h1>
           <p class="text-xs text-gray-500 font-medium">
-            Interaktivt Klassrumsquiz • Kap 9–10
+            Interaktivt Klassrumsquiz • Kap 6–8
           </p>
         </div>
       </div>
@@ -162,7 +162,8 @@
           </h2>
 
           <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Testa dina kunskaper i kapitel 9 och 10. Svara på frågor om planering, utvärdering, service och yrkesetik!
+            Testa dina kunskaper i kapitel 6 till 8. Svara på frågor om
+            kommunikation, säljsamtal, e-handel, AI, omnikanal och mycket mer!
           </p>
 
           <!-- Feature badges -->
@@ -170,7 +171,7 @@
 
             <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
               <div class="text-xl mb-1">❓</div>
-              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">15 Frågor</div>
+              <div class="font-semibold text-sm text-sage-900" id="startQuestionCount">21 Frågor</div>
               <div class="text-xs text-gray-500">Blandade nivåer</div>
             </div>
 
@@ -226,7 +227,7 @@
 
             <div class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800">
               <span>📋</span>
-              <span id="filterSummary">15 frågor valda</span>
+              <span id="filterSummary">21 frågor valda</span>
             </div>
           </div>
 
@@ -250,7 +251,7 @@
       </section>
 
       <!-- SCREEN 2: GAMEPLAY SCREEN -->
-      <section id="gameScreen" class="flex-col gap-6" style="display: none;">
+      <section id="gameScreen" class="hidden flex-col gap-6">
 
         <!-- Top status bar -->
         <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -258,14 +259,14 @@
           <!-- Question indicator & visual progress -->
           <div class="w-full sm:w-auto flex-grow max-w-md">
             <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
-              <span id="questionNumberText">Fråga 1 av 15</span>
+              <span id="questionNumberText">Fråga 1 av 21</span>
             </div>
 
             <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
               <div
                 id="progressBarFill"
                 class="bg-sage-700 h-full transition-all duration-300 rounded-full"
-                style="width: 3%"
+                style="width: 4.76%"
               ></div>
             </div>
           </div>
@@ -297,7 +298,7 @@
                 id="categoryTag"
                 class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase"
               >
-                Begrepp
+                Gåta
               </span>
 
               <span
@@ -316,7 +317,7 @@
             </h3>
           </div>
 
-          <!-- Answer Option Buttons -->
+          <!-- 4 Answer Option Buttons -->
           <div
             id="optionsContainer"
             class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"
@@ -370,8 +371,7 @@
       <!-- SCREEN 3: RESULT SCREEN -->
       <section
         id="resultScreen"
-        class="bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden"
-        style="display: none;"
+        class="hidden bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden"
       >
         <div class="max-w-xl mx-auto">
 
@@ -511,176 +511,246 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Hjälpfunktion: första alternativet i listan är ALLTID rätt svar.
-    // Spelet blandar ordningen automatiskt när eleven startar.
-    const Q = (chapter, type, question, opts, explanation) => ({
-      chapter,
-      type,
-      question,
-      options: opts.map((text, i) => ({ text, isCorrect: i === 0 })),
-      explanation
-    });
-
-    const K9 = "Kapitel 9 – Planera och utvärdera service och försäljning";
-    const K10 = "Kapitel 10 – Yrkesetik i butiken";
-
     const allQuestions = [
+      // KAPITEL 6
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Begrepp", question: "Vad betyder attityd i kundservice?",
+        options: [
+          { text: "Hur du ser på eller reagerar på en situation", isCorrect: true },
+          { text: "Vilka produkter butiken säljer", isCorrect: false },
+          { text: "Hur många kunder som besöker butiken", isCorrect: false },
+          { text: "Vilken färg butikens skylt har", isCorrect: false }
+        ],
+        explanation: "Attityd handlar om hur en person ser på eller reagerar på en situation. En positiv attityd kan påverka kundens upplevelse positivt."
+      },
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Begrepp", question: "Vad är värderingar?",
+        options: [
+          { text: "Vad vi tycker är rätt eller fel", isCorrect: true },
+          { text: "Hur snabbt vi arbetar", isCorrect: false },
+          { text: "Hur en butik placerar sina varor", isCorrect: false },
+          { text: "Vilken kanal kunden använder", isCorrect: false }
+        ],
+        explanation: "Värderingar är våra uppfattningar om vad som är rätt eller fel. De formas bland annat under uppväxten, i skolan och på jobbet."
+      },
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Jämförelse", question: "Vad är skillnaden mellan information och kommunikation?",
+        options: [
+          { text: "Information är något någon berättar eller visar, medan kommunikation innebär att personer samtalar med varandra", isCorrect: true },
+          { text: "Information och kommunikation betyder alltid exakt samma sak", isCorrect: false },
+          { text: "Information sker bara på internet", isCorrect: false },
+          { text: "Kommunikation kan bara ske genom reklam", isCorrect: false }
+        ],
+        explanation: "I materialet beskrivs information som något någon berättar eller visar. Kommunikation innebär att två eller flera personer samtalar med varandra."
+      },
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Begrepp", question: "Vad betyder interaktion?",
+        options: [
+          { text: "Att människor påverkar och reagerar på varandra", isCorrect: true },
+          { text: "Att kunden alltid bestämmer priset", isCorrect: false },
+          { text: "Att en butik bara använder reklam", isCorrect: false },
+          { text: "Att säljaren arbetar utan kontakt med kunden", isCorrect: false }
+        ],
+        explanation: "Interaktion betyder att människor påverkar och reagerar på varandra när de möts. Kundmöten är ett exempel på interaktion."
+      },
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Begrepp", question: "Vad är verbalt språk?",
+        options: [
+          { text: "De ord vi använder när vi pratar", isCorrect: true },
+          { text: "Kroppens signaler utan ord", isCorrect: false },
+          { text: "Kläder och frisyr", isCorrect: false },
+          { text: "Hur långt det är till kunden", isCorrect: false }
+        ],
+        explanation: "Verbalt språk är orden vi använder när vi pratar. Exempel är att hälsa, ställa frågor, lyssna, svara, förklara och hjälpa."
+      },
+      {
+        chapter: "Kapitel 6 – Kommunikation inom försäljning och service",
+        type: "Situation", question: "Vilket är ett exempel på icke-verbalt språk?",
+        options: [
+          { text: "Ögonkontakt, kroppsspråk och leende", isCorrect: true },
+          { text: "Att förklara en produkt med ord", isCorrect: false },
+          { text: "Att läsa en produktbeskrivning", isCorrect: false },
+          { text: "Att skriva en inköpslista", isCorrect: false }
+        ],
+        explanation: "Icke-verbalt språk handlar om kroppsspråk och andra signaler som inte är själva orden, till exempel ögon, händer, hållning och leende."
+      },
 
-      // ======================= KAPITEL 9 =======================
-      Q(K9, "Gåta",
-        "Jag berättar vad ett företag säljer och till vem. Vad är jag?",
-        [
-          "Affärsidé",
-          "Profil",
-          "Servicenivå",
-          "Kringtjänst"
+      // KAPITEL 7
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Begrepp", question: "Vilken ordning har säljsamtalets fyra faser?",
+        options: [
+          { text: "Kontakt → analys → utbyte → avslut", isCorrect: true },
+          { text: "Avslut → kontakt → analys → utbyte", isCorrect: false },
+          { text: "Analys → avslut → kontakt → utbyte", isCorrect: false },
+          { text: "Utbyte → analys → avslut → kontakt", isCorrect: false }
         ],
-        "Affärsidén berättar vad företaget säljer och till vem. Exempel: Sportbutiken Aktiv säljer löparkläder till personer som tränar."
-      ),
-      Q(K9, "Situation",
-        "En butik är ljus, spelar snabb musik och personalen har sportkläder. Vad visar butiken på det sättet?",
-        [
-          "Sin profil – hur kunderna ser butiken",
-          "Sin affärsidé – vad butiken säljer",
-          "Sin servicenivå – hur mycket hjälp man får",
-          "Sin kundnöjdhet – hur nöjda kunderna är"
+        explanation: "Säljsamtalet går enligt materialet genom fyra faser: kontakt, analys, utbyte och avslut."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Situation", question: "Vad är målet med kontaktfasen?",
+        options: [
+          { text: "Att hälsa och skapa den första kontakten med kunden", isCorrect: true },
+          { text: "Att avsluta samtalet direkt", isCorrect: false },
+          { text: "Att alltid sälja den dyraste produkten", isCorrect: false },
+          { text: "Att undvika ögonkontakt", isCorrect: false }
         ],
-        "Profilen är butikens ansikte utåt. Det är så kunderna uppfattar butiken. Personalen visar profilen."
-      ),
-      Q(K9, "Jämförelse",
-        "Vad är skillnaden mellan att fronta och kringtjänster?",
-        [
-          "Att fronta är att ställa varor snyggt med framsidan utåt. En kringtjänst är en extra tjänst, till exempel kafé eller hemleverans.",
-          "Att fronta är en extra tjänst, till exempel kafé. En kringtjänst är att ställa varor snyggt med framsidan utåt.",
-          "Det är samma sak. Båda betyder att butiken har ett kafé.",
-          "Att fronta görs bara på lagret. Kringtjänster finns bara på internet."
+        explanation: "I kontaktfasen ska säljaren visa att kunden blir sedd och skapa en positiv atmosfär, till exempel genom hälsning, tillgänglighet och ögonkontakt."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Jämförelse", question: "Vilken fråga är en öppen fråga?",
+        options: [
+          { text: "Vad letar du efter för typ av jacka?", isCorrect: true },
+          { text: "Vill du ha den svarta jackan?", isCorrect: false },
+          { text: "Är jackan till dig?", isCorrect: false },
+          { text: "Kostar jackan 500 kronor?", isCorrect: false }
         ],
-        "Att fronta gör att butiken ser snygg ut och kunden hittar lättare. Kringtjänster (fri hemleverans, kafé, hämta paket) ger kunden extra hjälp."
-      ),
-      Q(K9, "Situation",
-        "En kund är arg: 'Jag har väntat på min beställning i en vecka!' Vilket svar visar bäst servicekompetens?",
-        [
-          "'Jag förstår att du har väntat länge. Jag kontrollerar i datorn vad som har hänt.'",
-          "'Det är inte vårt fel. Leveransen brukar vara sen.'",
-          "'Kom tillbaka nästa vecka, då vet vi mer.'",
-          "'Du behöver inte vara arg, det är bara en beställning.'"
+        explanation: "En öppen fråga gör att kunden kan berätta mer. Frågor som börjar med till exempel vad eller hur kan öppna upp samtalet."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Situation", question: "Varför är det viktigt att lyssna aktivt i analysfasen?",
+        options: [
+          { text: "För att förstå kundens behov och önskemål", isCorrect: true },
+          { text: "För att säljaren ska kunna prata hela tiden", isCorrect: false },
+          { text: "För att kunden inte ska få ställa frågor", isCorrect: false },
+          { text: "För att undvika att prata om produkten", isCorrect: false }
         ],
-        "Servicekompetens är att hålla sig lugn, lyssna, förstå problemet och försöka lösa det direkt."
-      ),
-      Q(K9, "Begrepp",
-        "Vad betyder kundnytta?",
-        [
-          "Hur varan hjälper kunden i livet",
-          "Hur mycket varan kostar för butiken",
-          "Hur många varor butiken har i lager",
-          "Hur snyggt varan står på hyllan"
+        explanation: "I analysfasen frågar och lyssnar säljaren för att förstå vad kunden behöver och önskar. Man ska inte gissa – fråga och lyssna."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Situation", question: "Vad ska ett förslag i utbytesfasen bygga på?",
+        options: [
+          { text: "Kundens behov", isCorrect: true },
+          { text: "Vad säljaren själv tycker om", isCorrect: false },
+          { text: "Den dyraste varan i butiken", isCorrect: false },
+          { text: "Vad som är längst bort på hyllan", isCorrect: false }
         ],
-        "Kundnytta är det som varan ger kunden. Exempel: Kunden fryser om fötterna (behov). Varma vinterskor ger varma och torra fötter (nytta)."
-      ),
-      Q(K9, "Jämförelse",
-        "Vad är skillnaden mellan öppet köp och bytesrätt?",
-        [
-          "Öppet köp ger pengarna tillbaka. Bytesrätt ger en annan vara eller ett tillgodokvitto.",
-          "Öppet köp ger en annan vara eller ett tillgodokvitto. Bytesrätt ger pengarna tillbaka.",
-          "Öppet köp är en lag. Bytesrätt är frivilligt.",
-          "Båda ger alltid pengarna tillbaka enligt lag."
+        explanation: "I utbytesfasen ska säljaren ge ett förslag som passar kundens behov. Produktkunskap hjälper säljaren att visa rätt lösning."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Situation", question: "Vad ska säljaren göra om kunden inte köper?",
+        options: [
+          { text: "Avsluta professionellt och välkomna kunden tillbaka", isCorrect: true },
+          { text: "Försöka tvinga kunden att köpa", isCorrect: false },
+          { text: "Bli arg på kunden", isCorrect: false },
+          { text: "Ignorera kunden direkt", isCorrect: false }
         ],
-        "Ingen lag tvingar fysiska butiker att erbjuda öppet köp eller bytesrätt. Företaget bestämmer själv sina villkor, och varan måste oftast vara oanvänd."
-      ),
-      Q(K9, "Gåta",
-        "Jag låtsas vara en vanlig kund, men i smyg testar jag personalens service. Vem är jag?",
-        [
-          "Mystery shopper",
-          "Säljare",
-          "Leverantör",
-          "Servicechef"
+        explanation: "Ett bra säljsamtal betyder inte att kunden måste köpa idag. Ett professionellt avslut visar respekt och kan göra att kunden gärna kommer tillbaka."
+      },
+      {
+        chapter: "Kapitel 7 – Säljsamtalet",
+        type: "Situation", question: "Varför är produktkunskap viktig i utbytesfasen?",
+        options: [
+          { text: "Säljaren behöver kunna koppla produktens egenskaper till kundens behov", isCorrect: true },
+          { text: "Säljaren ska kunna prata om helt andra produkter", isCorrect: false },
+          { text: "Säljaren behöver inte lyssna på kunden", isCorrect: false },
+          { text: "Säljaren ska alltid välja samma produkt åt alla kunder", isCorrect: false }
         ],
-        "En mystery shopper testar bemötande, hjälp och butikens utseende. Företaget använder en mystery shopper eftersom personalen kan svara det chefen vill höra."
-      ),
+        explanation: "Produktkunskap gör det möjligt att visa en lösning som passar kundens behov och förklara hur produkten kan hjälpa kunden."
+      },
 
-      // ======================= KAPITEL 10 =======================
-      Q(K10, "Jämförelse",
-        "Vad är skillnaden mellan etik och yrkesetik?",
-        [
-          "Etik handlar om rätt och fel i allmänhet. Yrkesetik handlar om hur du agerar rätt i ditt jobb.",
-          "Yrkesetik handlar om rätt och fel i allmänhet. Etik handlar om hur du agerar rätt i ditt jobb.",
-          "Etik gäller bara chefer. Yrkesetik gäller bara säljare.",
-          "Etik är en lag. Yrkesetik är bara en önskan."
+      // KAPITEL 8
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Gåta", question: "Vad betyder e-handel?",
+        options: [
+          { text: "Försäljning som sker via internet", isCorrect: true },
+          { text: "Försäljning som bara sker i en fysisk butik", isCorrect: false },
+          { text: "Försäljning utan kunder", isCorrect: false },
+          { text: "Försäljning som bara sker via telefon", isCorrect: false }
         ],
-        "Exempel på etik: Du hittar en plånbok och lämnar tillbaka den. Exempel på yrkesetik: Du ger kunden rätt information, även om kunden då inte köper."
-      ),
-      Q(K10, "Situation",
-        "Säljaren säger: 'Telefonen kostar bara 500 kronor!' men säger inte att abonnemanget kostar 100 kronor i månaden. Varför är det fel?",
-        [
-          "Säljaren gömmer viktig information om en extra kostnad",
-          "Priset på telefonen är för lågt",
-          "Säljaren pratar för snabbt med kunden",
-          "Säljaren får aldrig nämna priser"
+        explanation: "E-handel innebär att försäljning sker via internet. Kunden kan till exempel söka efter produkter, jämföra och köpa online."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Situation", question: "Vad kan en chatbot hjälpa en kund med?",
+        options: [
+          { text: "Att få svar på vanliga frågor och hjälp online", isCorrect: true },
+          { text: "Att automatiskt lämna den fysiska butiken", isCorrect: false },
+          { text: "Att alltid bestämma kundens budget", isCorrect: false },
+          { text: "Att ersätta alla produkter i en butik", isCorrect: false }
         ],
-        "En säljare får aldrig ljuga, vilseleda eller gömma viktig information. Ärlighet betyder rätt pris och tydliga villkor."
-      ),
-      Q(K10, "Situation",
-        "En kund är osäker och vill tänka efter. Vad gör en yrkesetisk säljare?",
-        [
-          "Säger att kunden får ta den tid hen behöver och att du finns här vid frågor",
-          "Säger att det är sista chansen att köpa varan",
-          "Följer efter kunden runt i butiken för att vara hjälpsam",
-          "Bestämmer åt kunden vilken vara som är bäst"
+        explanation: "En chatbot kan hjälpa kunder digitalt, till exempel genom att svara på frågor och ge information."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Begrepp", question: "Vad är en ambassadör i en digital kundresa?",
+        options: [
+          { text: "En person som pratar positivt om ett varumärke eller rekommenderar det", isCorrect: true },
+          { text: "En person som bara arbetar i butikens lager", isCorrect: false },
+          { text: "En person som bestämmer butikens öppettider", isCorrect: false },
+          { text: "En person som endast reparerar datorer", isCorrect: false }
         ],
-        "Kunden har alltid rätt att tänka efter. Säljaren ska ge tid, låta kunden bestämma själv och hålla lite avstånd."
-      ),
-      Q(K10, "Situation",
-        "Din kollega är nyfiken och frågar vad en kund köpte. Kunden har inte gett tillstånd. Vad svarar du?",
-        [
-          "'Det får jag inte berätta. Sekretessen gäller även mot kollegor.'",
-          "'Det går bra, vi jobbar ju på samma ställe.'",
-          "'Jag berättar om du lovar att inte säga det vidare.'",
-          "'Jag berättar bara kundens namn, inte vad hen köpte.'"
+        explanation: "I kapitel 8 används ambassadör för en person som är engagerad i ett varumärke och kan rekommendera det till andra."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Begrepp", question: "Vad innebär one-to-one-försäljning?",
+        options: [
+          { text: "Säljaren ger personlig hjälp till en enskild kund", isCorrect: true },
+          { text: "Säljaren pratar samtidigt med en stor grupp", isCorrect: false },
+          { text: "Kunden handlar utan någon kontakt alls", isCorrect: false },
+          { text: "Alla kunder får exakt samma erbjudande", isCorrect: false }
         ],
-        "Information om kunden får aldrig delas utan tillstånd. Sekretessen gäller även nyfikna kollegor."
-      ),
-      Q(K10, "Gåta",
-        "Jag är din tystnadsplikt om kunden. Vad är jag?",
-        [
-          "Sekretess",
-          "Integritet",
-          "Korruption",
-          "Yrkesetik"
+        explanation: "One-to-one betyder att säljaren möter eller hjälper en kund personligt. I materialet kopplas detta till personlig hjälp på nätet."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Begrepp", question: "Vad innebär one-to-many-försäljning?",
+        options: [
+          { text: "Säljaren presenterar eller säljer till många kunder samtidigt", isCorrect: true },
+          { text: "Säljaren hjälper exakt en kund åt gången", isCorrect: false },
+          { text: "Säljaren arbetar helt utan kunder", isCorrect: false },
+          { text: "Säljaren säljer bara en produkt per år", isCorrect: false }
         ],
-        "Sekretess är tystnadsplikt. Integritet är något annat: att kundens personliga information ska respekteras och skyddas, till exempel enligt GDPR."
-      ),
-      Q(K10, "Begrepp",
-        "Vad betyder korruption?",
-        [
-          "Att ge eller ta emot något för att få en otillåten fördel i affärer",
-          "Att ge kunden rabatt på varor som är trasiga",
-          "Att fråga en kollega om hjälp med ett svårt ärende",
-          "Att byta ut en trasig vara åt en kund"
+        explanation: "One-to-many innebär att säljaren kan nå många kunder samtidigt, till exempel genom en digital presentation eller livesändning."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Situation", question: "Vad är omnikanalförsäljning?",
+        options: [
+          { text: "Att flera försäljningskanaler samverkar kring kunden", isCorrect: true },
+          { text: "Att företaget bara använder en fysisk butik", isCorrect: false },
+          { text: "Att kunden aldrig får handla online", isCorrect: false },
+          { text: "Att alla digitala kanaler stängs när butiken öppnar", isCorrect: false }
         ],
-        "Korruption är att ge eller ta emot något för en otillåten fördel. Mutor kan vara pengar, resor eller dyra gåvor. Det är olagligt."
-      ),
-      Q(K10, "Situation",
-        "En leverantör säger: 'Om du väljer vårt företag till butiken får du en dyr present privat.' Vad är det här?",
-        [
-          "En muta – det är korruption och olagligt",
-          "En vanlig rabatt till butiken",
-          "Ett exempel på god kundservice",
-          "En tillåten gåva som alla anställda får ta emot"
+        explanation: "Omnikanalförsäljning innebär att företagets olika försäljnings- och kontaktkanaler samverkar, till exempel webb, app, sociala medier, chatbot och fysisk butik."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Jämförelse", question: "Vad är en showroom-butik i den digitala försäljningen?",
+        options: [
+          { text: "En plats där kunden kan prova eller uppleva produkten innan köp", isCorrect: true },
+          { text: "En butik där kunden aldrig får se produkterna", isCorrect: false },
+          { text: "Ett lager som bara används för leveranser", isCorrect: false },
+          { text: "En webbplats utan produktinformation", isCorrect: false }
         ],
-        "Som anställd ska du aldrig ta emot privata gåvor för affärsbeslut. Det är en muta."
-      ),
-      Q(K10, "Situation",
-        "Du vet inte vad som är rätt att göra i en situation. Vad är bästa första steg?",
-        [
-          "Pausa, fråga en kollega eller din chef och kontrollera reglerna",
-          "Gissa, så att kunden slipper vänta",
-          "Låta kunden bestämma vad som är rätt",
-          "Vänta tills kunden går hem"
+        explanation: "I showroom-konceptet får kunden uppleva eller prova produkten. Köpet kan sedan ske digitalt."
+      },
+      {
+        chapter: "Kapitel 8 – E-handel, AI och omnikanal",
+        type: "Situation", question: "Vad är en viktig skillnad mellan en fysisk butik och digital teknik i den 'fygitala' modellen?",
+        options: [
+          { text: "De kombineras för att skapa en sammanhängande försäljningsupplevelse", isCorrect: true },
+          { text: "Den fysiska butiken och internet får aldrig användas tillsammans", isCorrect: false },
+          { text: "Digital teknik betyder att kunden inte längre kan få service", isCorrect: false },
+          { text: "Fysisk butik betyder att alla digitala tjänster tas bort", isCorrect: false }
         ],
-        "Handlingsplan: 1. Tänk efter. 2. Fråga. 3. Följ reglerna. 4. Tänk på kunden. Att fråga är ett tecken på styrka, inte svaghet."
-      )
+        explanation: "Den fygitala modellen kombinerar fysisk butik och digital teknik för att skapa en sammanhängande försäljningsupplevelse."
+      }
     ];
 
+    // ===== INSTÄLLNINGAR =====
     const POINTS_PER_CORRECT = 100; // Fast poäng: lika många poäng för varje rätt svar
 
     let questions = [...allQuestions]; // de frågor som spelas (efter filter)
@@ -751,16 +821,12 @@
       }
     }
 
-    // Blandar bara svarsalternativen. Frågorna går i kapitelordning.
-    function shuffleOptionsOnly() {
-      questions.forEach((question) => shuffleArray(question.options));
-    }
+    function shuffleQuestions() {
+      shuffleArray(questions);
 
-    // Visa/dölj skärmar med inline-stil (fungerar även om CSS-filen har egna regler)
-    function showScreen(name) {
-      document.getElementById("startScreen").style.display = name === "start" ? "block" : "none";
-      document.getElementById("gameScreen").style.display = name === "game" ? "flex" : "none";
-      document.getElementById("resultScreen").style.display = name === "result" ? "block" : "none";
+      questions.forEach((question) => {
+        shuffleArray(question.options);
+      });
     }
 
     function startGame() {
@@ -770,19 +836,26 @@
       questions = allQuestions.filter((q) => selectedTypes.has(q.type));
       if (questions.length === 0) return;
 
-      shuffleArray(questions);
-      shuffleOptionsOnly();
+      shuffleQuestions();
+
       currentQuestionIndex = 0;
       score = 0;
       correctCount = 0;
       wrongCount = 0;
 
-      showScreen("game");
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("hidden");
+      document.getElementById("gameScreen").classList.add("flex");
+      document.getElementById("resultScreen").classList.add("hidden");
+
       document.getElementById("scoreText").innerText = "0";
 
       loadQuestion();
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
     function loadQuestion() {
@@ -794,8 +867,6 @@
         `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
 
       document.getElementById("categoryTag").innerText = q.type;
-      document.getElementById("hintBadge").innerText =
-        `${q.chapter.split(" – ")[0]} • 💡 Välj ett svar nedan`;
       document.getElementById("questionText").innerText = q.question;
 
       const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
@@ -841,14 +912,18 @@
 
       const q = questions[currentQuestionIndex];
       const isCorrect = q.options[selectedIndex].isCorrect;
+
       const optionBtns = document.getElementById("optionsContainer").children;
 
       let pointsEarned = 0;
 
       if (isCorrect) {
         correctCount++;
+
         pointsEarned = POINTS_PER_CORRECT;
+
         score += pointsEarned;
+
         playSound("correct");
       } else {
         wrongCount++;
@@ -909,13 +984,16 @@
           "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
 
         feedbackIcon.innerText = "💡";
-        feedbackTitle.innerText = "Inte riktigt!";
+        feedbackTitle.innerText = "Fel!";
       }
 
       feedbackExplanation.innerText = explanation;
 
       setTimeout(() => {
-        feedbackContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        feedbackContainer.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
       }, 100);
     }
 
@@ -930,7 +1008,9 @@
     }
 
     function showResults() {
-      showScreen("result");
+      document.getElementById("gameScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("flex");
+      document.getElementById("resultScreen").classList.remove("hidden");
 
       document.getElementById("finalScore").innerText = score;
       document.getElementById("finalCorrect").innerText = correctCount;
@@ -945,13 +1025,13 @@
 
       if (percentage >= 85) {
         encouragementText.innerText =
-          "Strålande resultat! Du visar mycket god förståelse för kapitel 9–10.";
+          "Strålande resultat! Du visar mycket god förståelse för kapitel 6–8.";
       } else if (percentage >= 60) {
         encouragementText.innerText =
           "Bra jobbat! Du har koll på många av begreppen. Repetera gärna de frågor som var svåra.";
       } else {
         encouragementText.innerText =
-          "Bra kämpat! Repetera kapitel 9–10 och försök igen.";
+          "Bra kämpat! Repetera kapitel 6–8 och försök igen.";
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -976,7 +1056,8 @@
           colorLight: "#ffffff"
         });
       } else {
-        qrcodeContainer.innerText = "QR-kod blir tillgänglig när sidan är publicerad.";
+        qrcodeContainer.innerText =
+          "QR-kod blir tillgänglig när sidan är publicerad.";
       }
 
       document.getElementById("shareModal").classList.remove("hidden");
@@ -989,6 +1070,7 @@
 
     function copyShareUrl() {
       const input = document.getElementById("shareUrlInput");
+
       input.select();
 
       navigator.clipboard
@@ -1090,7 +1172,8 @@
     }
 
     function backToStart() {
-      showScreen("start");
+      document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
       updateFilterUI();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

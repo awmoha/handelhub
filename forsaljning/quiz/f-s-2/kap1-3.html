@@ -1,0 +1,2099 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – Försäljning och Service 2, kapitel 1–3</title>
+   
+    <!-- Google Fonts: Cardo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              beige: {
+                50: "#FAF8F5",
+                100: "#F5F2EB",
+                200: "#E7E2D5",
+                300: "#D5CDBA",
+              },
+              sage: {
+                100: "#E6EFEA",
+                200: "#C2D8CB",
+                500: "#4A7C59",
+                700: "#2D5A43",
+                800: "#1E3F2F",
+                900: "#142B20",
+              },
+              slateText: "#1F2421",
+              accentGold: "#D4A373",
+            },
+            fontFamily: {
+              cardo: ["Cardo", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #f5f2eb;
+        color: #1f2421;
+        font-family: "Cardo";
+      }
+      .font-cardo {
+        font-family: "Cardo";
+      }
+      .custom-shadow {
+        box-shadow:
+          0 10px 30px -5px rgba(45, 90, 67, 0.08),
+          0 4px 12px -2px rgba(0, 0, 0, 0.04);
+      }
+      .btn-bounce {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .btn-bounce:hover {
+        transform: translateY(-2px);
+      }
+      .btn-bounce:active {
+        transform: translateY(1px);
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f5f2eb;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c2d8cb;
+        border-radius: 4px;
+      }
+
+      .term-help {
+        position: relative;
+        display: inline;
+        border-bottom: 1px dotted #2d5a43;
+        color: #1e3f2f;
+        font-weight: 700;
+        cursor: help;
+      }
+      .term-help::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+
+        width: max-content;
+        max-width: 260px;
+        padding: 10px 14px;
+
+        background: #e6efea;
+        color: #1e3f2f;
+        border: 1px solid #c2d8cb;
+        border-radius: 12px;
+
+        font-family: "Cardo";
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+
+        white-space: normal;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 1000;
+
+        box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      /* Visa bubblan när muspekaren är över begreppet */
+      .term-help:hover::after,
+      .term-help:focus::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900"
+  >
+    <!-- TOP BAR / HEADER -->
+    <header
+      class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8"
+    >
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md"
+          >
+            🛍️
+          </div>
+          <div>
+            <h1
+              class="font-cardo font-bold text-xl text-sage-900 leading-tight"
+            >
+              Försäljning & Service 2
+            </h1>
+            <p class="text-xs text-gray-500 font-medium">
+              Interaktivt Klassrumsquiz • Kap 1–3
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            id="soundToggleBtn"
+            onclick="toggleSound()"
+            class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1"
+            title="Ljud av/på"
+          >
+            <span id="soundIcon">🔊</span>
+          </button>
+          <button
+            onclick="openShareModal()"
+            class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+              ></path>
+            </svg>
+            <span class="hidden sm:inline">Dela</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div class="w-full max-w-4xl">
+        <!-- SCREEN 1: START SCREEN -->
+        <section
+          id="startScreen"
+          class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        >
+          <!-- Decorative background elements -->
+          <div
+            class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"
+          ></div>
+          <div
+            class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"
+          ></div>
+
+          <div class="relative z-10">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6"
+            >
+              <span>✨</span> Utformat för Gymnasiet & SFI
+            </div>
+
+            <h2
+              class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight"
+            >
+              QUIZ – FÖRSÄLJNING OCH SERVICE 1
+            </h2>
+
+            <p
+              class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed"
+            >
+              Testa dina kunskaper i kapitel 1 till 3. Svara på frågor om
+              yrkesroller, inköp, distribution, logistik, kundens köpprocess och
+              service. mycket mer!
+            </p>
+
+            <!-- Feature badges -->
+            <div
+              class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left"
+            >
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">❓</div>
+                <div
+                  id="startQuestionCount"
+                  class="font-semibold text-sm text-sage-900"
+                >
+                  24 Frågor
+                </div>
+                <div class="text-xs text-gray-500">Blandade nivåer</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">🧘</div>
+                <div class="font-semibold text-sm text-sage-900">
+                  Ingen tidspress
+                </div>
+                <div class="text-xs text-gray-500">Svara i lugn och ro</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">⭐</div>
+                <div class="font-semibold text-sm text-sage-900">Poäng</div>
+                <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">💡</div>
+                <div class="font-semibold text-sm text-sage-900">
+                  Korta svar
+                </div>
+                <div class="text-xs text-gray-500">Lär dig direkt</div>
+              </div>
+            </div>
+
+            <!-- FILTER: ELEVEN VÄLJER FRÅGETYP -->
+            <div
+              class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left"
+            >
+              <div
+                class="flex flex-wrap items-center justify-between gap-2 mb-1"
+              >
+                <h3 class="font-cardo font-bold text-xl text-sage-900">
+                  Välj frågetyper
+                </h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onclick="selectAllTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Välj alla
+                  </button>
+                  <span class="text-beige-300">|</span>
+                  <button
+                    type="button"
+                    onclick="clearTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Rensa
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">
+                Klicka på en typ för att välja eller ta bort den.
+              </p>
+
+              <div
+                id="typeFilter"
+                class="flex flex-wrap justify-center gap-3"
+              ></div>
+
+              <div
+                class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800"
+              >
+                <span>📋</span>
+                <span id="filterSummary">49 frågor valda</span>
+              </div>
+            </div>
+
+            <button
+              id="startBtn"
+              onclick="startGame()"
+              class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto"
+            >
+              <span>STARTA SPELET</span>
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- SCREEN 2: GAMEPLAY SCREEN -->
+        <section id="gameScreen" class="hidden flex-col gap-6">
+          <!-- Top status bar -->
+          <div
+            class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4"
+          >
+            <!-- Question indicator & visual progress -->
+            <div class="w-full sm:w-auto flex-grow max-w-md">
+              <div
+                class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900"
+              >
+                <span id="questionNumberText">Fråga 1 av 24</span>
+                <span
+                  id="progressTextVisual"
+                  class="font-mono text-sage-700 font-bold"
+                  >█░░░░░░░░░░░ 1/24</span
+                >
+              </div>
+              <div
+                class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200"
+              >
+                <div
+                  id="progressBarFill"
+                  class="bg-sage-700 h-full transition-all duration-300 rounded-full"
+                  style="width: 4.16%"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Score -->
+            <div
+              class="flex items-center justify-between w-full sm:w-auto gap-4"
+            >
+              <!-- Score badge -->
+              <div
+                class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm"
+              >
+                <span class="text-lg">🏆</span>
+                <div>
+                  <div
+                    class="text-[10px] text-sage-200 font-bold uppercase tracking-wider"
+                  >
+                    Poäng
+                  </div>
+                  <div
+                    id="scoreText"
+                    class="font-mono font-bold text-base text-white"
+                  >
+                    0
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question Card -->
+          <div
+            class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]"
+          >
+            <!-- Question metadata / topic tag -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span
+                  id="categoryTag"
+                  class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase"
+                >
+                  Gåta / Begrepp
+                </span>
+                <span
+                  id="hintBadge"
+                  class="hidden sm:inline-block text-xs text-gray-400 font-medium"
+                >
+                  💡 Välj ett svar nedan
+                </span>
+              </div>
+
+              <h3
+                id="questionText"
+                class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6"
+              >
+                Laddar fråga...
+              </h3>
+            </div>
+
+            <!-- 4 Answer Option Buttons -->
+            <div
+              id="optionsContainer"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"
+            >
+              <!-- Dynamically populated buttons -->
+            </div>
+
+            <!-- Explanation box & Next Button container -->
+            <div
+              id="feedbackContainer"
+              class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300"
+            >
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              >
+                <div class="flex items-start space-x-3">
+                  <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                  <div>
+                    <h4
+                      id="feedbackTitle"
+                      class="font-bold text-lg leading-tight mb-1"
+                    ></h4>
+                    <p
+                      id="feedbackExplanation"
+                      class="text-sm text-gray-700 leading-relaxed"
+                    ></p>
+                  </div>
+                </div>
+                <button
+                  id="nextBtn"
+                  onclick="nextQuestion()"
+                  class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
+                >
+                  <span id="nextBtnText">Nästa fråga</span>
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3: RESULT SCREEN -->
+        <section
+          id="resultScreen"
+          class="hidden bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        >
+          <div class="max-w-xl mx-auto">
+            <div
+              class="w-20 h-20 mx-auto rounded-3xl bg-sage-100 text-sage-800 flex items-center justify-center text-4xl mb-6 shadow-inner"
+            >
+              🎉
+            </div>
+
+            <h2
+              class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2"
+            >
+              Quizet är klart!
+            </h2>
+            <p
+              id="resultSummaryText"
+              class="text-gray-600 text-base sm:text-lg mb-8"
+            >
+              Bra jobbat! Här är en sammanfattning av ditt resultat:
+            </p>
+
+            <!-- Score summary stats -->
+            <div class="grid grid-cols-3 gap-3 mb-8">
+              <div class="p-4 rounded-2xl bg-beige-100 border border-beige-200">
+                <div
+                  class="text-2xl font-black text-sage-900 font-mono"
+                  id="finalScore"
+                >
+                  0
+                </div>
+                <div class="text-xs text-gray-500 font-medium uppercase mt-1">
+                  Total poäng
+                </div>
+              </div>
+              <div
+                class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200"
+              >
+                <div
+                  class="text-2xl font-black text-emerald-700 font-mono"
+                  id="finalCorrect"
+                >
+                  0
+                </div>
+                <div
+                  class="text-xs text-emerald-800 font-medium uppercase mt-1"
+                >
+                  Antal rätt
+                </div>
+              </div>
+              <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+                <div
+                  class="text-2xl font-black text-rose-700 font-mono"
+                  id="finalWrong"
+                >
+                  0
+                </div>
+                <div class="text-xs text-rose-800 font-medium uppercase mt-1">
+                  Antal fel
+                </div>
+              </div>
+            </div>
+
+            <!-- Encouraging Feedback Card -->
+            <div
+              id="encouragementBox"
+              class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left"
+            >
+              <h4
+                class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2"
+              >
+                <span>🌟</span> Lärarfeedback:
+              </h4>
+              <p
+                id="encouragementText"
+                class="text-sm text-sage-800 leading-relaxed"
+              >
+                Bra kämpat! Försök igen för att förbättra ditt resultat och
+                sätta alla begrepp!
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onclick="startGame()"
+                class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  ></path>
+                </svg>
+                <span>Spela igen</span>
+              </button>
+              <button
+                onclick="backToStart()"
+                class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+              >
+                <span>Ändra frågetyper</span>
+              </button>
+              <button
+                onclick="openShareModal()"
+                class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+              >
+                <span>Dela länken</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50"
+    >
+      Försäljning och service 1 • Quiz kapitel 1–3
+    </footer>
+
+    <!-- SHARE MODAL -->
+    <div
+      id="shareModal"
+      class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center"
+      >
+        <button
+          onclick="closeShareModal()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+        >
+          &times;
+        </button>
+
+        <!-- Dynamic QR Code Container -->
+        <div
+          class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner"
+        >
+          <div id="qrcode"></div>
+        </div>
+
+        <div class="flex items-center gap-2 mb-4">
+          <input
+            id="shareUrlInput"
+            type="text"
+            readonly
+            class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all"
+            value=""
+          />
+          <button
+            onclick="copyShareUrl()"
+            class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition"
+          >
+            Kopiera
+          </button>
+        </div>
+        <div
+          id="copySuccessMsg"
+          class="hidden text-xs text-emerald-600 font-bold text-center mb-4"
+        >
+          ✓ Länken kopierad till urklipp!
+        </div>
+        <button
+          onclick="closeShareModal()"
+          class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl"
+        >
+          Stäng
+        </button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      // FRÅGEBANK: Kapitel 1–3, baserad på sammanfattningen
+      const allQuestions = [
+        {
+          type: "Begrepp",
+          question:
+            "Vilken kompetens handlar om att kunna möta kunder på ett bra sätt, lyssna på dem och ge hjälp som passar deras behov?",
+          options: [
+            { text: "Produktkunskap", isCorrect: false },
+            { text: "Servicekompetens", isCorrect: true },
+            { text: "Logistik", isCorrect: false },
+            { text: "Ekonomi", isCorrect: false },
+          ],
+          explanation:
+            "Servicekompetens är förmågan att ge kunden ett bra bemötande och en god service.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En butikssäljare börjar sitt arbetspass med att fylla på hyllorna. Vad är en viktig anledning till att göra detta?",
+          options: [
+            { text: "Att lära känna butikens sortiment", isCorrect: true },
+            { text: "Att bestämma butikens affärsidé", isCorrect: false },
+            { text: "Att planera företagets transporter", isCorrect: false },
+            { text: "Att ansvara för butikens ekonomi", isCorrect: false },
+          ],
+          explanation:
+            "När butikssäljaren fyller på varor får hen samtidigt lära känna butikens sortiment.",
+        },
+        {
+          type: "Begrepp",
+          question:
+            "Vilken kompetens behöver en butikssäljare för att kunna svara på frågor om varornas egenskaper och användning?",
+          options: [
+            { text: "Ledarskap", isCorrect: false },
+            { text: "Produktkunskap", isCorrect: true },
+            { text: "Importkunskap", isCorrect: false },
+            { text: "Kontraktskunskap", isCorrect: false },
+          ],
+          explanation:
+            "Produktkunskap innebär att känna till produkternas egenskaper och användning.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vilket område ingår i butikschefens ansvar för hela butiken?",
+          options: [
+            { text: "Endast skyltning", isCorrect: false },
+            {
+              text: "Service, säkerhet, ekonomi, personal och försäljning",
+              isCorrect: true,
+            },
+            { text: "Enbart leveranser", isCorrect: false },
+            { text: "Bara kundernas betalningar", isCorrect: false },
+          ],
+          explanation:
+            "Butikschefen har ett övergripande ansvar för bland annat service, säkerhet, ekonomi, personal och försäljning.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En butikschef planerar hur personalen ska arbeta och försöker motivera medarbetarna. Vilken kompetens använder chefen främst?",
+          options: [
+            { text: "Ledarskap", isCorrect: true },
+            { text: "Produktkunskap", isCorrect: false },
+            { text: "Logistik", isCorrect: false },
+            { text: "Styling", isCorrect: false },
+          ],
+          explanation: "Ledarskap handlar om att leda och motivera personal.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad gör en personal shopper?",
+          options: [
+            {
+              text: "Kontrollerar leveranser mot fraktsedlar",
+              isCorrect: false,
+            },
+            {
+              text: "Hjälper kunder att hitta kläder och accessoarer utifrån deras behov",
+              isCorrect: true,
+            },
+            { text: "Ansvarar för butikens bokföring", isCorrect: false },
+            { text: "Bestämmer hur varor ska importeras", isCorrect: false },
+          ],
+          explanation:
+            "En personal shopper ger personlig service och hjälper kunden med kläder, accessoarer och styling.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En leverans kommer till lagret. En anställd skannar varorna och jämför dem med dokumenten som följde med leveransen. Vilket arbete utför personen?",
+          options: [
+            { text: "Personal shopper", isCorrect: false },
+            { text: "Fastighetsmäklare", isCorrect: false },
+            { text: "Lagerarbete", isCorrect: true },
+            { text: "Eventarbete", isCorrect: false },
+          ],
+          explanation:
+            "Lagerarbetaren tar emot och registrerar varor, ofta med scanner, och kontrollerar leveransen mot dokumenten.",
+        },
+        {
+          type: "Begrepp",
+          question:
+            "Vilka dokument kan en lagerarbetare använda för att kontrollera att leveransen stämmer?",
+          options: [
+            { text: "Fraktsedel och följesedel", isCorrect: true },
+            { text: "Anställningsavtal och schema", isCorrect: false },
+            { text: "Annons och nyhetsbrev", isCorrect: false },
+            { text: "Kvitto och reklamblad", isCorrect: false },
+          ],
+          explanation:
+            "Fraktsedel och följesedel är dokument som används vid kontroll av en leverans.",
+        },
+        {
+          type: "Situation",
+          question:
+            "Glass och kött har kommit till lagret. Varför behöver dessa varor tas om hand direkt?",
+          options: [
+            {
+              text: "De är känsliga varor som kräver snabb och säker hantering",
+              isCorrect: true,
+            },
+            { text: "De ska alltid skickas tillbaka", isCorrect: false },
+            { text: "De får inte registreras med scanner", isCorrect: false },
+            { text: "De ska först säljas innan de lagras", isCorrect: false },
+          ],
+          explanation:
+            "Vissa varor, till exempel kött och glass, är känsliga och måste hanteras direkt.",
+        },
+        {
+          type: "Begrepp",
+          question:
+            "Vilken roll har en fastighetsmäklare vid försäljning av en bostad?",
+          options: [
+            { text: "Att vara partisk för köparen", isCorrect: false },
+            {
+              text: "Att vara mellanhand mellan säljare och köpare och vara opartisk",
+              isCorrect: true,
+            },
+            { text: "Att sköta butikens lager", isCorrect: false },
+            {
+              text: "Att endast hjälpa till med administration",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Fastighetsmäklaren förmedlar kontakten mellan säljare och köpare och ska vara opartisk.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vad betyder det att en fastighetsmäklares lön ofta är provisionsbaserad?",
+          options: [
+            {
+              text: "Lönen är alltid samma oavsett försäljning",
+              isCorrect: false,
+            },
+            {
+              text: "Lönen kan påverkas av genomförda affärer",
+              isCorrect: true,
+            },
+            {
+              text: "Lönen betalas av kunden i förskott varje månad",
+              isCorrect: false,
+            },
+            { text: "Lönen bestäms av butikschefen", isCorrect: false },
+          ],
+          explanation:
+            "Provision innebär att ersättningen ofta är kopplad till genomförda affärer.",
+        },
+        {
+          type: "Jämförelse",
+          question:
+            "Vilket påstående beskriver skillnaden mellan en fastighetsmäklare och en fastighetsmäklarassistent?",
+          options: [
+            {
+              text: "Assistenten ansvarar för affären, mäklaren sköter bara visningar",
+              isCorrect: false,
+            },
+            {
+              text: "Mäklaren ansvarar för affären, assistenten hjälper med administration och service",
+              isCorrect: true,
+            },
+            { text: "Båda har alltid samma ansvar", isCorrect: false },
+            {
+              text: "Assistenten bestämmer försäljningspriset",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Mäklaren ansvarar för affären. Assistenten hjälper bland annat med administration, visningar, service och information.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vilken typ av arbete kan ingå för eventpersonal?",
+          options: [
+            {
+              text: "Bemanna entré och hjälpa gäster vid evenemang",
+              isCorrect: true,
+            },
+            { text: "Registrera enbart butikens lager", isCorrect: false },
+            { text: "Förmedla köp av bostäder", isCorrect: false },
+            { text: "Beställa alla butikens varor", isCorrect: false },
+          ],
+          explanation:
+            "Eventpersonal kan arbeta praktiskt och administrativt vid exempelvis konserter, mässor och festivaler.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En person arbetar vid entrén på en mässa och ser till att besökarna får ett gott bemötande. Vilket yrkesområde passar bäst?",
+          options: [
+            { text: "Lagerarbete", isCorrect: false },
+            { text: "Eventpersonal", isCorrect: true },
+            { text: "Fastighetsmäklarassistent", isCorrect: false },
+            { text: "Inköp", isCorrect: false },
+          ],
+          explanation:
+            "Eventpersonal möter och hjälper kunder och gäster vid evenemang.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vilken kompetens är särskilt viktig för en lagerarbetare utöver att registrera varor?",
+          options: [
+            { text: "Logistik och säkerhet på arbetsplatsen", isCorrect: true },
+            { text: "Styling och mode", isCorrect: false },
+            { text: "Fastighetsvärdering", isCorrect: false },
+            { text: "Marknadsföring i sociala medier", isCorrect: false },
+          ],
+          explanation:
+            "Lagerarbete kräver kunskap om logistik och säkerhet så att varor hanteras snabbt och säkert.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad innebär inköparens roll i en butik?",
+          options: [
+            {
+              text: "Att köpa in varor utifrån butikens förutsättningar och kunder",
+              isCorrect: true,
+            },
+            {
+              text: "Att ta betalt av varje konsument i kassan",
+              isCorrect: false,
+            },
+            { text: "Att enbart transportera varor", isCorrect: false },
+            { text: "Att ansvara för butikens städning", isCorrect: false },
+          ],
+          explanation:
+            "Inköparen köper in varor och tar hänsyn till bland annat affärsidé, profil, kunder, trender och kostnader.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vilket av följande behöver en inköpare ta hänsyn till när varor väljs in till butiken?",
+          options: [
+            { text: "Butikens affärsidé och kundgrupp", isCorrect: true },
+            { text: "Endast inköparens privata smak", isCorrect: false },
+            { text: "Enbart varans färg", isCorrect: false },
+            { text: "Bara hur många anställda butiken har", isCorrect: false },
+          ],
+          explanation:
+            "Inköparen utgår bland annat från butikens affärsidé, profil, trender, kunder, läge och hållbarhetsansvar.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder distribution?",
+          options: [
+            { text: "Att få ut varor till marknaden", isCorrect: true },
+            { text: "Att bestämma personalens arbetstider", isCorrect: false },
+            { text: "Att utvärdera kundernas recensioner", isCorrect: false },
+            { text: "Att skapa butikens affärsidé", isCorrect: false },
+          ],
+          explanation: "Distribution betyder att varor förs ut till marknaden.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vilken ordning beskriver distributionskedjan enligt sammanfattningen?",
+          options: [
+            {
+              text: "Grossist → producent → konsument → detaljist",
+              isCorrect: false,
+            },
+            {
+              text: "Producent → grossist → detaljist → konsument → återvinning",
+              isCorrect: true,
+            },
+            {
+              text: "Konsument → producent → grossist → återvinning",
+              isCorrect: false,
+            },
+            {
+              text: "Detaljist → producent → grossist → konsument",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Distributionskedjan går från producent till grossist, vidare till detaljist och konsument och därefter återvinning.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är en grossist i distributionskedjan?",
+          options: [
+            {
+              text: "Ett företag som säljer varor vidare till detaljister",
+              isCorrect: true,
+            },
+            { text: "Den privatperson som använder varan", isCorrect: false },
+            {
+              text: "Den som återvinner alla förpackningar hemma",
+              isCorrect: false,
+            },
+            {
+              text: "En anställd som arbetar i butikskassan",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Grossisten är ett led mellan producenten och detaljisten i distributionskedjan.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vem ansvarar enligt sammanfattningen för att förpackningar kan återvinnas?",
+          options: [
+            { text: "Konsumenten", isCorrect: false },
+            { text: "Detaljisten", isCorrect: false },
+            { text: "Producenten", isCorrect: true },
+            { text: "Transportören", isCorrect: false },
+          ],
+          explanation:
+            "Producenten ansvarar för att förpackningar kan återvinnas.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad menas med logistik?",
+          options: [
+            {
+              text: "Att planera så att rätt produkt finns på rätt plats, i rätt tid och i rätt antal och kvalitet",
+              isCorrect: true,
+            },
+            {
+              text: "Att bara välja vilka varor som ska annonseras",
+              isCorrect: false,
+            },
+            {
+              text: "Att sälja varor direkt till privatpersoner",
+              isCorrect: false,
+            },
+            { text: "Att skapa butikens logotyp", isCorrect: false },
+          ],
+          explanation:
+            "Logistik handlar om rätt produkt, plats, tid, pris, antal och kvalitet.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En logistiker planerar transporter, dokument och lagring. Vad är ett viktigt mål med arbetet?",
+          options: [
+            {
+              text: "Att varorna kommer i tid och är hela och rena",
+              isCorrect: true,
+            },
+            { text: "Att varorna alltid blir dyrare", isCorrect: false },
+            {
+              text: "Att kunden själv hämtar varorna hos producenten",
+              isCorrect: false,
+            },
+            { text: "Att undvika all dokumentation", isCorrect: false },
+          ],
+          explanation:
+            "Logistikern planerar flödet så att varor levereras i tid och i gott skick.",
+        },
+        {
+          type: "Jämförelse",
+          question:
+            "Vilket påstående beskriver bäst skillnaden mellan inköpare och logistiker?",
+          options: [
+            {
+              text: "Inköparen beställer varorna och logistikern säkerställer leveransen",
+              isCorrect: true,
+            },
+            {
+              text: "Logistikern beställer varorna och inköparen sköter kundkassan",
+              isCorrect: false,
+            },
+            {
+              text: "Båda arbetar endast med marknadsföring",
+              isCorrect: false,
+            },
+            {
+              text: "Inköparen ansvarar för återvinning och logistikern för styling",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Inköparen beställer varorna. Logistikern planerar och säkerställer att varorna levereras.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Varför behöver import och export följa olika dokument och regler?",
+          options: [
+            {
+              text: "Regler och krav kan skilja sig mellan länder och handelsområden",
+              isCorrect: true,
+            },
+            {
+              text: "Alla länder använder alltid exakt samma regler",
+              isCorrect: false,
+            },
+            {
+              text: "Dokument behövs bara vid försäljning i butik",
+              isCorrect: false,
+            },
+            {
+              text: "Import och export innebär att varor inte transporteras",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Import och export kräver dokument och regler som kan variera beroende på land eller handelsområde, till exempel EU.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad står B2B för?",
+          options: [
+            {
+              text: "Business to consumer – företag till konsument",
+              isCorrect: false,
+            },
+            {
+              text: "Business to business – företag till företag",
+              isCorrect: true,
+            },
+            {
+              text: "Back to business – tillbaka till arbetet",
+              isCorrect: false,
+            },
+            { text: "Buyer to buyer – köpare till köpare", isCorrect: false },
+          ],
+          explanation:
+            "B2B betyder Business to business. Företag säljer eller samarbetar med andra företag.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad står B2C för?",
+          options: [
+            {
+              text: "Business to consumer – företag till konsument",
+              isCorrect: true,
+            },
+            {
+              text: "Business to business – företag till företag",
+              isCorrect: false,
+            },
+            {
+              text: "Buyer to company – köpare till företag",
+              isCorrect: false,
+            },
+            {
+              text: "Business to courier – företag till transportör",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "B2C betyder Business to consumer. Ett företag säljer till privatpersoner eller andra konsumenter.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En butik säljer skor direkt till privatpersoner. Vilken typ av handel är det?",
+          options: [
+            { text: "B2B", isCorrect: false },
+            { text: "B2C", isCorrect: true },
+            { text: "Grossistled", isCorrect: false },
+            { text: "Export", isCorrect: false },
+          ],
+          explanation:
+            "När ett företag säljer direkt till konsumenter handlar det om B2C.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Vilka utbildningsvägar kan leda till arbete som inköpare eller logistiker?",
+          options: [
+            {
+              text: "YH-utbildning, universitet eller högskola",
+              isCorrect: true,
+            },
+            { text: "Endast internutbildning i butik", isCorrect: false },
+            { text: "Enbart körkortsutbildning", isCorrect: false },
+            { text: "Endast gymnasiekurs i styling", isCorrect: false },
+          ],
+          explanation:
+            "Inköpare och logistiker kan utbildas via yrkeshögskola, universitet eller högskola.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är det första steget i kundens köpprocess?",
+          options: [
+            { text: "Utvärdering", isCorrect: false },
+            { text: "Köpbeslut", isCorrect: false },
+            { text: "Behov", isCorrect: true },
+            { text: "Efter köp", isCorrect: false },
+          ],
+          explanation: "Köpprocessen börjar när kunden upptäcker ett behov.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En kund behöver en ny telefon eftersom den gamla har dåligt batteri och för lite lagringsutrymme. Vilket steg i köpprocessen beskriver detta?",
+          options: [
+            { text: "Behov", isCorrect: true },
+            { text: "Informationssökning", isCorrect: false },
+            { text: "Köp", isCorrect: false },
+            { text: "Efter köp", isCorrect: false },
+          ],
+          explanation:
+            "Behov uppstår när kunden märker att något saknas eller behöver ersättas.",
+        },
+        {
+          type: "Situation",
+          question:
+            "Kunden läser recensioner och söker information online om olika telefonmodeller. Vilket steg är kunden i?",
+          options: [
+            { text: "Köpbeslut", isCorrect: false },
+            { text: "Informationssökning", isCorrect: true },
+            { text: "Efter köp", isCorrect: false },
+            { text: "Behov", isCorrect: false },
+          ],
+          explanation:
+            "Informationssökning innebär att kunden samlar information om möjliga produkter och lösningar.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad innebär utvärdering i kundens köpprocess?",
+          options: [
+            {
+              text: "Att kunden jämför olika alternativ innan beslutet",
+              isCorrect: true,
+            },
+            {
+              text: "Att kunden använder produkten efter köpet",
+              isCorrect: false,
+            },
+            { text: "Att butiken tar emot en leverans", isCorrect: false },
+            {
+              text: "Att kunden upptäcker sitt första behov",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Vid utvärdering jämför kunden olika alternativ, till exempel pris och prestanda.",
+        },
+        {
+          type: "Kunskap",
+          question: "Vad händer vid köpbeslutet?",
+          options: [
+            {
+              text: "Kunden bestämmer sig för ett visst alternativ",
+              isCorrect: true,
+            },
+            { text: "Kunden börjar läsa recensioner", isCorrect: false },
+            {
+              text: "Kunden lämnar en recension efter användning",
+              isCorrect: false,
+            },
+            { text: "Kunden upptäcker att ett behov finns", isCorrect: false },
+          ],
+          explanation:
+            "Vid köpbeslutet väljer kunden vilket alternativ hen vill köpa.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad menas med steget efter köp?",
+          options: [
+            {
+              text: "Kunden använder produkten och bedömer om hen är nöjd",
+              isCorrect: true,
+            },
+            { text: "Kunden jämför produkter före beslutet", isCorrect: false },
+            {
+              text: "Butiken beställer varor från grossisten",
+              isCorrect: false,
+            },
+            { text: "Kunden upptäcker ett behov", isCorrect: false },
+          ],
+          explanation:
+            "Efter köpet använder kunden produkten och kan bli nöjd eller missnöjd samt dela sin upplevelse.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En kund skriver en recension om både telefonen och bemötandet i butiken. Vilken del av köpprocessen handlar det om?",
+          options: [
+            { text: "Behov", isCorrect: false },
+            { text: "Informationssökning", isCorrect: false },
+            { text: "Efter köp", isCorrect: true },
+            { text: "Köpbeslut", isCorrect: false },
+          ],
+          explanation:
+            "Recensioner och omdömen kan komma efter köpet och påverka andra kunders uppfattning.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder kundcentrerad?",
+          options: [
+            {
+              text: "Att kunden står i fokus i hela företagets verksamhet",
+              isCorrect: true,
+            },
+            {
+              text: "Att företaget bara fokuserar på sina leverantörer",
+              isCorrect: false,
+            },
+            {
+              text: "Att företaget enbart säljer till stamkunder",
+              isCorrect: false,
+            },
+            {
+              text: "Att kunden själv ansvarar för butikens marknadsföring",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Kundcentrerad betyder att kunden sätts i fokus i hela verksamheten, till exempel produktutveckling och marknadsföring.",
+        },
+        {
+          type: "Jämförelse",
+          question:
+            "Vad är skillnaden mellan kundorienterad och kundfokuserad?",
+          options: [
+            {
+              text: "Kundorienterad handlar om att förstå behov och hitta lösningar; kundfokuserad handlar om att rikta sig mot vissa kundgrupper",
+              isCorrect: true,
+            },
+            {
+              text: "Kundorienterad gäller bara stamkunder; kundfokuserad gäller bara nya kunder",
+              isCorrect: false,
+            },
+            {
+              text: "Begreppen betyder att företaget inte behöver anpassa service",
+              isCorrect: false,
+            },
+            {
+              text: "Kundfokuserad betyder att kunden bestämmer butikens ekonomi",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Kundorienterad service utgår från kundens behov. Kundfokusering innebär att företaget riktar sig mot vissa kundgrupper och anpassar erbjudanden.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är en kundresa?",
+          options: [
+            {
+              text: "Kundens samlade upplevelse och kontakter med företaget före, under och efter köpet",
+              isCorrect: true,
+            },
+            {
+              text: "En transportväg från producent till grossist",
+              isCorrect: false,
+            },
+            {
+              text: "En plan för butikens personalutbildning",
+              isCorrect: false,
+            },
+            { text: "En lista över butikens leverantörer", isCorrect: false },
+          ],
+          explanation:
+            "Kundresan omfattar kundens kontakter med företaget före, under och efter köpet.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En säljare hälsar vänligt, läser av kunden och anpassar hur mycket hjälp kunden får. Vilken strategi använder säljaren?",
+          options: [
+            { text: "Anpassat kundbemötande", isCorrect: true },
+            { text: "Standardiserad lagerkontroll", isCorrect: false },
+            { text: "Importplanering", isCorrect: false },
+            { text: "Provisionsförsäljning", isCorrect: false },
+          ],
+          explanation:
+            "Ett bra bemötande innebär att läsa av kunden och anpassa servicen efter situation och behov.",
+        },
+        {
+          type: "Begrepp",
+          question:
+            "Vilken typ av service innebär att lyssna noga, ställa öppna frågor och ge flera förslag?",
+          options: [
+            { text: "Effektiv och snabb service", isCorrect: false },
+            { text: "Lyhörd och flexibel service", isCorrect: true },
+            { text: "Informativ och pedagogisk service", isCorrect: false },
+            { text: "Personlig och engagerad service", isCorrect: false },
+          ],
+          explanation:
+            "Lyhörd och flexibel service innebär att lyssna och anpassa hjälpen, exempelvis genom öppna frågor och flera förslag.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En kund vet exakt vilken vara hen vill köpa och vill få hjälp snabbt. Vilken service passar bäst?",
+          options: [
+            { text: "Effektiv och snabb service", isCorrect: true },
+            { text: "Personlig och engagerad service", isCorrect: false },
+            { text: "Informativ och pedagogisk service", isCorrect: false },
+            { text: "Lyhörd och flexibel service", isCorrect: false },
+          ],
+          explanation:
+            "Effektiv och snabb service passar när kunden vet vad hen vill ha och behöver kort, tydlig hjälp.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En kund är påläst och vill veta fakta och jämföra alternativ. Vilken service bör säljaren ge?",
+          options: [
+            { text: "Informativ och pedagogisk service", isCorrect: true },
+            { text: "Effektiv och snabb service", isCorrect: false },
+            { text: "Personlig och engagerad service", isCorrect: false },
+            { text: "Enbart standardservice", isCorrect: false },
+          ],
+          explanation:
+            "Informativ och pedagogisk service innebär att ge fakta och visa alternativ på ett sätt som passar kunden.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En säljare känner igen en återkommande kund och kommer ihåg vad kunden brukar vara intresserad av. Vilken serviceform är det?",
+          options: [
+            { text: "Personlig och engagerad service", isCorrect: true },
+            { text: "Effektiv och snabb service", isCorrect: false },
+            { text: "Informativ och pedagogisk service", isCorrect: false },
+            { text: "Lageranpassad service", isCorrect: false },
+          ],
+          explanation:
+            "Personlig och engagerad service kan innebära att känna igen stamkunder och komma ihåg detaljer.",
+        },
+        {
+          type: "Kunskap",
+          question:
+            "Varför behöver en säljare vara flexibel när det uppstår ett missförstånd?",
+          options: [
+            {
+              text: "Kunder och situationer är olika och bemötandet kan behöva anpassas",
+              isCorrect: true,
+            },
+            {
+              text: "Alla kunder ska alltid få exakt samma svar",
+              isCorrect: false,
+            },
+            { text: "Missförstånd ska alltid ignoreras", isCorrect: false },
+            {
+              text: "Säljaren ska avsluta alla samtal direkt",
+              isCorrect: false,
+            },
+          ],
+          explanation:
+            "Flexibilitet och lyhördhet hjälper säljaren att anpassa sig när något blir fel eller missförstås.",
+        },
+        {
+          type: "Begrepp",
+          question: "Vad kännetecknar ett A-läge för en butik?",
+          options: [
+            {
+              text: "Utanför stadskärnan, låg hyra och kunder behöver ofta bil",
+              isCorrect: false,
+            },
+            {
+              text: "Centralt läge med mycket folk och hög hyra",
+              isCorrect: true,
+            },
+            {
+              text: "Lite vid sidan av med något färre kunder",
+              isCorrect: false,
+            },
+            { text: "Ett läge där butiken saknar kundflöde", isCorrect: false },
+          ],
+          explanation:
+            "A-läge är centralt, har mycket folk och ofta hög hyra. Butiken kan därför ha dyrare produkter och hög service.",
+        },
+        {
+          type: "Jämförelse",
+          question: "Vilket påstående skiljer bäst mellan B-läge och C-läge?",
+          options: [
+            {
+              text: "B-läge ligger lite vid sidan av; C-läge ligger utanför stadskärnan och har ofta stora butiker",
+              isCorrect: true,
+            },
+            {
+              text: "B-läge är alltid dyrast; C-läge ligger alltid centralt",
+              isCorrect: false,
+            },
+            {
+              text: "B-läge saknar kunder; C-läge har alltid högst hyra",
+              isCorrect: false,
+            },
+            { text: "B-läge och C-läge betyder samma sak", isCorrect: false },
+          ],
+          explanation:
+            "B-läge ligger lite vid sidan av och har något färre kunder. C-läge ligger utanför stadskärnan, har ofta låg hyra och stora butiker.",
+        },
+        {
+          type: "Situation",
+          question:
+            "En butik ligger utanför stadskärnan, har stora lokaler och de flesta kunder behöver bil för att ta sig dit. Vilket läge beskriver det?",
+          options: [
+            { text: "A-läge", isCorrect: false },
+            { text: "B-läge", isCorrect: false },
+            { text: "C-läge", isCorrect: true },
+            { text: "Centralt läge", isCorrect: false },
+          ],
+          explanation:
+            "C-läge ligger utanför stadskärnan, har ofta stora butiker och kunder behöver vanligtvis bil.",
+        },
+        {
+          type: "Kunskap",
+          question: "Hur kan butikens läge påverka verksamheten?",
+          options: [
+            {
+              text: "Det påverkar bland annat sortiment, kundgrupp och service",
+              isCorrect: true,
+            },
+            { text: "Det påverkar bara butikens namn", isCorrect: false },
+            {
+              text: "Det avgör automatiskt vilka leverantörer som finns",
+              isCorrect: false,
+            },
+            { text: "Det påverkar inte kundernas besök", isCorrect: false },
+          ],
+          explanation:
+            "Butikens läge påverkar bland annat vilka kunder som kommer, vilket sortiment som passar och vilken service som behövs.",
+        },
+      ];
+      const termDefinitions = {
+        Servicekompetens:
+          "Förmågan att bemöta kunder väl och ge hjälp som passar deras behov.",
+        Produktkunskap:
+          "Kunskap om en varas egenskaper, funktion och användning.",
+        Säljteknik: "Sätt och metoder som används i ett säljsamtal.",
+        Hållbarhet:
+          "Att ta hänsyn till miljö, människor och resurser över tid.",
+        Sortiment: "Alla varor och produkter som en butik erbjuder.",
+        Butikschef: "Personen som har det övergripande ansvaret för butiken.",
+        Ledarskap: "Att leda, stödja och motivera personal.",
+        "Personal shopper":
+          "En person som hjälper kunder att välja kläder och accessoarer.",
+        Styling: "Att sätta ihop kläder och accessoarer till en helhet.",
+        Logistik: "Planering av varor, transporter, lagring och leveranser.",
+        Fraktsedel: "Dokument med uppgifter om en transport och dess gods.",
+        Följesedel: "Dokument som visar vilka varor som ingår i en leverans.",
+        Fastighetsmäklare:
+          "Person som förmedlar affärer mellan säljare och köpare av fastigheter.",
+        Provision:
+          "Ersättning som ofta beror på hur många eller stora affärer som genomförs.",
+        Fastighetsmäklarassistent:
+          "Person som hjälper mäklaren med administration, visningar och kundservice.",
+        Eventpersonal:
+          "Personal som arbetar med service och praktiska uppgifter vid evenemang.",
+        Inköpare:
+          "Person som väljer och beställer varor till ett företag eller en butik.",
+        Affärsidé:
+          "Beskrivning av vad ett företag erbjuder, till vilka kunder och på vilket sätt.",
+        Distribution: "Att föra ut varor till marknaden och kunderna.",
+        Distributionskedja:
+          "Stegen som varan passerar från producent till konsument.",
+        Producent: "Företaget som tillverkar eller producerar en vara.",
+        Grossist:
+          "Företag som köper in varor och säljer vidare till exempelvis butiker.",
+        Detaljist:
+          "Butik eller företag som säljer varor direkt till konsumenter.",
+        Konsument: "Person som köper eller använder varor och tjänster.",
+        Återvinning: "Att ta hand om material så att det kan användas igen.",
+        Import: "Att köpa eller föra in varor från ett annat land.",
+        Export: "Att sälja eller föra ut varor till ett annat land.",
+        B2B: "Business to business: handel eller affärer mellan företag.",
+        B2C: "Business to consumer: när ett företag säljer till konsumenter.",
+        "YH-utbildning": "Yrkeshögskoleutbildning som förbereder för ett yrke.",
+        Riskhantering:
+          "Att upptäcka och planera för sådant som kan skapa problem.",
+        Köpprocess:
+          "Stegen en kund går igenom från behov till köp och tiden efter köpet.",
+        Behov: "Något kunden behöver eller upplever saknas.",
+        Informationssökning:
+          "När kunden letar fakta och information om olika alternativ.",
+        Utvärdering: "När kunden jämför alternativen innan ett beslut.",
+        Köpbeslut: "När kunden bestämmer vilket alternativ hen ska välja.",
+        "Efter köp": "Tiden när kunden använder produkten och bedömer köpet.",
+        Recension:
+          "Ett omdöme där kunden berättar vad hen tycker om en produkt eller service.",
+        Kundcentrerad: "Att kunden sätts i fokus i hela företagets verksamhet.",
+        Kundorienterad:
+          "Att förstå kundens behov och erbjuda en passande lösning.",
+        Kundfokuserad:
+          "Att rikta verksamheten mot vissa kundgrupper och anpassa erbjudanden.",
+        Kundresa:
+          "Kundens kontakter och upplevelser före, under och efter köpet.",
+        "Öppna frågor":
+          "Frågor som ger kunden möjlighet att svara med egna ord.",
+        "Lyhörd och flexibel service":
+          "Service där säljaren lyssnar och anpassar hjälpen efter kunden.",
+        "Effektiv och snabb service":
+          "Kort och tydlig hjälp när kunden vet vad hen vill ha.",
+        "Informativ och pedagogisk service":
+          "Service där säljaren förklarar fakta och visar alternativ.",
+        "Personlig och engagerad service":
+          "Service där säljaren visar intresse och kan känna igen stamkunder.",
+        Stamkund: "Kund som handlar återkommande i samma butik eller företag.",
+        "A-läge": "Centralt butiksläge med mycket folk och ofta hög hyra.",
+        "B-läge":
+          "Butiksläge lite vid sidan av centrum, ofta med något färre kunder.",
+        "C-läge":
+          "Läge utanför stadskärnan, ofta med stora butiker och lägre hyra.",
+      };
+
+      function escapeHtml(value) {
+        return String(value).replace(
+          /[&<>"']/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[char],
+        );
+      }
+
+      function renderTerms(value) {
+        const terms = Object.keys(termDefinitions).sort(
+          (a, b) => b.length - a.length,
+        );
+        const pattern = new RegExp(
+          "\\b(" +
+            terms
+              .map((term) => term.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&"))
+              .join("|") +
+            ")\\b",
+          "gi",
+        );
+        let result = "";
+        let lastIndex = 0;
+        for (const match of value.matchAll(pattern)) {
+          const term = match[0];
+          const definition =
+            termDefinitions[
+              terms.find((item) => item.toLowerCase() === term.toLowerCase())
+            ];
+          result += escapeHtml(value.slice(lastIndex, match.index));
+          result += `<span
+  class="term-help"
+  tabindex="0"
+  data-tooltip="${escapeHtml(definition)}"
+>
+  ${escapeHtml(term)}
+</span>`;
+          lastIndex = match.index + term.length;
+        }
+        result += escapeHtml(value.slice(lastIndex));
+        return result;
+      }
+
+  
+
+      let questions = [...allQuestions]; // de frågor som spelas (efter filter)
+      const TYPE_ORDER = [
+        "Gåta",
+        "Begrepp",
+        "Situation",
+        "Jämförelse",
+        "Kunskap",
+      ];
+      const TYPE_INFO = {
+        Gåta: { icon: "🧩", hint: "Gissa ordet" },
+        Begrepp: { icon: "📖", hint: "Vad betyder ordet?" },
+        Situation: { icon: "🛒", hint: "Vad gör du?" },
+        Jämförelse: { icon: "⚖️", hint: "Vad är skillnaden?" },
+        Kunskap: { icon: "🎓", hint: "Fakta och regler" },
+      };
+      let selectedTypes = new Set(allQuestions.map((q) => q.type));
+      const POINTS_PER_CORRECT = 100; // Fast poäng: lika många poäng för varje rätt svar
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let soundEnabled = true;
+      let answered = false;
+
+      // WEB AUDIO API FOR SOUND EFFECTS
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioCtx = null;
+
+      function initAudio() {
+        try {
+          if (!audioCtx && AudioContext) {
+            audioCtx = new AudioContext();
+          }
+        } catch (error) {
+          // Sound is optional; the quiz must still work if audio is unavailable.
+          audioCtx = null;
+        }
+      }
+
+      function playSound(type) {
+        if (!soundEnabled) return;
+        try {
+          initAudio();
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          if (type === "correct") {
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.exponentialRampToValueAtTime(
+              659.25,
+              audioCtx.currentTime + 0.15,
+            ); // E5
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioCtx.currentTime + 0.3,
+            );
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+          } else if (type === "wrong") {
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+            osc.frequency.exponentialRampToValueAtTime(
+              164.81,
+              audioCtx.currentTime + 0.2,
+            ); // E3
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioCtx.currentTime + 0.3,
+            );
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+          }
+        } catch (e) {
+          console.log("Audio play error", e);
+        }
+      }
+
+      function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById("soundIcon").innerText = soundEnabled
+          ? "🔊"
+          : "🔇";
+      }
+
+      function shuffleQuestions() {
+        for (let i = questions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+
+          [questions[i], questions[j]] = [questions[j], questions[i]];
+        }
+      }
+
+      // GAME NAVIGATION LOGIC
+      function startGame() {
+        // Ljud är valfritt och får aldrig hindra quizet från att starta.
+        initAudio();
+
+        // Välj ut frågor enligt elevens filter
+        questions = allQuestions.filter((q) => selectedTypes.has(q.type));
+        if (questions.length === 0) return;
+
+        // Blanda frågorna
+        shuffleQuestions();
+
+        // Återställ spelet
+        currentQuestionIndex = 0;
+        score = 0;
+        correctCount = 0;
+        wrongCount = 0;
+
+        // Visa spelskärmen
+        document.getElementById("startScreen").classList.add("hidden");
+
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
+
+        // Dölj resultatskärmen
+        document.getElementById("resultScreen").classList.add("hidden");
+
+        // Uppdatera poäng
+        document.getElementById("scoreText").innerText = "0";
+
+        // Ladda första frågan
+        loadQuestion();
+
+        // Börja längst upp på sidan
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      function loadQuestion() {
+        answered = false;
+
+        const q = questions[currentQuestionIndex];
+
+        // Update question text & category
+        document.getElementById("questionNumberText").innerText =
+          `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
+        document.getElementById("categoryTag").innerText = q.type;
+        document.getElementById("questionText").innerHTML = renderTerms(
+          q.question,
+        );
+
+        // Update visual progress
+        const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBarFill").style.width = `${percent}%`;
+
+        // Render ascii style bar
+        const filledBlocks = Math.round(
+          ((currentQuestionIndex + 1) / questions.length) * 10,
+        );
+        const emptyBlocks = 10 - filledBlocks;
+        const asciiBar = "█".repeat(filledBlocks) + "░".repeat(emptyBlocks);
+        document.getElementById("progressTextVisual").innerText =
+          `${asciiBar} ${currentQuestionIndex + 1}/${questions.length}`;
+
+        // Next-button text (last question shows "Se resultat")
+        document.getElementById("nextBtnText").innerText =
+          currentQuestionIndex + 1 < questions.length
+            ? "Nästa fråga"
+            : "Se resultat";
+
+        // Reset feedback section
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        feedbackContainer.className =
+          "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+        // Render Options
+        const optionsContainer = document.getElementById("optionsContainer");
+        optionsContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+          btn.onclick = () => selectOption(idx, btn);
+
+          const badge = document.createElement("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+          badge.innerText = String.fromCharCode(65 + idx); // A, B, C, D
+
+          const textSpan = document.createElement("span");
+          textSpan.className = "mt-0.5 leading-snug";
+          textSpan.innerHTML = renderTerms(opt.text);
+
+          btn.appendChild(badge);
+          btn.appendChild(textSpan);
+          optionsContainer.appendChild(btn);
+        });
+      }
+
+      function selectOption(selectedIndex, clickedBtn) {
+        if (answered) return;
+        answered = true;
+
+        const q = questions[currentQuestionIndex];
+        const isCorrect = q.options[selectedIndex].isCorrect;
+        const optionBtns = document.getElementById("optionsContainer").children;
+
+        // Calculate score: fast poäng för rätt svar, 0 för fel svar
+        let pointsEarned = 0;
+        if (isCorrect) {
+          correctCount++;
+          pointsEarned = POINTS_PER_CORRECT;
+          score += pointsEarned;
+          playSound("correct");
+        } else {
+          wrongCount++;
+          playSound("wrong");
+        }
+
+        document.getElementById("scoreText").innerText = score;
+
+        // Style options based on answer
+        Array.from(optionBtns).forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove(
+            "hover:bg-beige-100",
+            "hover:border-sage-500",
+            "btn-bounce",
+          );
+          btn.classList.add("cursor-default");
+
+          if (q.options[idx].isCorrect) {
+            btn.className =
+              "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+            const badge = btn.querySelector("span");
+            badge.className =
+              "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            badge.innerText = "✓";
+          } else if (idx === selectedIndex && !isCorrect) {
+            btn.className =
+              "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+            const badge = btn.querySelector("span");
+            badge.className =
+              "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            badge.innerText = "✕";
+          } else {
+            btn.classList.add("opacity-40");
+          }
+        });
+
+        showFeedback(isCorrect, q.explanation, pointsEarned);
+      }
+
+      function showFeedback(isCorrect, explanation, pointsEarned) {
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        const feedbackIcon = document.getElementById("feedbackIcon");
+        const feedbackTitle = document.getElementById("feedbackTitle");
+        const feedbackExplanation = document.getElementById(
+          "feedbackExplanation",
+        );
+
+        feedbackContainer.classList.remove("hidden");
+
+        if (isCorrect) {
+          feedbackContainer.className =
+            "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
+          feedbackIcon.innerText = "🎉";
+          feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
+        } else {
+          feedbackContainer.className =
+            "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+          feedbackIcon.innerText = "💡";
+          feedbackTitle.innerText = "Fel!";
+        }
+
+        feedbackExplanation.innerHTML = renderTerms(explanation);
+
+        // Scroll smoothly to feedback if on small screens
+        setTimeout(() => {
+          feedbackContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }, 100);
+      }
+
+      function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      }
+
+      function showResults() {
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("flex");
+        document.getElementById("resultScreen").classList.remove("hidden");
+
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("finalCorrect").innerText = correctCount;
+        document.getElementById("finalWrong").innerText = wrongCount;
+
+        const percentage = Math.round((correctCount / questions.length) * 100);
+
+        document.getElementById("resultSummaryText").innerText =
+          `Du fick ${correctCount} av ${questions.length} rätt (${percentage} %).`;
+
+        const encouragementText = document.getElementById("encouragementText");
+
+        if (percentage >= 85) {
+          encouragementText.innerText =
+            "Strålande resultat! Du har extremt god förståelse för försäljning, service och kundrelationer. Du är redo för provet!";
+        } else if (percentage >= 60) {
+          encouragementText.innerText =
+            "Bra jobbat! Du har koll på de flesta begreppen. Repetera de begrepp och områden där du missade frågor så kan du förbättra resultatet nästa gång!";
+        } else {
+          encouragementText.innerText =
+            "Bra kämpat! Repetera yrkesrollerna, distribution och logistik samt kundens köpprocess och kundbemötande.";
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // SHARE MODAL UTILITIES
+      let qrcodeObj = null;
+
+      function openShareModal() {
+        const currentUrl = window.location.href;
+        document.getElementById("shareUrlInput").value = currentUrl;
+
+        const qrcodeContainer = document.getElementById("qrcode");
+        qrcodeContainer.innerHTML = "";
+
+        try {
+          qrcodeObj = new QRCode(qrcodeContainer, {
+            text: currentUrl,
+            width: 140,
+            height: 140,
+            colorDark: "#1E3F2F",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+        } catch (e) {
+          qrcodeContainer.innerText =
+            "QR-kod genereras när sidan ligger på en webbadress.";
+        }
+
+        document.getElementById("shareModal").classList.remove("hidden");
+      }
+
+      function closeShareModal() {
+        document.getElementById("shareModal").classList.add("hidden");
+        document.getElementById("copySuccessMsg").classList.add("hidden");
+      }
+
+      function copyShareUrl() {
+        const input = document.getElementById("shareUrlInput");
+        input.select();
+        navigator.clipboard
+          .writeText(input.value)
+          .then(() => {
+            document
+              .getElementById("copySuccessMsg")
+              .classList.remove("hidden");
+          })
+          .catch(() => {
+            document.execCommand("copy");
+            document
+              .getElementById("copySuccessMsg")
+              .classList.remove("hidden");
+          });
+      }
+
+      // FILTER: ELEVEN VÄLJER FRÅGETYP
+      function countType(type) {
+        return allQuestions.filter((q) => q.type === type).length;
+      }
+
+      function buildTypeFilter() {
+        const container = document.getElementById("typeFilter");
+        container.innerHTML = "";
+
+        const types = [
+          ...TYPE_ORDER.filter((t) => countType(t) > 0),
+          ...[...new Set(allQuestions.map((q) => q.type))].filter(
+            (t) => !TYPE_ORDER.includes(t),
+          ),
+        ];
+
+        types.forEach((type) => {
+          const info = TYPE_INFO[type] || { icon: "❓", hint: "" };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.type = type;
+          btn.onclick = () => toggleType(type);
+          btn.innerHTML = `
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>
+          `;
+          container.appendChild(btn);
+        });
+
+        updateFilterUI();
+      }
+
+      function toggleType(type) {
+        if (selectedTypes.has(type)) {
+          selectedTypes.delete(type);
+        } else {
+          selectedTypes.add(type);
+        }
+        updateFilterUI();
+      }
+
+      function selectAllTypes() {
+        selectedTypes = new Set(allQuestions.map((q) => q.type));
+        updateFilterUI();
+      }
+
+      function clearTypes() {
+        selectedTypes = new Set();
+        updateFilterUI();
+      }
+
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach((btn) => {
+          const on = selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed", on);
+          btn.className =
+            "btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer " +
+            (on
+              ? "bg-sage-700 border-sage-700 text-white shadow-md"
+              : "bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display = on ? "flex" : "none";
+          btn.querySelector(".chip-hint").className =
+            "chip-hint block text-xs " +
+            (on ? "text-sage-200" : "text-gray-500");
+          btn.querySelector(".chip-count").className =
+            "chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg " +
+            (on ? "bg-sage-800 text-white" : "bg-beige-100 text-sage-800");
+        });
+
+        const total = allQuestions.filter((q) =>
+          selectedTypes.has(q.type),
+        ).length;
+
+        document.getElementById("startQuestionCount").innerText =
+          `${total} Frågor`;
+        document.getElementById("filterSummary").innerText =
+          total === 0
+            ? "Välj minst en frågetyp för att starta"
+            : `${total} ${total === 1 ? "fråga vald" : "frågor valda"}`;
+
+        const startBtn = document.getElementById("startBtn");
+        startBtn.disabled = total === 0;
+        startBtn.classList.toggle("opacity-50", total === 0);
+        startBtn.classList.toggle("cursor-not-allowed", total === 0);
+      }
+
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      buildTypeFilter();
+    </script>
+  </body>
+</html>

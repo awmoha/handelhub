@@ -1,0 +1,2354 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – Försäljning och Service 2, kapitel 4–6</title>
+<link rel="stylesheet" href="../../css/styles.css">
+    <!-- Google Fonts: Cardo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link rel="icon" type="image/png" href="favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              beige: {
+                50: "#FAF8F5",
+                100: "#F5F2EB",
+                200: "#E7E2D5",
+                300: "#D5CDBA",
+              },
+              sage: {
+                100: "#E6EFEA",
+                200: "#C2D8CB",
+                500: "#4A7C59",
+                700: "#2D5A43",
+                800: "#1E3F2F",
+                900: "#142B20",
+              },
+              slateText: "#1F2421",
+              accentGold: "#D4A373",
+            },
+            fontFamily: {
+              cardo: ["Cardo", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+        .font-cardo {
+        font-family: "Cardo";
+      }
+      .custom-shadow {
+        box-shadow:
+          0 10px 30px -5px rgba(45, 90, 67, 0.08),
+          0 4px 12px -2px rgba(0, 0, 0, 0.04);
+      }
+      .btn-bounce {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .btn-bounce:hover {
+        transform: translateY(-2px);
+      }
+      .btn-bounce:active {
+        transform: translateY(1px);
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f5f2eb;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c2d8cb;
+        border-radius: 4px;
+      }
+
+      .term-help {
+        position: relative;
+        display: inline;
+        border-bottom: 1px dotted #2d5a43;
+        color: #1e3f2f;
+        font-weight: 700;
+        cursor: help;
+      }
+      .term-help::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+
+        width: max-content;
+        max-width: 260px;
+        padding: 10px 14px;
+
+        background: #e6efea;
+        color: #1e3f2f;
+        border: 1px solid #c2d8cb;
+        border-radius: 12px;
+
+        font-family: "Cardo";
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+
+        white-space: normal;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 1000;
+
+        box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      /* Visa bubblan när muspekaren är över begreppet */
+      .term-help:hover::after,
+      .term-help:focus::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+</head>
+  <body
+    class="font-cardo min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900"
+  >
+    <!-- TOP BAR / HEADER -->
+    <header
+      class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8"
+    >
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md"
+          >
+            🛍️
+          </div>
+          <div>
+            <h1
+              class="font-cardo font-bold text-xl text-sage-900 leading-tight"
+            >
+              Försäljning & Service 2
+            </h1>
+            <p class="text-xs text-gray-500 font-medium">
+              Interaktivt Klassrumsquiz • Kap 4–6
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            id="soundToggleBtn"
+            onclick="toggleSound()"
+            class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1"
+            title="Ljud av/på"
+          >
+            <span id="soundIcon">🔊</span>
+          </button>
+          <button
+            onclick="openShareModal()"
+            class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+              ></path>
+            </svg>
+            <span class="hidden sm:inline">Dela</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div class="w-full max-w-4xl">
+        <!-- SCREEN 1: START SCREEN -->
+        <section
+          id="startScreen"
+          class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        >
+          <!-- Decorative background elements -->
+          <div
+            class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"
+          ></div>
+          <div
+            class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"
+          ></div>
+
+          <div class="relative z-10">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6"
+            >
+              <span>✨</span> Utformat för Gymnasiet & SFI
+            </div>
+
+            <h2
+              class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight"
+            >
+              QUIZ – FÖRSÄLJNING OCH SERVICE 2
+            </h2>
+
+            <p
+              class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed"
+            >
+              Testa dina kunskaper i kapitel 4 till 6. Svara på frågor om
+              yrkesroller, inköp, distribution, logistik, kundens köpprocess och service.
+              mycket mer!
+            </p>
+
+            <!-- Feature badges -->
+            <div
+              class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left"
+            >
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">❓</div>
+                <div
+                  id="startQuestionCount"
+                  class="font-semibold text-sm text-sage-900"
+                >
+                  51 Frågor
+                </div>
+                <div class="text-xs text-gray-500">Blandade nivåer</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">🧘</div>
+                <div class="font-semibold text-sm text-sage-900">
+                  Ingen tidspress
+                </div>
+                <div class="text-xs text-gray-500">Svara i lugn och ro</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">⭐</div>
+                <div class="font-semibold text-sm text-sage-900">Poäng</div>
+                <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">💡</div>
+                <div class="font-semibold text-sm text-sage-900">
+                  Korta svar
+                </div>
+                <div class="text-xs text-gray-500">Lär dig direkt</div>
+              </div>
+            </div>
+
+            <!-- FILTER: ELEVEN VÄLJER FRÅGETYP -->
+            <div
+              class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left"
+            >
+              <div
+                class="flex flex-wrap items-center justify-between gap-2 mb-1"
+              >
+                <h3 class="font-cardo font-bold text-xl text-sage-900">
+                  Välj frågetyper
+                </h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onclick="selectAllTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Välj alla
+                  </button>
+                  <span class="text-beige-300">|</span>
+                  <button
+                    type="button"
+                    onclick="clearTypes()"
+                    class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition"
+                  >
+                    Rensa
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">
+                Klicka på en typ för att välja eller ta bort den.
+              </p>
+
+              <div
+                id="typeFilter"
+                class="flex flex-wrap justify-center gap-3"
+              ></div>
+
+              <div
+                class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800"
+              >
+                <span>📋</span>
+                <span id="filterSummary">45 frågor valda</span>
+              </div>
+            </div>
+
+            <button
+              id="startBtn"
+              onclick="startGame()"
+              class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto"
+            >
+              <span>STARTA SPELET</span>
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- SCREEN 2: GAMEPLAY SCREEN -->
+        <section id="gameScreen" class="hidden flex-col gap-6">
+          <!-- Top status bar -->
+          <div
+            class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4"
+          >
+            <!-- Question indicator & visual progress -->
+            <div class="w-full sm:w-auto flex-grow max-w-md">
+              <div
+                class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900"
+              >
+                <span id="questionNumberText">Fråga 1 av 24</span>
+                <span
+                  id="progressTextVisual"
+                  class="font-mono text-sage-700 font-bold"
+                  >█░░░░░░░░░░░ 1/24</span
+                >
+              </div>
+              <div
+                class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200"
+              >
+                <div
+                  id="progressBarFill"
+                  class="bg-sage-700 h-full transition-all duration-300 rounded-full"
+                  style="width: 4.16%"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Score -->
+            <div
+              class="flex items-center justify-between w-full sm:w-auto gap-4"
+            >
+              <!-- Score badge -->
+              <div
+                class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm"
+              >
+                <span class="text-lg">🏆</span>
+                <div>
+                  <div
+                    class="text-[10px] text-sage-200 font-bold uppercase tracking-wider"
+                  >
+                    Poäng
+                  </div>
+                  <div
+                    id="scoreText"
+                    class="font-mono font-bold text-base text-white"
+                  >
+                    0
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question Card -->
+          <div
+            class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]"
+          >
+            <!-- Question metadata / topic tag -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span
+                  id="categoryTag"
+                  class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase"
+                >
+                  Gåta / Begrepp
+                </span>
+                <span
+                  id="hintBadge"
+                  class="hidden sm:inline-block text-xs text-gray-400 font-medium"
+                >
+                  💡 Välj ett svar nedan
+                </span>
+              </div>
+
+              <h3
+                id="questionText"
+                class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6"
+              >
+                Laddar fråga...
+              </h3>
+            </div>
+
+            <!-- 4 Answer Option Buttons -->
+            <div
+              id="optionsContainer"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"
+            >
+              <!-- Dynamically populated buttons -->
+            </div>
+
+            <!-- Explanation box & Next Button container -->
+            <div
+              id="feedbackContainer"
+              class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300"
+            >
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              >
+                <div class="flex items-start space-x-3">
+                  <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                  <div>
+                    <h4
+                      id="feedbackTitle"
+                      class="font-bold text-lg leading-tight mb-1"
+                    ></h4>
+                    <p
+                      id="feedbackExplanation"
+                      class="text-sm text-gray-700 leading-relaxed"
+                    ></p>
+                  </div>
+                </div>
+                <button
+                  id="nextBtn"
+                  onclick="nextQuestion()"
+                  class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
+                >
+                  <span id="nextBtnText">Nästa fråga</span>
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3: RESULT SCREEN -->
+        <section
+          id="resultScreen"
+          class="hidden bg-white rounded-3xl p-8 sm:p-12 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        >
+          <div class="max-w-xl mx-auto">
+            <div
+              class="w-20 h-20 mx-auto rounded-3xl bg-sage-100 text-sage-800 flex items-center justify-center text-4xl mb-6 shadow-inner"
+            >
+              🎉
+            </div>
+
+            <h2
+              class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2"
+            >
+              Quizet är klart!
+            </h2>
+            <p
+              id="resultSummaryText"
+              class="text-gray-600 text-base sm:text-lg mb-8"
+            >
+              Bra jobbat! Här är en sammanfattning av ditt resultat:
+            </p>
+
+            <!-- Score summary stats -->
+            <div class="grid grid-cols-3 gap-3 mb-8">
+              <div class="p-4 rounded-2xl bg-beige-100 border border-beige-200">
+                <div
+                  class="text-2xl font-black text-sage-900 font-mono"
+                  id="finalScore"
+                >
+                  0
+                </div>
+                <div class="text-xs text-gray-500 font-medium uppercase mt-1">
+                  Total poäng
+                </div>
+              </div>
+              <div
+                class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200"
+              >
+                <div
+                  class="text-2xl font-black text-emerald-700 font-mono"
+                  id="finalCorrect"
+                >
+                  0
+                </div>
+                <div
+                  class="text-xs text-emerald-800 font-medium uppercase mt-1"
+                >
+                  Antal rätt
+                </div>
+              </div>
+              <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+                <div
+                  class="text-2xl font-black text-rose-700 font-mono"
+                  id="finalWrong"
+                >
+                  0
+                </div>
+                <div class="text-xs text-rose-800 font-medium uppercase mt-1">
+                  Antal fel
+                </div>
+              </div>
+            </div>
+
+            <!-- Encouraging Feedback Card -->
+            <div
+              id="encouragementBox"
+              class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left"
+            >
+              <h4
+                class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2"
+              >
+                <span>🌟</span> Lärarfeedback:
+              </h4>
+              <p
+                id="encouragementText"
+                class="text-sm text-sage-800 leading-relaxed"
+              >
+                Bra kämpat! Försök igen för att förbättra ditt resultat och
+                sätta alla begrepp!
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onclick="startGame()"
+                class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  ></path>
+                </svg>
+                <span>Spela igen</span>
+              </button>
+              <button
+                onclick="backToStart()"
+                class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+              >
+                <span>Ändra frågetyper</span>
+              </button>
+              <button
+                onclick="openShareModal()"
+                class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2"
+              >
+                <span>Dela länken</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50"
+    >
+       Försäljning och service 2 • Quiz kapitel 4–6 
+    </footer>
+ 
+
+    <!-- SHARE MODAL -->
+    <div
+      id="shareModal"
+      class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center"
+      >
+        <button
+          onclick="closeShareModal()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+        >
+          &times;
+        </button>
+
+        <!-- Dynamic QR Code Container -->
+        <div
+          class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner"
+        >
+          <div id="qrcode"></div>
+        </div>
+
+        <div class="flex items-center gap-2 mb-4">
+          <input
+            id="shareUrlInput"
+            type="text"
+            readonly
+            class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all"
+            value=""
+          />
+          <button
+            onclick="copyShareUrl()"
+            class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition"
+          >
+            Kopiera
+          </button>
+        </div>
+        <div
+          id="copySuccessMsg"
+          class="hidden text-xs text-emerald-600 font-bold text-center mb-4"
+        >
+          ✓ Länken kopierad till urklipp!
+        </div>
+        <button
+          onclick="closeShareModal()"
+          class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl"
+        >
+          Stäng
+        </button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      // FRÅGEBANK: Kapitel 1–3, baserad på sammanfattningen
+      const allQuestions = [
+  {
+    "type": "Begrepp",
+    "question": "Vad är syftet med kontaktfasen i ett säljsamtal?",
+    "options": [
+      {
+        "text": "Att skapa en bra första kontakt och få kunden att känna sig välkommen",
+        "isCorrect": true
+      },
+      {
+        "text": "Att jämföra produktens pris med konkurrenternas",
+        "isCorrect": false
+      },
+      {
+        "text": "Att avsluta köpet och ta betalt",
+        "isCorrect": false
+      },
+      {
+        "text": "Att kontakta kunden efter köpet",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Kontaktfasen är början på mötet. Ett vänligt bemötande och ett gott första intryck är viktigt."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund kommer in medan du pratar med en kollega. Vad bör du göra?",
+    "options": [
+      {
+        "text": "Fortsätta prata tills kollegan är klar",
+        "isCorrect": false
+      },
+      {
+        "text": "Avbryta samtalet och uppmärksamma kunden",
+        "isCorrect": true
+      },
+      {
+        "text": "Vänta tills kunden själv ber om hjälp",
+        "isCorrect": false
+      },
+      {
+        "text": "Be kunden återkomma senare",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Kunden ska uppmärksammas. Avsluta eller pausa samtalet med kollegan och hälsa på kunden."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vilket beteende passar bäst i kontaktfasen?",
+    "options": [
+      {
+        "text": "Undvika ögonkontakt så kunden får vara ifred",
+        "isCorrect": false
+      },
+      {
+        "text": "Hälsa vänligt och möta kundens blick",
+        "isCorrect": true
+      },
+      {
+        "text": "Börja direkt prata om dyra produkter",
+        "isCorrect": false
+      },
+      {
+        "text": "Fråga direkt hur mycket kunden tänker spendera",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En vänlig hälsning, ett leende och ögonkontakt visar att kunden är välkommen."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad är huvudsyftet med analysfasen?",
+    "options": [
+      {
+        "text": "Att förstå kundens behov och önskemål",
+        "isCorrect": true
+      },
+      {
+        "text": "Att få kunden att köpa så många varor som möjligt",
+        "isCorrect": false
+      },
+      {
+        "text": "Att bestämma butikens sortiment",
+        "isCorrect": false
+      },
+      {
+        "text": "Att registrera kundens betalning",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "I analysfasen lyssnar säljaren och tar reda på vad kunden behöver."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vilken fråga är en öppen fråga?",
+    "options": [
+      {
+        "text": "Vill du ha den svarta?",
+        "isCorrect": false
+      },
+      {
+        "text": "Är det rätt storlek?",
+        "isCorrect": false
+      },
+      {
+        "text": "Vad ska du främst använda produkten till?",
+        "isCorrect": true
+      },
+      {
+        "text": "Ska du köpa den idag?",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En öppen fråga ger kunden möjlighet att svara med egna ord och berätta mer."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund verkar stressad och säger att hen har bråttom. Hur bör du anpassa servicen?",
+    "options": [
+      {
+        "text": "Ge snabb och tydlig hjälp",
+        "isCorrect": true
+      },
+      {
+        "text": "Visa alla produkter i sortimentet",
+        "isCorrect": false
+      },
+      {
+        "text": "Ställa många frågor innan du hjälper",
+        "isCorrect": false
+      },
+      {
+        "text": "Be kunden komma tillbaka en annan dag",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En stressad kund behöver ofta snabb och tydlig hjälp."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund är osäker på vilken produkt som passar. Vad är bäst att göra i analysfasen?",
+    "options": [
+      {
+        "text": "Välja den dyraste produkten åt kunden",
+        "isCorrect": false
+      },
+      {
+        "text": "Ställa frågor för att förstå vad kunden behöver",
+        "isCorrect": true
+      },
+      {
+        "text": "Avsluta samtalet direkt",
+        "isCorrect": false
+      },
+      {
+        "text": "Visa bara den produkt som säljer bäst",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Frågor hjälper säljaren att förstå kundens behov innan förslag ges."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad händer i utbytesfasen?",
+    "options": [
+      {
+        "text": "Säljaren visar och förklarar produkter som passar kundens behov",
+        "isCorrect": true
+      },
+      {
+        "text": "Kunden får ett nyhetsbrev efter köpet",
+        "isCorrect": false
+      },
+      {
+        "text": "Säljaren hälsar för första gången",
+        "isCorrect": false
+      },
+      {
+        "text": "Kunden lämnar en recension",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "I utbytesfasen presenterar säljaren passande produkter och förklarar deras värde."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Varför är det bra att visa alternativ i olika prisklasser?",
+    "options": [
+      {
+        "text": "Kunden får möjlighet att jämföra alternativ som passar behov och budget",
+        "isCorrect": true
+      },
+      {
+        "text": "Det gör att kunden alltid väljer den dyraste varan",
+        "isCorrect": false
+      },
+      {
+        "text": "Det gör analysfasen onödig",
+        "isCorrect": false
+      },
+      {
+        "text": "Det innebär att alla produkter får samma pris",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Olika alternativ gör det lättare för kunden att hitta en produkt som passar både behov och ekonomi."
+  },
+  {
+    "type": "Situation",
+    "question": "Kunden tycker att produkten är för dyr. Vad är ett lämpligt sätt att hantera invändningen?",
+    "options": [
+      {
+        "text": "Säga att kunden har fel",
+        "isCorrect": false
+      },
+      {
+        "text": "Lyssna, ställa frågor och undersöka ett annat alternativ",
+        "isCorrect": true
+      },
+      {
+        "text": "Avsluta samtalet utan förklaring",
+        "isCorrect": false
+      },
+      {
+        "text": "Pressa kunden att köpa direkt",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En invändning ger information om kundens behov. Försök förstå vad kunden reagerar på och föreslå ett bättre alternativ."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad menas med en invändning i ett säljsamtal?",
+    "options": [
+      {
+        "text": "När kunden uttrycker tvekan eller säger att något inte passar",
+        "isCorrect": true
+      },
+      {
+        "text": "När kunden betalar för en vara",
+        "isCorrect": false
+      },
+      {
+        "text": "När säljaren hälsar på kunden",
+        "isCorrect": false
+      },
+      {
+        "text": "När företaget skickar ett nyhetsbrev",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En invändning kan till exempel handla om pris, färg eller storlek."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Hur bör säljaren agera om kunden inte gillar ett produktförslag?",
+    "options": [
+      {
+        "text": "Fortsätta föreslå samma produkt",
+        "isCorrect": false
+      },
+      {
+        "text": "Ställa fler frågor och försöka förstå kundens önskemål",
+        "isCorrect": true
+      },
+      {
+        "text": "Kritisera kundens val",
+        "isCorrect": false
+      },
+      {
+        "text": "Avsluta utan att lyssna",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Om kunden tvekar behöver säljaren ta reda på mer om vad kunden söker."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad är viktigt i avslutningsfasen?",
+    "options": [
+      {
+        "text": "Tacka kunden och visa att hen är välkommen tillbaka",
+        "isCorrect": true
+      },
+      {
+        "text": "Försöka sälja en produkt oavsett kundens behov",
+        "isCorrect": false
+      },
+      {
+        "text": "Undvika kontakt när kunden har betalat",
+        "isCorrect": false
+      },
+      {
+        "text": "Bara fokusera på kassans arbete",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Avslutningen påverkar kundens sista intryck, även om kunden inte köper något."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund lämnar butiken utan att köpa något. Hur bör du avsluta mötet?",
+    "options": [
+      {
+        "text": "Visa irritation över att inget blev sålt",
+        "isCorrect": false
+      },
+      {
+        "text": "Tacka kunden och önska en bra dag",
+        "isCorrect": true
+      },
+      {
+        "text": "Ignorera kunden",
+        "isCorrect": false
+      },
+      {
+        "text": "Fråga varför kunden slösade din tid",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Alla kunder ska få ett gott bemötande, även när det inte blir något köp."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad innebär uppföljning efter ett köp?",
+    "options": [
+      {
+        "text": "Att företaget håller kontakt med kunden efter köpet",
+        "isCorrect": true
+      },
+      {
+        "text": "Att kunden måste köpa en till vara",
+        "isCorrect": false
+      },
+      {
+        "text": "Att säljaren ändrar priset i kassan",
+        "isCorrect": false
+      },
+      {
+        "text": "Att leverantören kontrollerar lagret",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Uppföljning kan ske genom exempelvis nyhetsbrev, erbjudanden eller inbjudningar."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vad krävs innan ett företag skickar kunden nyhetsbrev eller erbjudanden enligt sammanfattningen?",
+    "options": [
+      {
+        "text": "Kunden måste godkänna att få sådan kontakt",
+        "isCorrect": true
+      },
+      {
+        "text": "Kunden måste handla varje vecka",
+        "isCorrect": false
+      },
+      {
+        "text": "Säljaren måste ringa kunden varje dag",
+        "isCorrect": false
+      },
+      {
+        "text": "Det krävs inget godkännande",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Kunden måste först godkänna kontakten, exempelvis genom att bli medlem i kundklubben."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund vill pruta på priset på en vara. Vad bör du göra om du är osäker på butikens regler?",
+    "options": [
+      {
+        "text": "Ge alltid halva priset",
+        "isCorrect": false
+      },
+      {
+        "text": "Fråga chef eller handledare vad som gäller",
+        "isCorrect": true
+      },
+      {
+        "text": "Säga att kunden aldrig får fråga",
+        "isCorrect": false
+      },
+      {
+        "text": "Ändra priset utan tillstånd",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Regler för prutning kan skilja sig mellan butiker. Fråga chef eller handledare."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad betyder merförsäljning?",
+    "options": [
+      {
+        "text": "Att erbjuda en extra produkt som passar ihop med kundens köp",
+        "isCorrect": true
+      },
+      {
+        "text": "Att alltid höja priset på huvudprodukten",
+        "isCorrect": false
+      },
+      {
+        "text": "Att sälja en vara som kunden inte behöver",
+        "isCorrect": false
+      },
+      {
+        "text": "Att kontakta kunden efter flera år",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Merförsäljning innebär att föreslå något som kompletterar det kunden redan valt."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund köper ett par skor. Vilket förslag är ett exempel på relevant merförsäljning?",
+    "options": [
+      {
+        "text": "Skovård som passar skorna",
+        "isCorrect": true
+      },
+      {
+        "text": "En helt orelaterad köksprodukt",
+        "isCorrect": false
+      },
+      {
+        "text": "En annan kunds beställning",
+        "isCorrect": false
+      },
+      {
+        "text": "En dyrare vara utan koppling till köpet",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Skovård kompletterar skorna och kan därför vara relevant för kundens behov."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Varför ska säljaren vara försiktig med merförsäljning?",
+    "options": [
+      {
+        "text": "För många förslag kan upplevas som tjat och göra kunden mindre villig att handla",
+        "isCorrect": true
+      },
+      {
+        "text": "Merförsäljning är alltid förbjuden",
+        "isCorrect": false
+      },
+      {
+        "text": "Kunder får aldrig köpa tillbehör",
+        "isCorrect": false
+      },
+      {
+        "text": "Det gör att produktkunskap inte behövs",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Merförsäljning ska vara relevant och anpassad. Tjat kan påverka kundens upplevelse negativt."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad står EFI för?",
+    "options": [
+      {
+        "text": "Egenskaper, Fördelar, Innebörd",
+        "isCorrect": true
+      },
+      {
+        "text": "Effektivitet, Funktion, Information",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskaper, Funktion, Inköp",
+        "isCorrect": false
+      },
+      {
+        "text": "Erbjudande, Försäljning, Intresse",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "EFI står för Egenskaper, Fördelar och Innebörd."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad beskriver egenskaper i en EFI-analys?",
+    "options": [
+      {
+        "text": "Fakta om vad produkten är eller har",
+        "isCorrect": true
+      },
+      {
+        "text": "Vilken känsla kunden får av produkten",
+        "isCorrect": false
+      },
+      {
+        "text": "Varför produkten är bättre än konkurrenternas",
+        "isCorrect": false
+      },
+      {
+        "text": "Hur kunden betalar för produkten",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Egenskaper är konkreta fakta om produkten, till exempel storlek, material eller funktion."
+  },
+  {
+    "type": "Situation",
+    "question": "En säljare berättar att en cykel har en aluminiumram. Vilken del av EFI är detta?",
+    "options": [
+      {
+        "text": "Fördel",
+        "isCorrect": false
+      },
+      {
+        "text": "Innebörd",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskap",
+        "isCorrect": true
+      },
+      {
+        "text": "USP",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Materialet är en konkret fakta om cykeln och räknas därför som en egenskap."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad beskriver fördelar i en EFI-analys?",
+    "options": [
+      {
+        "text": "Hur produktens egenskaper skapar nytta för kunden",
+        "isCorrect": true
+      },
+      {
+        "text": "Produktens färg och mått utan förklaring",
+        "isCorrect": false
+      },
+      {
+        "text": "Vad produkten symboliserar för kunden",
+        "isCorrect": false
+      },
+      {
+        "text": "Vilka konkurrenter som säljer produkten",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Fördelar visar vilken nytta kunden får av produktens egenskaper."
+  },
+  {
+    "type": "Situation",
+    "question": "En mobil har en högupplöst skärm som gör filmer tydligare. Vad är fördelen?",
+    "options": [
+      {
+        "text": "Att mobilen har en skärm",
+        "isCorrect": false
+      },
+      {
+        "text": "Att filmer blir tydligare att se",
+        "isCorrect": true
+      },
+      {
+        "text": "Att mobilen kan signalera status",
+        "isCorrect": false
+      },
+      {
+        "text": "Att mobilen finns i flera färger",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Den tydligare filmupplevelsen är nyttan som skärmens egenskap ger kunden."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad betyder innebörd i EFI-analysen?",
+    "options": [
+      {
+        "text": "Produktens känslomässiga eller symboliska betydelse för kunden",
+        "isCorrect": true
+      },
+      {
+        "text": "En lista över produktens tekniska fakta",
+        "isCorrect": false
+      },
+      {
+        "text": "Produktens inköpspris",
+        "isCorrect": false
+      },
+      {
+        "text": "Hur många produkter som finns i lager",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Innebörd handlar om vad produkten betyder för kunden, till exempel trygghet, status eller miljömedvetenhet."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund väljer en cykel eftersom den visar att kunden tänker på miljön. Vilken del av EFI beskriver detta?",
+    "options": [
+      {
+        "text": "Egenskap",
+        "isCorrect": false
+      },
+      {
+        "text": "Fördel",
+        "isCorrect": false
+      },
+      {
+        "text": "Innebörd",
+        "isCorrect": true
+      },
+      {
+        "text": "Pris",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Miljömedvetenhet är en symbolisk betydelse som produkten kan ha för kunden."
+  },
+  {
+    "type": "Jämförelse",
+    "question": "Vilken ordning följer EFI-analysen?",
+    "options": [
+      {
+        "text": "Fördelar → Innebörd → Egenskaper",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskaper → Fördelar → Innebörd",
+        "isCorrect": true
+      },
+      {
+        "text": "Innebörd → Egenskaper → Fördelar",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskaper → Innebörd → Pris",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "EFI byggs upp från produktens fakta, vidare till kundnyttan och därefter betydelsen för kunden."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Varför används en EFI-analys i försäljning?",
+    "options": [
+      {
+        "text": "För att ta fram säljargument som kopplar produkten till kundens behov",
+        "isCorrect": true
+      },
+      {
+        "text": "För att bestämma personalens arbetstider",
+        "isCorrect": false
+      },
+      {
+        "text": "För att registrera leveranser",
+        "isCorrect": false
+      },
+      {
+        "text": "För att räkna ut butikens hyra",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "EFI hjälper säljaren att förklara produktens värde och bemöta kundens frågor."
+  },
+  {
+    "type": "Situation",
+    "question": "En buss har mjuka säten. Säljaren säger att resan därför blir bekvämare. Vilken del av EFI är bekvämare resa?",
+    "options": [
+      {
+        "text": "Egenskap",
+        "isCorrect": false
+      },
+      {
+        "text": "Fördel",
+        "isCorrect": true
+      },
+      {
+        "text": "Innebörd",
+        "isCorrect": false
+      },
+      {
+        "text": "USP",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Bekvämare resa är nyttan som de mjuka sätena ger passageraren."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund väljer en mobil eftersom den ger en känsla av trygghet. Vilken del av EFI handlar det om?",
+    "options": [
+      {
+        "text": "Egenskap",
+        "isCorrect": false
+      },
+      {
+        "text": "Fördel",
+        "isCorrect": false
+      },
+      {
+        "text": "Innebörd",
+        "isCorrect": true
+      },
+      {
+        "text": "Teknisk fakta",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Trygghet är en känslomässig betydelse och hör till innebörden."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad är en USP?",
+    "options": [
+      {
+        "text": "Något unikt som skiljer produkten från konkurrenternas och möter kundens behov",
+        "isCorrect": true
+      },
+      {
+        "text": "En lista över alla produktens egenskaper",
+        "isCorrect": false
+      },
+      {
+        "text": "En rabatt som alltid gäller",
+        "isCorrect": false
+      },
+      {
+        "text": "En metod för att registrera varor",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "USP lyfter fram produktens unika egenskap eller värde som skiljer den från konkurrenterna."
+  },
+  {
+    "type": "Situation",
+    "question": "Två butiker säljer liknande cyklar. Den ena har en särskilt lång batteriräckvidd som passar kundens behov. Vad kan detta vara?",
+    "options": [
+      {
+        "text": "En USP",
+        "isCorrect": true
+      },
+      {
+        "text": "En invändning",
+        "isCorrect": false
+      },
+      {
+        "text": "En uppföljning",
+        "isCorrect": false
+      },
+      {
+        "text": "En kundgrupp",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En tydlig unik fördel som möter kundens behov kan fungera som produktens USP."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vad behöver säljaren tänka på när innebörden av en produkt förklaras?",
+    "options": [
+      {
+        "text": "Att betydelsen kan variera mellan olika kunder och deras värderingar",
+        "isCorrect": true
+      },
+      {
+        "text": "Att alla kunder alltid upplever samma sak",
+        "isCorrect": false
+      },
+      {
+        "text": "Att innebörden bara handlar om pris",
+        "isCorrect": false
+      },
+      {
+        "text": "Att innebörden är exakt samma som produktens mått",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Produktens symboliska och känslomässiga betydelse varierar beroende på målgrupp och personliga värderingar."
+  },
+  {
+    "type": "Jämförelse",
+    "question": "Vilket alternativ skiljer bäst mellan egenskap och fördel?",
+    "options": [
+      {
+        "text": "Egenskap är fakta om produkten; fördel är nyttan kunden får",
+        "isCorrect": true
+      },
+      {
+        "text": "Egenskap är kundens känsla; fördel är produktens pris",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskap och fördel betyder samma sak",
+        "isCorrect": false
+      },
+      {
+        "text": "Egenskap är kundens målgrupp; fördel är företagets logotyp",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Egenskap beskriver vad produkten har. Fördel förklarar vad egenskapen gör för kunden."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad menas med kulturella kommunikationsmönster?",
+    "options": [
+      {
+        "text": "Sätt att kommunicera som påverkas av de kulturer och grupper vi tillhör",
+        "isCorrect": true
+      },
+      {
+        "text": "Regler för hur varor ska placeras i butik",
+        "isCorrect": false
+      },
+      {
+        "text": "En lista över kundernas köp",
+        "isCorrect": false
+      },
+      {
+        "text": "Ett företags prissättningsmodell",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Människor påverkas av flera kulturer, till exempel familj, skola, vänner och arbetsplats."
+  },
+  {
+    "type": "Situation",
+    "question": "Du börjar på en ny APL-plats och känner inte till arbetsplatsens rutiner. Vad är ett bra sätt att lära känna arbetsplatsen?",
+    "options": [
+      {
+        "text": "Vara nyfiken, lyssna aktivt och ställa frågor",
+        "isCorrect": true
+      },
+      {
+        "text": "Vänta tills någon säger till dig allt",
+        "isCorrect": false
+      },
+      {
+        "text": "Undvika kontakt med kollegor",
+        "isCorrect": false
+      },
+      {
+        "text": "Göra egna regler utan att fråga",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "På APL är det viktigt att vara intresserad, lyssna och fråga för att förstå arbetsplatsens sätt att arbeta."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vad kan visa att kommunikationen fungerar bra på en arbetsplats?",
+    "options": [
+      {
+        "text": "Trivsel, fungerande ledarskap och tydlig ansvarsfördelning",
+        "isCorrect": true
+      },
+      {
+        "text": "Att ingen ställer frågor",
+        "isCorrect": false
+      },
+      {
+        "text": "Att varje anställd arbetar helt utan samarbete",
+        "isCorrect": false
+      },
+      {
+        "text": "Att information bara delas med chefen",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "God kommunikation bidrar till trivsel, fungerande ledarskap, samarbete och tydligt ansvar."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vad ska du göra om du utsätts för mobbning på APL eller arbetsplatsen?",
+    "options": [
+      {
+        "text": "Prata genast med handledare, yrkeslärare, mentor eller chef",
+        "isCorrect": true
+      },
+      {
+        "text": "Försöka lösa allt genom att ignorera det",
+        "isCorrect": false
+      },
+      {
+        "text": "Vänta tills praktiken är slut",
+        "isCorrect": false
+      },
+      {
+        "text": "Sprida rykten om personen",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Sammanfattningen säger att mobbning ska tas på allvar och att du genast ska prata med en ansvarig vuxen eller chef."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad är en målgrupp?",
+    "options": [
+      {
+        "text": "En grupp kunder som företaget vill nå och anpassa kommunikationen till",
+        "isCorrect": true
+      },
+      {
+        "text": "Alla leverantörer som säljer till företaget",
+        "isCorrect": false
+      },
+      {
+        "text": "En grupp anställda med samma arbetstid",
+        "isCorrect": false
+      },
+      {
+        "text": "Alla produkter i butikens sortiment",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Målgrupper kan delas in efter exempelvis ålder, bostadsort, intressen, livsstil och värderingar."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vilket kan användas för att dela in kunder i målgrupper?",
+    "options": [
+      {
+        "text": "Ålder, bostadsort, intressen och livsstil",
+        "isCorrect": true
+      },
+      {
+        "text": "Endast kundens skostorlek",
+        "isCorrect": false
+      },
+      {
+        "text": "Vilken tid kunden går till jobbet",
+        "isCorrect": false
+      },
+      {
+        "text": "Vilket kassasystem butiken använder",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Målgrupper kan beskrivas med flera faktorer, bland annat ålder, bostadsort, intressen och värderingar."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund vill ha en kort förklaring och verkar inte vilja prata länge. Hur bör du anpassa kommunikationen?",
+    "options": [
+      {
+        "text": "Anpassa tempo, tonfall och mängden information efter kunden",
+        "isCorrect": true
+      },
+      {
+        "text": "Använda samma långa förklaring för alla",
+        "isCorrect": false
+      },
+      {
+        "text": "Prata snabbare och högre",
+        "isCorrect": false
+      },
+      {
+        "text": "Undvika att svara på frågor",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Kommunikationen ska anpassas efter kundens behov, bland annat genom språk, tonfall, tempo och mängd fakta."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Varför är det viktigt att inte döma kunder efter ålder, utseende eller klädsel?",
+    "options": [
+      {
+        "text": "Kunder ska bemötas öppet, respektfullt och utan fördomar",
+        "isCorrect": true
+      },
+      {
+        "text": "Det gör det lättare att sälja dyrare produkter",
+        "isCorrect": false
+      },
+      {
+        "text": "Det är bara viktigt för stamkunder",
+        "isCorrect": false
+      },
+      {
+        "text": "Det påverkar endast butikens skyltning",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Ett professionellt bemötande innebär att respektera kundens värderingar och vara fördomsfri."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Varför är kunskap om språk och kulturer en fördel vid kontakt med leverantörer?",
+    "options": [
+      {
+        "text": "Leverantörer kan finnas i Sverige eller utomlands och kommunikationen behöver fungera",
+        "isCorrect": true
+      },
+      {
+        "text": "Alla leverantörer använder samma språk",
+        "isCorrect": false
+      },
+      {
+        "text": "Inköpare behöver aldrig kommunicera med leverantörer",
+        "isCorrect": false
+      },
+      {
+        "text": "Det gör att dokumentation inte behövs",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Inköparen är kund till leverantören. Språk- och kulturkunskap kan underlätta samarbetet."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vilket är en rättighet för anställda enligt sammanfattningen?",
+    "options": [
+      {
+        "text": "Raster och en säker arbetsmiljö",
+        "isCorrect": true
+      },
+      {
+        "text": "Att själv bestämma alla arbetsplatsens regler",
+        "isCorrect": false
+      },
+      {
+        "text": "Att komma när man vill",
+        "isCorrect": false
+      },
+      {
+        "text": "Att slippa utföra sina arbetsuppgifter",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Anställda har bland annat rätt till raster och en säker arbetsmiljö."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Vilket är en skyldighet för anställda?",
+    "options": [
+      {
+        "text": "Följa lagar och regler, komma i tid och utföra arbetsuppgifter",
+        "isCorrect": true
+      },
+      {
+        "text": "Bestämma företagets priser utan tillstånd",
+        "isCorrect": false
+      },
+      {
+        "text": "Ge alla kunder rabatt",
+        "isCorrect": false
+      },
+      {
+        "text": "Ändra arbetsplatsens rutiner på egen hand",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Anställda ska följa regler, komma i tid och utföra sina arbetsuppgifter."
+  },
+  {
+    "type": "Situation",
+    "question": "Du är osäker på om du får ge en kund rabatt. Vad bör du göra?",
+    "options": [
+      {
+        "text": "Kontrollera med handledare eller chef",
+        "isCorrect": true
+      },
+      {
+        "text": "Ge rabatten ändå",
+        "isCorrect": false
+      },
+      {
+        "text": "Låta kunden bestämma själv",
+        "isCorrect": false
+      },
+      {
+        "text": "Säga att alla anställda får ge vilken rabatt som helst",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Om du är osäker på vad du får göra ska du fråga handledare eller chef."
+  },
+  {
+    "type": "Begrepp",
+    "question": "Vad innebär ställningsfullmakt?",
+    "options": [
+      {
+        "text": "Att en anställd får agera för företagets räkning inom vissa ramar",
+        "isCorrect": true
+      },
+      {
+        "text": "Att en anställd får bestämma allt i företaget",
+        "isCorrect": false
+      },
+      {
+        "text": "Att kunden får företräda företaget",
+        "isCorrect": false
+      },
+      {
+        "text": "Att en leverantör ansvarar för butikens personal",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Ställningsfullmakt innebär att en anställd får agera för företagets räkning inom gränserna för sin roll."
+  },
+  {
+    "type": "Situation",
+    "question": "En anställd får enligt sina arbetsuppgifter ge en mindre rabatt på en skadad vara. Vad visar detta?",
+    "options": [
+      {
+        "text": "Ställningsfullmakt inom vissa ramar",
+        "isCorrect": true
+      },
+      {
+        "text": "Att alla anställda får ändra alla priser",
+        "isCorrect": false
+      },
+      {
+        "text": "Att kunden har övertagit chefens ansvar",
+        "isCorrect": false
+      },
+      {
+        "text": "Att företaget saknar regler",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "En anställd kan ha rätt att fatta vissa beslut, exempelvis ge en mindre rabatt, inom sin roll och sina befogenheter."
+  },
+  {
+    "type": "Kunskap",
+    "question": "Varför bör arbetsuppgifter och befogenheter vara tydligt förklarade, helst skriftligt?",
+    "options": [
+      {
+        "text": "Så att den anställde vet vilka beslut hen får fatta",
+        "isCorrect": true
+      },
+      {
+        "text": "Så att den anställde kan ta över chefens arbete",
+        "isCorrect": false
+      },
+      {
+        "text": "Så att kunderna kan ändra företagets regler",
+        "isCorrect": false
+      },
+      {
+        "text": "Så att arbetsplatsen slipper kommunikation",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Tydliga ramar minskar osäkerhet kring vad den anställde får och inte får göra."
+  },
+  {
+    "type": "Situation",
+    "question": "En kund reklamerar en trasig vara. Den anställde vet inte om hen får lämna ut en ny vara. Vad är rätt agerande?",
+    "options": [
+      {
+        "text": "Fråga chef eller handledare om befogenheten är oklar",
+        "isCorrect": true
+      },
+      {
+        "text": "Lova alltid en ny vara direkt",
+        "isCorrect": false
+      },
+      {
+        "text": "Avvisa alltid kunden",
+        "isCorrect": false
+      },
+      {
+        "text": "Be kunden kontakta en annan kund",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Enklare reklamationer kan ingå i en anställds befogenheter, men vid osäkerhet ska ansvarig chef rådfrågas."
+  }
+];
+
+      const termDefinitions = {
+  "Kontaktfasen": "Första delen av säljsamtalet där säljaren hälsar och skapar kontakt.",
+  "Analysfasen": "Delen där säljaren lyssnar och tar reda på kundens behov.",
+  "Utbytesfasen": "Delen där säljaren visar och förklarar passande produkter.",
+  "Avslutningsfasen": "Sista delen av mötet där säljaren tackar kunden och avslutar vänligt.",
+  "Uppföljning": "Kontakt med kunden efter köpet, till exempel nyhetsbrev eller erbjudanden.",
+  "Invändning": "När kunden tvekar eller säger att något inte passar.",
+  "Merförsäljning": "Att föreslå en extra produkt som passar ihop med kundens köp.",
+  "Pruta": "Att försöka förhandla till sig ett lägre pris.",
+  "Öppen fråga": "En fråga som gör att kunden kan svara med egna ord.",
+  "Produktkunskap": "Kunskap om produktens egenskaper och användning.",
+  "EFI-analys": "En metod för att koppla produktens fakta till kundens nytta och känsla.",
+  "EFI": "Egenskaper, Fördelar och Innebörd.",
+  "Egenskaper": "Fakta om vad en produkt är eller har.",
+  "Fördelar": "Den nytta kunden får av produktens egenskaper.",
+  "Innebörd": "Produktens känslomässiga eller symboliska betydelse för kunden.",
+  "USP": "Produktens unika värde som skiljer den från konkurrenterna.",
+  "Målgrupp": "En grupp kunder som företaget vill nå.",
+  "Kulturella kommunikationsmönster": "Sätt att kommunicera som påverkas av kulturer och grupper vi tillhör.",
+  "APL": "Arbetsplatsförlagt lärande, där eleven får praktisk erfarenhet på en arbetsplats.",
+  "Aktivt lyssnande": "Att lyssna uppmärksamt och visa att man försöker förstå.",
+  "Ansvarsfördelning": "Hur arbetsuppgifter och ansvar delas mellan personer.",
+  "Mobbning": "Upprepade kränkningar eller negativa handlingar mot en person.",
+  "Rättigheter": "Sådant en anställd har rätt till på arbetsplatsen.",
+  "Skyldigheter": "Sådant en anställd måste göra och följa på arbetsplatsen.",
+  "Ställningsfullmakt": "Rätt att agera för företagets räkning inom gränserna för sin roll.",
+  "Befogenhet": "Vad en anställd har tillåtelse att besluta eller göra.",
+  "Reklamation": "När en kund klagar på ett fel i en vara eller tjänst.",
+  "Kundklubb": "Ett medlemsprogram där kunder kan få information eller erbjudanden."
+};
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[char]);
+      }
+
+      function renderTerms(value) {
+        const terms = Object.keys(termDefinitions).sort((a, b) => b.length - a.length);
+        const pattern = new RegExp(
+          "(" + terms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")",
+          "gi"
+        );
+
+        let result = "";
+        let lastIndex = 0;
+
+        for (const match of value.matchAll(pattern)) {
+          const term = match[0];
+          const key = terms.find(item => item.toLowerCase() === term.toLowerCase());
+          result += escapeHtml(value.slice(lastIndex, match.index));
+          result += `<abbr class="term-help" tabindex="0" data-tooltip="${escapeHtml(termDefinitions[key])}">${escapeHtml(term)}</abbr>`;
+          lastIndex = match.index + term.length;
+        }
+
+        return result + escapeHtml(value.slice(lastIndex));
+      }
+
+      let questions = [...allQuestions]; // de frågor som spelas (efter filter)
+      const TYPE_ORDER = ["Gåta", "Begrepp", "Situation", "Jämförelse", "Kunskap"];
+      const TYPE_INFO = {
+        "Gåta": { icon: "🧩", hint: "Gissa ordet" },
+        "Begrepp": { icon: "📖", hint: "Vad betyder ordet?" },
+        "Situation": { icon: "🛒", hint: "Vad gör du?" },
+        "Jämförelse": { icon: "⚖️", hint: "Vad är skillnaden?" },
+        "Kunskap": { icon: "🎓", hint: "Fakta och regler" },
+      };
+      let selectedTypes = new Set(allQuestions.map((q) => q.type));
+      const POINTS_PER_CORRECT = 100; // Fast poäng: lika många poäng för varje rätt svar
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let soundEnabled = true;
+      let answered = false;
+
+      // WEB AUDIO API FOR SOUND EFFECTS
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioCtx = null;
+
+      function initAudio() {
+        try {
+          if (!audioCtx && AudioContext) {
+            audioCtx = new AudioContext();
+          }
+        } catch (error) {
+          // Sound is optional; the quiz must still work if audio is unavailable.
+          audioCtx = null;
+        }
+      }
+
+      function playSound(type) {
+        if (!soundEnabled) return;
+        try {
+          initAudio();
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          if (type === "correct") {
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.exponentialRampToValueAtTime(
+              659.25,
+              audioCtx.currentTime + 0.15,
+            ); // E5
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioCtx.currentTime + 0.3,
+            );
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+          } else if (type === "wrong") {
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+            osc.frequency.exponentialRampToValueAtTime(
+              164.81,
+              audioCtx.currentTime + 0.2,
+            ); // E3
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioCtx.currentTime + 0.3,
+            );
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+          }
+        } catch (e) {
+          console.log("Audio play error", e);
+        }
+      }
+
+      function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById("soundIcon").innerText = soundEnabled
+          ? "🔊"
+          : "🔇";
+      }
+
+      function shuffleQuestions() {
+        for (let i = questions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+
+          [questions[i], questions[j]] = [questions[j], questions[i]];
+        }
+      }
+
+      // GAME NAVIGATION LOGIC
+      function startGame() {
+        // Ljud är valfritt och får aldrig hindra quizet från att starta.
+        initAudio();
+
+        // Välj ut frågor enligt elevens filter
+        questions = allQuestions.filter((q) => selectedTypes.has(q.type));
+        if (questions.length === 0) return;
+
+        // Blanda frågorna
+        shuffleQuestions();
+
+        // Återställ spelet
+        currentQuestionIndex = 0;
+        score = 0;
+        correctCount = 0;
+        wrongCount = 0;
+
+        // Visa spelskärmen
+        document.getElementById("startScreen").classList.add("hidden");
+
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
+
+        // Dölj resultatskärmen
+        document.getElementById("resultScreen").classList.add("hidden");
+
+        // Uppdatera poäng
+        document.getElementById("scoreText").innerText = "0";
+
+        // Ladda första frågan
+        loadQuestion();
+
+        // Börja längst upp på sidan
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      function loadQuestion() {
+        answered = false;
+
+        const q = questions[currentQuestionIndex];
+
+        // Update question text & category
+        document.getElementById("questionNumberText").innerText =
+          `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
+        document.getElementById("categoryTag").innerText = q.type;
+        document.getElementById("questionText").innerHTML = renderTerms(q.question);
+
+        // Update visual progress
+        const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBarFill").style.width = `${percent}%`;
+
+        // Render ascii style bar
+        const filledBlocks = Math.round(
+          ((currentQuestionIndex + 1) / questions.length) * 10,
+        );
+        const emptyBlocks = 10 - filledBlocks;
+        const asciiBar = "█".repeat(filledBlocks) + "░".repeat(emptyBlocks);
+        document.getElementById("progressTextVisual").innerText =
+          `${asciiBar} ${currentQuestionIndex + 1}/${questions.length}`;
+
+        // Next-button text (last question shows "Se resultat")
+        document.getElementById("nextBtnText").innerText =
+          currentQuestionIndex + 1 < questions.length
+            ? "Nästa fråga"
+            : "Se resultat";
+
+        // Reset feedback section
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        feedbackContainer.className =
+          "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+        // Render Options
+        const optionsContainer = document.getElementById("optionsContainer");
+        optionsContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+          btn.onclick = () => selectOption(idx, btn);
+
+          const badge = document.createElement("span");
+          badge.className =
+            "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+          badge.innerText = String.fromCharCode(65 + idx); // A, B, C, D
+
+          const textSpan = document.createElement("span");
+          textSpan.className = "mt-0.5 leading-snug";
+          textSpan.innerHTML = renderTerms(opt.text);
+
+          btn.appendChild(badge);
+          btn.appendChild(textSpan);
+          optionsContainer.appendChild(btn);
+        });
+      }
+
+      function selectOption(selectedIndex, clickedBtn) {
+        if (answered) return;
+        answered = true;
+
+        const q = questions[currentQuestionIndex];
+        const isCorrect = q.options[selectedIndex].isCorrect;
+        const optionBtns = document.getElementById("optionsContainer").children;
+
+        // Calculate score: fast poäng för rätt svar, 0 för fel svar
+        let pointsEarned = 0;
+        if (isCorrect) {
+          correctCount++;
+          pointsEarned = POINTS_PER_CORRECT;
+          score += pointsEarned;
+          playSound("correct");
+        } else {
+          wrongCount++;
+          playSound("wrong");
+        }
+
+        document.getElementById("scoreText").innerText = score;
+
+        // Style options based on answer
+        Array.from(optionBtns).forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove(
+            "hover:bg-beige-100",
+            "hover:border-sage-500",
+            "btn-bounce",
+          );
+          btn.classList.add("cursor-default");
+
+          if (q.options[idx].isCorrect) {
+            btn.className =
+              "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+            const badge = btn.querySelector("span");
+            badge.className =
+              "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            badge.innerText = "✓";
+          } else if (idx === selectedIndex && !isCorrect) {
+            btn.className =
+              "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+            const badge = btn.querySelector("span");
+            badge.className =
+              "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            badge.innerText = "✕";
+          } else {
+            btn.classList.add("opacity-40");
+          }
+        });
+
+        showFeedback(isCorrect, q.explanation, pointsEarned);
+      }
+
+      function showFeedback(isCorrect, explanation, pointsEarned) {
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        const feedbackIcon = document.getElementById("feedbackIcon");
+        const feedbackTitle = document.getElementById("feedbackTitle");
+        const feedbackExplanation = document.getElementById(
+          "feedbackExplanation",
+        );
+
+        feedbackContainer.classList.remove("hidden");
+
+        if (isCorrect) {
+          feedbackContainer.className =
+            "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
+          feedbackIcon.innerText = "🎉";
+          feedbackTitle.innerText = `Rätt svar! (+${pointsEarned} p)`;
+        } else {
+          feedbackContainer.className =
+            "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+          feedbackIcon.innerText = "💡";
+          feedbackTitle.innerText = "Fel!";
+        }
+
+        feedbackExplanation.innerHTML = renderTerms(explanation);
+
+        // Scroll smoothly to feedback if on small screens
+        setTimeout(() => {
+          feedbackContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }, 100);
+      }
+
+      function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      }
+
+      function showResults() {
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("flex");
+        document.getElementById("resultScreen").classList.remove("hidden");
+
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("finalCorrect").innerText = correctCount;
+        document.getElementById("finalWrong").innerText = wrongCount;
+
+        const percentage = Math.round((correctCount / questions.length) * 100);
+
+        document.getElementById("resultSummaryText").innerText =
+          `Du fick ${correctCount} av ${questions.length} rätt (${percentage} %).`;
+
+        const encouragementText = document.getElementById("encouragementText");
+
+        if (percentage >= 85) {
+          encouragementText.innerText =
+            "Strålande resultat! Du har extremt god förståelse för försäljning, service och kundrelationer. Du är redo för provet!";
+        } else if (percentage >= 60) {
+          encouragementText.innerText =
+            "Bra jobbat! Du har koll på de flesta begreppen. Repetera de begrepp och områden där du missade frågor så kan du förbättra resultatet nästa gång!";
+        } else {
+          encouragementText.innerText =
+            "Bra kämpat! Repetera säljsamtalets faser, EFI, USP, kommunikation och ställningsfullmakt.";
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // SHARE MODAL UTILITIES
+      let qrcodeObj = null;
+
+      function openShareModal() {
+        const currentUrl = window.location.href;
+        document.getElementById("shareUrlInput").value = currentUrl;
+
+        const qrcodeContainer = document.getElementById("qrcode");
+        qrcodeContainer.innerHTML = "";
+
+        try {
+          qrcodeObj = new QRCode(qrcodeContainer, {
+            text: currentUrl,
+            width: 140,
+            height: 140,
+            colorDark: "#1E3F2F",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+        } catch (e) {
+          qrcodeContainer.innerText =
+            "QR-kod genereras när sidan ligger på en webbadress.";
+        }
+
+        document.getElementById("shareModal").classList.remove("hidden");
+      }
+
+      function closeShareModal() {
+        document.getElementById("shareModal").classList.add("hidden");
+        document.getElementById("copySuccessMsg").classList.add("hidden");
+      }
+
+      function copyShareUrl() {
+        const input = document.getElementById("shareUrlInput");
+        input.select();
+        navigator.clipboard
+          .writeText(input.value)
+          .then(() => {
+            document
+              .getElementById("copySuccessMsg")
+              .classList.remove("hidden");
+          })
+          .catch(() => {
+            document.execCommand("copy");
+            document
+              .getElementById("copySuccessMsg")
+              .classList.remove("hidden");
+          });
+      }
+
+      // FILTER: ELEVEN VÄLJER FRÅGETYP
+      function countType(type) {
+        return allQuestions.filter((q) => q.type === type).length;
+      }
+
+      function buildTypeFilter() {
+        const container = document.getElementById("typeFilter");
+        container.innerHTML = "";
+
+        const types = [
+          ...TYPE_ORDER.filter((t) => countType(t) > 0),
+          ...[...new Set(allQuestions.map((q) => q.type))].filter(
+            (t) => !TYPE_ORDER.includes(t),
+          ),
+        ];
+
+        types.forEach((type) => {
+          const info = TYPE_INFO[type] || { icon: "❓", hint: "" };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.type = type;
+          btn.onclick = () => toggleType(type);
+          btn.innerHTML = `
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>
+          `;
+          container.appendChild(btn);
+        });
+
+        updateFilterUI();
+      }
+
+      function toggleType(type) {
+        if (selectedTypes.has(type)) {
+          selectedTypes.delete(type);
+        } else {
+          selectedTypes.add(type);
+        }
+        updateFilterUI();
+      }
+
+      function selectAllTypes() {
+        selectedTypes = new Set(allQuestions.map((q) => q.type));
+        updateFilterUI();
+      }
+
+      function clearTypes() {
+        selectedTypes = new Set();
+        updateFilterUI();
+      }
+
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach((btn) => {
+          const on = selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed", on);
+          btn.className =
+            "btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer " +
+            (on
+              ? "bg-sage-700 border-sage-700 text-white shadow-md"
+              : "bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display = on ? "flex" : "none";
+          btn.querySelector(".chip-hint").className =
+            "chip-hint block text-xs " + (on ? "text-sage-200" : "text-gray-500");
+          btn.querySelector(".chip-count").className =
+            "chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg " +
+            (on ? "bg-sage-800 text-white" : "bg-beige-100 text-sage-800");
+        });
+
+        const total = allQuestions.filter((q) =>
+          selectedTypes.has(q.type),
+        ).length;
+
+        document.getElementById("startQuestionCount").innerText =
+          `${total} Frågor`;
+        document.getElementById("filterSummary").innerText =
+          total === 0
+            ? "Välj minst en frågetyp för att starta"
+            : `${total} ${total === 1 ? "fråga vald" : "frågor valda"}`;
+
+        const startBtn = document.getElementById("startBtn");
+        startBtn.disabled = total === 0;
+        startBtn.classList.toggle("opacity-50", total === 0);
+        startBtn.classList.toggle("cursor-not-allowed", total === 0);
+      }
+
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      buildTypeFilter();
+    </script>
+  </body>
+</html>

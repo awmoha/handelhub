@@ -1,698 +1,782 @@
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      min-height: 100vh;
-      background: #F5F2EB;
-      color: #1F2421;
-      font-family: "Cardo" ;
-    }
+body {
+  min-height: 100vh;
+  background: #f5f2eb;
+  color: #1f2421;
+  font-family: "Cardo";
+}
 
-    /* HEADER */
-    header {
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid #E7E2D5;
-      padding: 18px 30px;
-    }
+/* HEADER */
+header {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid #e7e2d5;
+  padding: 18px 30px;
+}
 
-    .header-content {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+.header-content {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-    .logo {
-      width: 48px;
-      height: 48px;
-      background: #2D5A43;
-      color: white;
-      border-radius: 14px;
+.logo {
+  width: 48px;
+  height: 48px;
+  background: #2d5a43;
+  color: white;
+  border-radius: 14px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      font-size: 24px;
-    }
+  font-size: 24px;
+}
 
-    .header-title {
-      font-family: "Cardo" ;
-      color: #1E3F2F;
-      font-size: 24px;
-      font-weight: 700;
-    }
+.header-title {
+  font-family: "Cardo";
+  color: #1e3f2f;
+  font-size: 24px;
+  font-weight: 700;
+}
 
-    .header-subtitle {
-      color: #6B716D;
-      font-size: 13px;
-      margin-top: 2px;
-    }
+.header-subtitle {
+  color: #6b716d;
+  font-size: 13px;
+  margin-top: 2px;
+}
 
-    /* MAIN */
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 70px 25px;
-    }
+/* MAIN */
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 70px 25px;
+}
 
-    .hero {
-      text-align: center;
-      margin-bottom: 50px;
-    }
+.font-cardo {
+  font-family: "Cardo";
+}
+.custom-shadow {
+  box-shadow:
+    0 10px 30px -5px rgba(45, 90, 67, 0.08),
+    0 4px 12px -2px rgba(0, 0, 0, 0.04);
+}
+.btn-bounce {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-bounce:hover {
+  transform: translateY(-2px);
+}
+.btn-bounce:active {
+  transform: translateY(1px);
+}
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f2eb;
+}
+::-webkit-scrollbar-thumb {
+  background: #c2d8cb;
+  border-radius: 4px;
+}
 
-    .back-link {
-      display: inline-block;
-      margin-bottom: 25px;
+.term-help {
+  position: relative;
+  display: inline;
+  border-bottom: 1px dotted #2d5a43;
+  color: #1e3f2f;
+  font-weight: 700;
+  cursor: help;
+}
+.term-help::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
 
-      color: #2D5A43;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-    }
+  width: max-content;
+  max-width: 260px;
+  padding: 10px 14px;
 
-    .back-link:hover {
-      text-decoration: underline;
-    }
+  background: #e6efea;
+  color: #1e3f2f;
+  border: 1px solid #c2d8cb;
+  border-radius: 12px;
 
-    .hero h1 {
-      font-family: "Cardo" ;
-      color: #1E3F2F;
-      font-size: clamp(40px, 6vw, 60px);
-      margin-bottom: 15px;
-    }
+  font-family: "Cardo";
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
 
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #626862;
-      font-size: 17px;
-      line-height: 1.7;
-    }
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 1000;
 
-    /* QUIZ CARDS */
-    .quiz-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-    }
+  box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
 
-    .quiz-card {
-      display: block;
-      text-decoration: none;
+/* Visa bubblan när muspekaren är över begreppet */
+.term-help:hover::after,
+.term-help:focus::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.course-label {
+  position: absolute;
+  top: -9px;
+  right: -25px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #164d3c;
+  color: #fff;
+  font-family: "Cardo";
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
 
-      background: white;
-      border: 1px solid #E7E2D5;
-      border-radius: 24px;
+.back-link {
+  display: inline-block;
+  margin-bottom: 25px;
 
-      padding: 30px;
+  color: #2d5a43;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
 
-      box-shadow:
-        0 10px 30px rgba(45, 90, 67, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.04);
+.back-link:hover {
+  text-decoration: underline;
+}
 
-      transition: all 0.2s ease;
-    }
+.hero h1 {
+  font-family: "Cardo";
+  color: #1e3f2f;
+  font-size: clamp(40px, 6vw, 60px);
+  margin-bottom: 15px;
+}
 
-    .quiz-card:hover {
-      transform: translateY(-5px);
-      border-color: #4A7C59;
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  color: #626862;
+  font-size: 17px;
+  line-height: 1.7;
+}
 
-      box-shadow:
-        0 15px 35px rgba(45, 90, 67, 0.14);
-    }
+/* QUIZ CARDS */
+.quiz-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
 
-    .quiz-icon {
-      width: 58px;
-      height: 58px;
+.quiz-card {
+  display: block;
+  text-decoration: none;
 
-      background: #E6EFEA;
-      color: #2D5A43;
+  background: white;
+  border: 1px solid #e7e2d5;
+  border-radius: 24px;
 
-      border-radius: 16px;
+  padding: 30px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  box-shadow:
+    0 10px 30px rgba(45, 90, 67, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.04);
 
-      font-size: 28px;
+  transition: all 0.2s ease;
+}
 
-      margin-bottom: 20px;
-    }
+.quiz-card:hover {
+  transform: translateY(-5px);
+  border-color: #4a7c59;
 
-    .quiz-card h2 {
-      font-family: "Cardo" ;
-      color: #1E3F2F;
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
+  box-shadow: 0 15px 35px rgba(45, 90, 67, 0.14);
+}
 
-    .quiz-card p {
-      color: #6B716D;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+.quiz-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: #e8f0eb;
+  font-size: 30px;
+}
 
-    .open-quiz {
-      display: inline-block;
-      margin-top: 20px;
+.quiz-card h2 {
+  font-family: "Cardo";
+  color: #1e3f2f;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
 
-      color: #2D5A43;
-      font-weight: 700;
-      font-size: 14px;
-    }
+.quiz-card p {
+  color: #6b716d;
+  font-size: 14px;
+  line-height: 1.6;
+}
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 25px;
+.open-quiz {
+  display: inline-block;
+  margin-top: 20px;
 
-      border-top: 1px solid #E7E2D5;
+  color: #2d5a43;
+  font-weight: 700;
+  font-size: 14px;
+}
 
-      color: #777;
-      font-size: 13px;
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 25px;
 
-      background: rgba(255, 255, 255, 0.5);
-    }
+  border-top: 1px solid #e7e2d5;
 
-    /* MOBILE */
-    @media (max-width: 600px) {
-      header {
-        padding: 15px 18px;
-      }
+  color: #777;
+  font-size: 13px;
 
-      main {
-        padding: 50px 18px;
-      }
+  background: rgba(255, 255, 255, 0.5);
+}
 
-      .quiz-card {
-        padding: 25px;
-      }
-    }
- * {
-      box-sizing: border-box;
-    }
+/* MOBILE */
+@media (max-width: 600px) {
+  header {
+    padding: 15px 18px;
+  }
 
-    body {
-      margin: 0;
-      background: #f7f5ef;
-      color: #171717;
-      font-family: "Times New Roman", serif;
-    }
+  main {
+    padding: 50px 18px;
+  }
 
-    .game-wrapper {
-      min-height: 100vh;
-    }
+  .quiz-card {
+    padding: 25px;
+  }
+}
+* {
+  box-sizing: border-box;
+}
 
-    /* HEADER */
+body {
+  margin: 0;
+  background: #f7f5ef;
+  color: #171717;
+  font-family: "Times New Roman", serif;
+}
 
-    .game-header {
-      background: #ffffff;
-      border-bottom: 1px solid #d9d4c8;
-      padding: 18px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
+.game-wrapper {
+  min-height: 100vh;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+/* HEADER */
 
-    .brand-logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: #285b43;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Cardo", serif;
-      font-size: 24px;
-    }
+.game-header {
+  background: #ffffff;
+  border-bottom: 1px solid #d9d4c8;
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
 
-    .brand h1 {
-      margin: 0;
-      font-family: "Cardo", serif;
-      font-size: 26px;
-      color: #183d2c;
-    }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-    .brand p {
-      margin: 2px 0 0;
-      color: #6b6b6b;
-      font-size: 14px;
-    }
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #285b43;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cardo", serif;
+  font-size: 24px;
+}
 
-    .score-box {
-      background: #edf4ee;
-      border: 1px solid #c9ddcf;
-      padding: 9px 18px;
-      border-radius: 12px;
-      text-align: center;
-      min-width: 110px;
-    }
+.brand h1 {
+  margin: 0;
+  font-family: "Cardo", serif;
+  font-size: 26px;
+  color: #183d2c;
+}
 
-    .score-label {
-      display: block;
-      font-size: 12px;
-      color: #526357;
-    }
+.brand p {
+  margin: 2px 0 0;
+  color: #6b6b6b;
+  font-size: 14px;
+}
 
-    .score {
-      font-family: "Cardo", serif;
-      font-size: 23px;
-      font-weight: bold;
-      color: #24553d;
-    }
+.score-box {
+  background: #edf4ee;
+  border: 1px solid #c9ddcf;
+  padding: 9px 18px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 110px;
+}
 
-    /* START SCREEN */
+.score-label {
+  display: block;
+  font-size: 12px;
+  color: #526357;
+}
 
-    .screen {
-      width: min(1100px, calc(100% - 30px));
-      margin: 35px auto;
-    }
+.score {
+  font-family: "Cardo", serif;
+  font-size: 23px;
+  font-weight: bold;
+  color: #24553d;
+}
 
-    .start-card {
-      background: #ffffff;
-      border: 1px solid #ddd8cd;
-      border-radius: 20px;
-      padding: 50px 30px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(30, 50, 40, 0.06);
-      position: relative;
-      overflow: hidden;
-    }
+/* START SCREEN */
 
-    .start-card::before {
-      content: "✦  ✧  ✦  ✧  ✦";
-      position: absolute;
-      top: 15px;
-      left: 0;
-      right: 0;
-      color: #9bb9a5;
-      letter-spacing: 12px;
-      font-size: 13px;
-    }
+.screen {
+  width: min(1100px, calc(100% - 30px));
+  margin: 35px auto;
+}
 
-    .start-card h2 {
-      margin-top: 20px;
-      font-family: "Cardo", serif;
-      color: #1d4c35;
-      font-size: 36px;
-    }
+.start-card {
+  background: #ffffff;
+  border: 1px solid #ddd8cd;
+  border-radius: 20px;
+  padding: 50px 30px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(30, 50, 40, 0.06);
+  position: relative;
+  overflow: hidden;
+}
 
-    .start-card p {
-      max-width: 650px;
-      margin: 0 auto 25px;
-      line-height: 1.7;
-      color: #555;
-      font-size: 17px;
-    }
+.start-card::before {
+  content: "✦  ✧  ✦  ✧  ✦";
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  color: #9bb9a5;
+  letter-spacing: 12px;
+  font-size: 13px;
+}
 
-    .name-input {
-      width: min(400px, 100%);
-      padding: 14px 16px;
-      border: 1px solid #c8c8c8;
-      border-radius: 10px;
-      font-family: "Times New Roman", serif;
-      font-size: 17px;
-      margin-bottom: 15px;
-    }
+.start-card h2 {
+  margin-top: 20px;
+  font-family: "Cardo", serif;
+  color: #1d4c35;
+  font-size: 36px;
+}
 
-    .name-input:focus {
-      outline: 2px solid #9fbea9;
-      border-color: #376b50;
-    }
+.start-card p {
+  max-width: 650px;
+  margin: 0 auto 25px;
+  line-height: 1.7;
+  color: #555;
+  font-size: 17px;
+}
 
-    .primary-button {
-      border: none;
-      background: #285b43;
-      color: white;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-family: "Cardo", serif;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.name-input {
+  width: min(400px, 100%);
+  padding: 14px 16px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  font-family: "Times New Roman", serif;
+  font-size: 17px;
+  margin-bottom: 15px;
+}
 
-    .primary-button:hover {
-      background: #1d4633;
-      transform: translateY(-1px);
-    }
+.name-input:focus {
+  outline: 2px solid #9fbea9;
+  border-color: #376b50;
+}
 
-    /* GAME SCREEN */
+.primary-button {
+  border: none;
+  background: #285b43;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: "Cardo", serif;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-    /* #gameScreen {
+.primary-button:hover {
+  background: #1d4633;
+  transform: translateY(-1px);
+}
+
+/* GAME SCREEN */
+
+/* #gameScreen {
       display: none;
     } */
 
-    .game-top {
-      margin-bottom: 18px;
-    }
+.game-top {
+  margin-bottom: 18px;
+}
 
-    .game-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 15px;
-    }
+.game-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 15px;
+}
 
-    .game-title {
-      font-family: "Cardo", serif;
-      font-size: 22px;
-      color: #214b36;
-    }
+.game-title {
+  font-family: "Cardo", serif;
+  font-size: 22px;
+  color: #214b36;
+}
 
-    .progress-text {
-      color: #666;
-      font-size: 15px;
-    }
+.progress-text {
+  color: #666;
+  font-size: 15px;
+}
 
-    .progress-bar {
-      width: 100%;
-      height: 9px;
-      background: #e2e4df;
-      border-radius: 20px;
-      overflow: hidden;
-    }
+.progress-bar {
+  width: 100%;
+  height: 9px;
+  background: #e2e4df;
+  border-radius: 20px;
+  overflow: hidden;
+}
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #367254;
-      transition: width 0.4s ease;
-    }
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #367254;
+  transition: width 0.4s ease;
+}
 
-    /* SHOP */
+/* SHOP */
 
-    .shop {
-      background: #ffffff;
-      border: 1px solid #d9d5cb;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(30, 50, 40, 0.07);
-    }
+.shop {
+  background: #ffffff;
+  border: 1px solid #d9d5cb;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(30, 50, 40, 0.07);
+}
 
-    .shop-scene {
-      min-height: 350px;
-      position: relative;
-      background:
-        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 30px,
-          rgba(42,91,67,0.035) 30px,
-          rgba(42,91,67,0.035) 31px
-        );
-      padding: 30px;
-    }
+.shop-scene {
+  min-height: 350px;
+  position: relative;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(42, 91, 67, 0.035) 30px,
+      rgba(42, 91, 67, 0.035) 31px
+    );
+  padding: 30px;
+}
 
-    .shop-sign {
-      text-align: center;
-      font-family: "Cardo", serif;
-      font-size: 28px;
-      color: #24543c;
-      margin-bottom: 30px;
-    }
+.shop-sign {
+  text-align: center;
+  font-family: "Cardo", serif;
+  font-size: 28px;
+  color: #24543c;
+  margin-bottom: 30px;
+}
 
-    .shop-items {
-      display: flex;
-      justify-content: center;
-      gap: 55px;
-      margin-bottom: 35px;
-      flex-wrap: wrap;
-    }
+.shop-items {
+  display: flex;
+  justify-content: center;
+  gap: 55px;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+}
 
-    .shop-item {
-      width: 100px;
-      height: 100px;
-      border: 1px solid #d4d8d3;
-      background: #f9faf8;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #315740;
-      font-family: "Cardo", serif;
-    }
+.shop-item {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #d4d8d3;
+  background: #f9faf8;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #315740;
+  font-family: "Cardo", serif;
+}
 
-    .characters {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 90px;
-      margin-top: 20px;
-    }
+.characters {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 90px;
+  margin-top: 20px;
+}
 
-    .character {
-      text-align: center;
-    }
+.character {
+  text-align: center;
+}
 
-    .character-figure {
-      font-size: 65px;
-      height: 75px;
-    }
+.character-figure {
+  font-size: 65px;
+  height: 75px;
+}
 
-    .character-name {
-      background: white;
-      border: 1px solid #d6d6d6;
-      border-radius: 8px;
-      padding: 5px 12px;
-      font-size: 14px;
-    }
+.character-name {
+  background: white;
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 14px;
+}
 
-    .counter {
-      height: 45px;
-      width: 180px;
-      background: #285b43;
-      border-radius: 8px 8px 0 0;
-      margin: 15px auto 0;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Cardo", serif;
-    }
+.counter {
+  height: 45px;
+  width: 180px;
+  background: #285b43;
+  border-radius: 8px 8px 0 0;
+  margin: 15px auto 0;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cardo", serif;
+}
 
-    /* DIALOG */
+/* DIALOG */
 
-    .dialog-area {
-      border-top: 1px solid #ddd8cd;
-      padding: 25px;
-      background: #fff;
-    }
+.dialog-area {
+  border-top: 1px solid #ddd8cd;
+  padding: 25px;
+  background: #fff;
+}
 
-    .customer-message {
-      background: #f0f5f1;
-      border-left: 4px solid #356e50;
-      border-radius: 10px;
-      padding: 18px;
-      margin-bottom: 20px;
-    }
+.customer-message {
+  background: #f0f5f1;
+  border-left: 4px solid #356e50;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
 
-    .customer-name {
-      font-family: "Cardo", serif;
-      font-weight: bold;
-      color: #285b43;
-      margin-bottom: 7px;
-    }
+.customer-name {
+  font-family: "Cardo", serif;
+  font-weight: bold;
+  color: #285b43;
+  margin-bottom: 7px;
+}
 
-    .customer-text {
-      font-size: 18px;
-      line-height: 1.5;
-    }
+.customer-text {
+  font-size: 18px;
+  line-height: 1.5;
+}
 
-    .question-title {
-      font-family: "Cardo", serif;
-      font-size: 20px;
-      color: #222;
-      margin-bottom: 14px;
-    }
+.question-title {
+  font-family: "Cardo", serif;
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 14px;
+}
 
-    .answer-list {
-      display: grid;
-      gap: 11px;
-    }
+.answer-list {
+  display: grid;
+  gap: 11px;
+}
 
-    .answer-button {
-      width: 100%;
-      text-align: left;
-      padding: 14px 17px;
-      background: white;
-      border: 1px solid #cfd5d0;
-      border-radius: 10px;
-      font-family: "Times New Roman", serif;
-      font-size: 17px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.answer-button {
+  width: 100%;
+  text-align: left;
+  padding: 14px 17px;
+  background: white;
+  border: 1px solid #cfd5d0;
+  border-radius: 10px;
+  font-family: "Times New Roman", serif;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-    .answer-button:hover:not(:disabled) {
-      background: #f0f6f1;
-      border-color: #46785d;
-      transform: translateX(2px);
-    }
+.answer-button:hover:not(:disabled) {
+  background: #f0f6f1;
+  border-color: #46785d;
+  transform: translateX(2px);
+}
 
-    .answer-button:disabled {
-      cursor: default;
-    }
+.answer-button:disabled {
+  cursor: default;
+}
 
-    .answer-button.correct {
-      background: #e4f2e7;
-      border-color: #4e8a63;
-      color: #204e31;
-    }
+.answer-button.correct {
+  background: #e4f2e7;
+  border-color: #4e8a63;
+  color: #204e31;
+}
 
-    .answer-button.incorrect {
-      background: #f6e9e7;
-      border-color: #a75c52;
-      color: #69362f;
-    }
+.answer-button.incorrect {
+  background: #f6e9e7;
+  border-color: #a75c52;
+  color: #69362f;
+}
 
-    /* FEEDBACK */
+/* FEEDBACK */
 
-    .feedback {
-      display: none;
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 12px;
-    }
+.feedback {
+  display: none;
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 12px;
+}
 
-    .feedback.correct {
-      background: #e7f3e9;
-      border: 1px solid #9bc4a4;
-    }
+.feedback.correct {
+  background: #e7f3e9;
+  border: 1px solid #9bc4a4;
+}
 
-    .feedback.incorrect {
-      background: #f7e9e6;
-      border: 1px solid #d3a19a;
-    }
+.feedback.incorrect {
+  background: #f7e9e6;
+  border: 1px solid #d3a19a;
+}
 
-    .feedback-title {
-      font-family: "Cardo", serif;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
+.feedback-title {
+  font-family: "Cardo", serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
 
-    .feedback-text {
-      line-height: 1.6;
-    }
+.feedback-text {
+  line-height: 1.6;
+}
 
-    .next-button {
-      display: none;
-      margin-top: 15px;
-      border: none;
-      background: #285b43;
-      color: white;
-      padding: 12px 22px;
-      border-radius: 9px;
-      font-family: "Cardo", serif;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.next-button {
+  display: none;
+  margin-top: 15px;
+  border: none;
+  background: #285b43;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 9px;
+  font-family: "Cardo", serif;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    .next-button:hover {
-      background: #1d4633;
-    }
+.next-button:hover {
+  background: #1d4633;
+}
 
-    /* RESULT */
+/* RESULT */
 /* 
     #resultScreen {
       display: none;
     } */
 
-    .result-card {
-      background: white;
-      border: 1px solid #ddd8cd;
-      border-radius: 20px;
-      padding: 45px 30px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(30, 50, 40, 0.07);
-    }
+.result-card {
+  background: white;
+  border: 1px solid #ddd8cd;
+  border-radius: 20px;
+  padding: 45px 30px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(30, 50, 40, 0.07);
+}
 
-    .result-card h2 {
-      font-family: "Cardo", serif;
-      color: #214d37;
-      font-size: 34px;
-    }
+.result-card h2 {
+  font-family: "Cardo", serif;
+  color: #214d37;
+  font-size: 34px;
+}
 
-    .final-score {
-      font-family: "Cardo", serif;
-      font-size: 55px;
-      color: #285b43;
-      margin: 20px 0;
-    }
+.final-score {
+  font-family: "Cardo", serif;
+  font-size: 55px;
+  color: #285b43;
+  margin: 20px 0;
+}
 
-    .result-info {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #555;
-    }
+.result-info {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #555;
+}
 
-    .result-message {
-      margin: 25px auto;
-      max-width: 600px;
-      padding: 16px;
-      background: #f0f5f1;
-      border-radius: 10px;
-    }
+.result-message {
+  margin: 25px auto;
+  max-width: 600px;
+  padding: 16px;
+  background: #f0f5f1;
+  border-radius: 10px;
+}
 
-    /* RESPONSIVE */
+/* RESPONSIVE */
 
-    @media (max-width: 700px) {
+@media (max-width: 700px) {
+  .game-header {
+    padding: 14px;
+  }
 
-      .game-header {
-        padding: 14px;
-      }
+  .brand h1 {
+    font-size: 21px;
+  }
 
-      .brand h1 {
-        font-size: 21px;
-      }
+  .score-box {
+    min-width: 80px;
+    padding: 7px 10px;
+  }
 
-      .score-box {
-        min-width: 80px;
-        padding: 7px 10px;
-      }
+  .characters {
+    gap: 35px;
+  }
 
-      .characters {
-        gap: 35px;
-      }
+  .character-figure {
+    font-size: 50px;
+  }
 
-      .character-figure {
-        font-size: 50px;
-      }
+  .shop-items {
+    gap: 15px;
+  }
 
-      .shop-items {
-        gap: 15px;
-      }
+  .shop-item {
+    width: 75px;
+    height: 75px;
+  }
 
-      .shop-item {
-        width: 75px;
-        height: 75px;
-      }
+  .start-card {
+    padding: 40px 20px;
+  }
 
-      .start-card {
-        padding: 40px 20px;
-      }
-
-      .start-card h2 {
-        font-size: 30px;
-      }
-    }
+  .start-card h2 {
+    font-size: 30px;
+  }
+}

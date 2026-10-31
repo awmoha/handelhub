@@ -99,7 +99,7 @@ const SCENES = [
   { t: "09:20", p: "Butik", e: "🧑‍💼", n: "Handledare Maria",
     s: "Kan du fylla på hyllan med de här kartongerna?",
     c: [["Ja, självklart.", { a: 3, p: -3 }, "Du börjar direkt. Efter en stund står några varor på fel hylla.", "wrong"],
-        ["Jag förstår inte riktigt. Kan du visa mig?", { m: 10, a: 5, H: 8 }, "Handledare: Okej, jag visar dig hur man gör. Titta här."],
+        ["Jag förstår . Kan du visa mig?", { m: 10, a: 5, H: 8 }, "Handledare: Okej, jag visar dig hur man gör. Titta här."],
         ["Nej, jag vill göra något annat.", { a: -8, H: -10 }, "Handledare: På APL gör vi det som behövs. Jag förklarar varför."]],
     tip: "Det är bra att fråga när du inte förstår. Handledaren vill hjälpa dig." },
   { t: "10:00", p: "Butik", e: "🧑", n: "Kollega Ali",
