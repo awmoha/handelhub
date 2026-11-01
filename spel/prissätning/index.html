@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Ett interaktivt spel om prissättning, kostnader, pålägg och moms."
+    />
+    <title>Butikens priskoll – Handel hub</title>
+    <link rel="stylesheet" href="../../css/styles.css" />
+    <link rel="stylesheet" href="./style.css" />
+
+    <style>
+      /* Endast små spelregler här. Övrig design kommer från projektets befintliga style.css. */
+      .screen {
+        display: none;
+      }
+      .screen.active {
+        display: block;
+      }
+      #scoreValue {
+        visibility: hidden;
+      }
+      body.game-started #scoreValue {
+        visibility: visible;
+      }
+      .player-name-label {
+        display: block;
+        max-width: 400px;
+        margin: 22px auto 7px;
+        text-align: left;
+      }
+      .player-name-input {
+        display: block;
+        max-width: 400px;
+        margin: 0 auto 14px;
+      }
+      .name-error {
+        min-height: 20px;
+        color: #8a4038;
+        margin-top: 8px;
+      }
+      .calc-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .calc-equals {
+        min-width: 62px;
+        padding: 8px 18px;
+      }
+      .feedback.incorrect {
+        background: #f5f2eb;
+        border: 1px solid #d9d4c8;
+      }
+      .feedback.incorrect .feedback-title {
+        color: #285b43;
+      }
+
+      /* Formelblad och små tillägg för just detta spel. Den gemensamma CSS-filen används fortfarande. */
+      [hidden] { display: none !important; }
+      .formula-toggle { width: 100%; margin: 8px 0 14px; }
+      .formula-panel {
+        margin: 0 0 18px;
+        padding: 16px;
+        border: 1px solid #cbdccf;
+        border-radius: 14px;
+        background: linear-gradient(145deg, #f7faf7, #edf4ee);
+        box-shadow: 0 8px 22px rgba(30, 63, 47, 0.08);
+      }
+      .formula-panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .formula-panel-heading h3 { margin: 3px 0 0; color: #1e3f2f; }
+      .formula-eyebrow {
+        color: #66806e;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .12em;
+      }
+      .formula-close {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #cbdccf;
+        border-radius: 50%;
+        background: #fff;
+        color: #285b43;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .formula-item {
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        padding: 10px 0;
+        border-bottom: 1px solid #dce7df;
+      }
+      .formula-item:last-of-type { border-bottom: 0; }
+      .formula-number {
+        flex: 0 0 27px;
+        width: 27px;
+        height: 27px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: #dcebe1;
+        color: #285b43;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .formula-item strong { display: block; color: #1e3f2f; font-size: 14px; }
+      .formula-item p { margin: 3px 0 0; color: #4e5d53; font-size: 13px; line-height: 1.45; }
+      .formula-note {
+        margin: 12px 0 0;
+        padding: 10px;
+        border-radius: 9px;
+        background: #fff;
+        color: #526257;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-wrapper">
+      <header class="game-header">
+        <div class="brand">
+          <div class="brand-logo">BH</div>
+          <div>
+            <h1>Butikens priskoll</h1>
+            <p>Prissättning och butikens ekonomi</p>
+          </div>
+        </div>
+        <div class="score-box" aria-live="polite">
+          <span class="score-label">Dina poäng</span>
+          <span class="score" id="scoreValue">0</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="screen" id="startScreen">
+          <div class="start-card">
+            <span class="eyebrow">Handel hub · Kapitel 8</span>
+            <div class="result-badge" aria-hidden="true">🧑‍💼</div>
+            <h2>Kan du sätta rätt pris?</h2>
+            <p class="lead">
+              Du har fått börja jobba i en klädbutik. Sara, som arbetar i
+              butiken, behöver din hjälp. Ni ska räkna ut vad en tröja kostar,
+              lägga på ett pålägg och ta fram priset som kunden ska betala.
+            </p>
+            <p class="lead">
+              Använd miniräknaren eller skriv själv. Du får hjälp och
+              förklaringar längs vägen.
+            </p>
+            <label class="input-label player-name-label" for="playerName"
+              >Vad heter du?</label
+            >
+            <input
+              class="number-input player-name-input"
+              id="playerName"
+              type="text"
+              maxlength="30"
+              autocomplete="given-name"
+              placeholder="Skriv ditt namn"
+            />
+            <div class="start-actions">
+              <button class="primary-button btn-bounce" id="startButton">
+                Börja arbetsdagen
+              </button>
+            </div>
+            <p
+              class="hint-text name-error"
+              id="nameError"
+              aria-live="polite"
+            ></p>
+            <p class="hint-text" style="margin-top: 18px">
+              Du behöver inte kunna allt från början. Spelet visar hur du
+              räknar.
+            </p>
+          </div>
+        </section>
+
+        <section class="screen" id="gameScreen">
+          <div class="game-top">
+            <div class="game-top-row">
+              <div>
+                <div class="mission-label" id="missionLabel">
+                  UPPDRAG 1 AV 6
+                </div>
+                <div class="game-title" id="gameTitle">
+                  Räkna ut varans kostnad
+                </div>
+              </div>
+              <div class="progress-text" id="progressText">Steg 1 av 6</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="game-layout">
+            <section class="shop">
+              <div class="shop-scene">
+                <div class="shop-sign">Välkommen till Gröna Gården</div>
+                <p class="shop-subtitle">
+                  En liten butik med kläder och vardagsprodukter
+                </p>
+                <div class="store-display">
+                  <div class="product-card">
+                    <div class="product-art" id="productArt">👕</div>
+                    <div class="product-name" id="productName">Bas-T-shirt</div>
+                    <div class="product-tag">Ny i butiken</div>
+                    <div class="price-tag" id="productPrice">
+                      Pris räknas ut
+                    </div>
+                  </div>
+                </div>
+                <div class="characters">
+                  <div class="character">
+                    <div class="character-figure" aria-label="Säljaren Sara">
+                      👩🏻‍💼
+                    </div>
+                    <div class="character-name">Sara · Säljare</div>
+                    <div class="counter">Butikens disk</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dialog-area">
+                <div class="seller-message">
+                  <div class="seller-avatar" aria-hidden="true">👩🏻‍💼</div>
+                  <div>
+                    <strong>Sara säger:</strong>
+                    <p id="sellerText">
+                      Hej! Kan du hjälpa mig att räkna ut vad vår nya tröja
+                      kostar innan vi bestämmer priset?
+                    </p>
+                  </div>
+                </div>
+
+                <div class="task-kicker" id="taskKicker">UPPDRAG 1</div>
+                <h2 class="task-title" id="taskTitle">
+                  Vad kostar tröjan för butiken?
+                </h2>
+                <p class="task-description" id="taskDescription"></p>
+                <div class="calculation-list" id="calculationList"></div>
+
+                <label class="input-label" for="answerInput" id="answerLabel"
+                  >Skriv ditt svar</label
+                >
+                <div class="answer-entry">
+                  <input
+                    class="number-input"
+                    id="answerInput"
+                    type="number"
+                    inputmode="decimal"
+                    step="0.01"
+                    placeholder="Skriv beloppet här"
+                    autocomplete="off"
+                  />
+                  <span class="unit-label" id="answerUnit">kr</span>
+                </div>
+
+                <div class="calc-panel">
+                  <div class="calc-display" id="calcDisplay" aria-live="polite">
+                    0
+                  </div>
+                  <div class="calc-keys" id="calcKeys">
+                    <button class="calc-key" data-key="7">7</button>
+                    <button class="calc-key" data-key="8">8</button>
+                    <button class="calc-key" data-key="9">9</button>
+                    <button class="calc-key operator" data-key="/">÷</button>
+                    <button class="calc-key" data-key="4">4</button>
+                    <button class="calc-key" data-key="5">5</button>
+                    <button class="calc-key" data-key="6">6</button>
+                    <button class="calc-key operator" data-key="*">×</button>
+                    <button class="calc-key" data-key="1">1</button>
+                    <button class="calc-key" data-key="2">2</button>
+                    <button class="calc-key" data-key="3">3</button>
+                    <button class="calc-key operator" data-key="-">−</button>
+                    <button class="calc-key" data-key="0">0</button>
+                    <button class="calc-key" data-key=".">,</button>
+                    <button class="calc-key clear" data-key="clear">C</button>
+                    <button class="calc-key operator" data-key="+">+</button>
+                  </div>
+                  <div class="calc-actions">
+                    <span class="hint-text"
+                      >Tryck på = för att räkna och fylla i svaret.</span
+                    >
+                    <button
+                      class="calc-key operator calc-equals"
+                      type="button"
+                      data-key="="
+                      aria-label="Räkna ut"
+                    >
+                      =
+                    </button>
+                  </div>
+                </div>
+
+                <div class="submit-row">
+                  <button class="primary-button" id="checkButton">
+                    Kontrollera mitt svar
+                  </button>
+                  <span class="hint-text" id="roundHint"
+                    >Skriv beloppet i kronor.</span
+                  >
+                </div>
+                <div
+                  class="feedback"
+                  id="feedback"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div class="feedback-title" id="feedbackTitle"></div>
+                  <p class="feedback-text" id="feedbackText"></p>
+                </div>
+                <button class="next-button" id="nextButton">
+                  Nästa uppdrag →
+                </button>
+              </div>
+            </section>
+
+            <aside class="side-panel">
+              <h3>Kom ihåg begreppen</h3>
+
+              <button
+                type="button"
+                class="primary-button formula-toggle"
+                id="formulaToggle"
+                aria-expanded="false"
+                aria-controls="formulaPanel"
+              >
+                Visa formelblad
+              </button>
+
+              <section class="formula-panel" id="formulaPanel" hidden>
+                <div class="formula-panel-heading">
+                  <div>
+                    <span class="formula-eyebrow">SNABBHJÄLP</span>
+                    <h3>Formelblad – Prissättning</h3>
+                  </div>
+                  <button type="button" class="formula-close" id="formulaClose" aria-label="Stäng formelbladet">×</button>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">01</span>
+                  <div>
+                    <strong>Varukostnad</strong>
+                    <p>Inköpspris + anskaffningskostnader</p>
+                  </div>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">02</span>
+                  <div>
+                    <strong>Pålägg i kronor</strong>
+                    <p>Varukostnad × pålägg i procent ÷ 100</p>
+                  </div>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">03</span>
+                  <div>
+                    <strong>Pris före moms</strong>
+                    <p>Varukostnad + pålägg</p>
+                  </div>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">04</span>
+                  <div>
+                    <strong>Moms i kronor</strong>
+                    <p>Pris före moms × momssats ÷ 100</p>
+                  </div>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">05</span>
+                  <div>
+                    <strong>Pris inklusive moms</strong>
+                    <p>Pris före moms + moms</p>
+                  </div>
+                </div>
+
+                <div class="formula-item">
+                  <span class="formula-number">06</span>
+                  <div>
+                    <strong>Driftskostnader</strong>
+                    <p>Summera kostnader som hyra, marknadsföring och teknik.</p>
+                  </div>
+                </div>
+
+                <p class="formula-note">
+                  Använd formlerna som stöd när du räknar. Försök själv innan du öppnar formelbladet.
+                </p>
+              </section>
+
+              <p>
+                Håll muspekaren över ett understruket ord för att få en enkel
+                förklaring. Du kan också använda tangentbordet.
+              </p>
+              <div class="term-list">
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="Priset butiken betalar för att köpa in varan."
+                    >Inköpspris</span
+                  >
+                  – vad butiken betalar till leverantören.
+                </div>
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="Inköpspriset plus kostnader för att få varan till butiken, till exempel transport och försäkring."
+                    >Varukostnad</span
+                  >
+                  – inköpspris och anskaffningskostnader tillsammans.
+                </div>
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="En procentsats som läggs till ovanpå varukostnaden för att täcka andra kostnader."
+                    >Pålägg</span
+                  >
+                  – läggs till varukostnaden.
+                </div>
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="Skatt som läggs på priset. I spelets klädexempel använder vi 25 procent moms."
+                    >Moms</span
+                  >
+                  – skatt på varor och tjänster.
+                </div>
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="Pengar som kommer in när butiken säljer sina varor."
+                    >Intäkt</span
+                  >
+                  – pengar från försäljningen.
+                </div>
+                <div class="term-item">
+                  <span
+                    class="term-help"
+                    tabindex="0"
+                    data-tooltip="Kostnader som inte hör direkt till en viss vara, till exempel hyra, marknadsföring och teknik."
+                    >Driftskostnader</span
+                  >
+                  – kostnader för att driva butiken.
+                </div>
+              </div>
+              <div class="side-tip" id="sideTip">
+                Tips: Läs Saras uppdrag noga. Du kan använda miniräknaren här i
+                spelet.
+              </div>
+              <div class="score-mini">
+                <span>Avklarade uppdrag</span>
+                <strong id="completedCount">0 / 6</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" id="resultScreen">
+          <div class="result-card">
+            <div class="result-badge">🏪</div>
+            <span class="eyebrow">Arbetsdagen är klar</span>
+            <h2>Du har hjälpt Sara!</h2>
+            <p>
+              Du har räknat på varukostnad, pålägg, pris utan moms, pris med
+              moms och butikens driftskostnader.
+            </p>
+            <div class="result-stats">
+              <div class="result-stat">
+                <strong id="finalScore">0</strong><span>Poäng</span>
+              </div>
+              <div class="result-stat">
+                <strong id="finalCompleted">0/6</strong
+                ><span>Uppdrag klara</span>
+              </div>
+              <div class="result-stat">
+                <strong id="finalPercent">0%</strong
+                ><span>Rätt på första försöket</span>
+              </div>
+            </div>
+            <p class="result-note" id="resultMessage"></p>
+            <button class="primary-button" id="restartButton">
+              Spela igen
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="game.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("formulaToggle");
+        const panel = document.getElementById("formulaPanel");
+        const close = document.getElementById("formulaClose");
+
+        function setFormulaOpen(open) {
+          panel.hidden = !open;
+          toggle.setAttribute("aria-expanded", String(open));
+          toggle.textContent = open ? "Dölj formelblad" : "Visa formelblad";
+        }
+
+        toggle.addEventListener("click", function () {
+          setFormulaOpen(panel.hidden);
+        });
+        close.addEventListener("click", function () {
+          setFormulaOpen(false);
+          toggle.focus();
+        });
+
+        // Raden "Räkna" tas bort från uppgiftstabellen. Eleven får själv använda formelbladet.
+        const calculationList = document.getElementById("calculationList");
+        const removeFormulaHintRow = function () {
+          calculationList.querySelectorAll(".calc-row").forEach(function (row) {
+            const label = row.querySelector("span");
+            if (label && label.textContent.trim().toLowerCase() === "räkna") {
+              row.remove();
+            }
+          });
+        };
+        removeFormulaHintRow();
+        new MutationObserver(removeFormulaHintRow).observe(calculationList, {
+          childList: true,
+          subtree: true
+        });
+      });
+    </script>
+  </body>
+</html>

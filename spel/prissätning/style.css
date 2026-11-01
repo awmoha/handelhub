@@ -1,0 +1,251 @@
+
+.term-help {
+  position: relative;
+  display: inline;
+  border-bottom: 1px dotted #2d5a43;
+  color: #1e3f2f;
+  font-weight: 700;
+  cursor: help;
+}
+.term-help::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+
+  width: max-content;
+  max-width: 260px;
+  padding: 10px 14px;
+
+  background: #e6efea;
+  color: #1e3f2f;
+  border: 1px solid #c2d8cb;
+  border-radius: 12px;
+
+  font-family: "Cardo";
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 1000;
+
+  box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Visa bubblan när muspekaren är över begreppet */
+.term-help:hover::after,
+.term-help:focus::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.course-label {
+  position: absolute;
+  top: -9px;
+  right: -25px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #164d3c;
+  color: #fff;
+  font-family: "Cardo";
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PRISSÄTTNINGSSPELET – tillägg till befintlig styles.css
+   ========================================================= */
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: #f5f2eb;
+  color: #1f2421;
+  font-family: "Cardo";
+}
+button, input { font: inherit; }
+.game-wrapper { min-height: 100vh; }
+.game-header { font-family: "Cardo" }
+.brand p, .brand h1 { font-family: "Cardo" }
+.screen { max-width: 1060px; }
+#gameScreen, #resultScreen { display: none; }
+#gameScreen.active, #resultScreen.active { display: block; }
+#startScreen.hidden { display: none; }
+
+.start-card, .result-card { font-family: "Cardo"}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 999px;
+  color: #285b43; background: #edf4ee; border: 1px solid #c9ddcf;
+  font-size: 13px; font-weight: 700; margin-bottom: 14px;
+}
+.start-card h2 { margin: 8px 0 14px; }
+.start-card .lead { max-width: 680px; }
+.start-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.secondary-button {
+  border: 1px solid #b9cbbf; background: #fff; color: #285b43;
+  padding: 13px 20px; border-radius: 10px; cursor: pointer;
+}
+.primary-button:focus-visible, .secondary-button:focus-visible,
+.calc-key:focus-visible, .calc-action:focus-visible, .next-button:focus-visible,
+.number-input:focus-visible { outline: 3px solid #9fbea9; outline-offset: 3px; }
+
+.game-top { margin: 0 0 18px; }
+.game-top-row { align-items: center; }
+.mission-label { color: #6b716d; font-size: 13px; margin-bottom: 4px; }
+.progress-fill { background: #2d5a43; }
+.game-layout {
+  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(270px, .75fr);
+  gap: 20px; align-items: start;
+}
+.shop { min-width: 0; }
+.shop-scene {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(194,216,203,.36), transparent 30%),
+    linear-gradient(135deg, #fbfcfa, #edf3ee);
+  padding: 26px;
+}
+.shop-sign { font-size: 25px; margin-bottom: 16px; }
+.shop-subtitle { text-align: center; color: #69736c; font-size: 14px; margin: -8px 0 22px; }
+.store-display {
+  display: flex; justify-content: center; align-items: center; gap: 20px;
+  flex-wrap: wrap; padding: 16px 0 8px;
+}
+.product-card {
+  width: 150px; min-height: 155px; background: #fff; border: 1px solid #d9e3dc;
+  border-radius: 16px; padding: 14px; text-align: center;
+  box-shadow: 0 8px 22px rgba(30,63,47,.07);
+}
+.product-art { font-size: 48px; line-height: 1.4; }
+.product-name { color: #1e3f2f; font-weight: 700; margin-top: 5px; }
+.product-tag { color: #69736c; font-size: 12px; margin-top: 3px; }
+.price-tag {
+  display: inline-block; margin-top: 10px; padding: 5px 10px;
+  border-radius: 7px; background: #f5f2eb; color: #285b43; font-weight: 700;
+}
+.characters { gap: 20px; margin-top: 22px; align-items: end; }
+.character { width: min(100%, 380px); }
+.character-figure {
+  width: 88px; height: 88px; margin: auto; border-radius: 50%;
+  display: grid; place-items: center; font-size: 54px;
+  background: #e2eee6; border: 4px solid #fff;
+  box-shadow: 0 4px 14px rgba(30,63,47,.12);
+}
+.character-name {
+  display: inline-block; margin-top: 7px; background: #fff;
+  border-color: #c9d9ce; color: #285b43; font-weight: 700;
+}
+.counter { margin-top: 14px; background: #285b43; }
+
+.dialog-area { padding: 22px; }
+.seller-message {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #edf4ee; border: 1px solid #c9ddcf;
+  border-radius: 14px; padding: 15px; margin-bottom: 17px;
+}
+.seller-avatar {
+  flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center;
+  background: #dcebe1; border-radius: 50%; font-size: 25px;
+}
+.seller-message strong { display: block; color: #285b43; margin-bottom: 4px; }
+.seller-message p { line-height: 1.55; color: #34443a; }
+.task-kicker { color: #728078; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.task-title { font-family: "Cardo"; color: #1e3f2f; font-size: 25px; margin: 4px 0 8px; }
+.task-description { color: #515d55; line-height: 1.55; margin-bottom: 16px; }
+.calculation-list {
+  display: grid; gap: 8px; background: #fafbf9; border: 1px solid #e0e8e2;
+  border-radius: 12px; padding: 13px; margin: 14px 0;
+}
+.calc-row { display: flex; justify-content: space-between; gap: 12px; color: #4c5850; }
+.calc-row strong { color: #1e3f2f; font-variant-numeric: tabular-nums; }
+.input-label { display: block; font-weight: 700; color: #285b43; margin: 15px 0 7px; }
+.answer-entry { display: flex; gap: 9px; align-items: stretch; }
+.number-input {
+  width: 100%; min-width: 0; padding: 13px 14px; border: 1px solid #bdcfc3;
+  border-radius: 10px; background: #fff; color: #1f2421; font-size: 18px;
+}
+.unit-label {
+  display: grid; place-items: center; min-width: 58px; padding: 0 10px;
+  border-radius: 10px; background: #f0f4f0; color: #45614f; border: 1px solid #d6e2d9;
+}
+.calc-panel {
+  margin-top: 15px; border: 1px solid #dce5de; border-radius: 13px;
+  background: #fbfcfa; padding: 12px;
+}
+.calc-display {
+  width: 100%; min-height: 43px; padding: 8px 11px; margin-bottom: 9px;
+  border: 1px solid #d7e1d9; border-radius: 8px; background: #fff;
+  text-align: right; color: #1e3f2f; font-size: 20px; font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.calc-key {
+  min-height: 39px; border: 1px solid #d7e1d9; border-radius: 8px;
+  background: #fff; color: #285b43; cursor: pointer; font-weight: 700;
+}
+.calc-key:hover { background: #edf4ee; }
+.calc-key.operator { background: #e8f0eb; }
+.calc-key.clear { color: #7b453e; background: #f7eeeb; }
+.calc-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; }
+.calc-action {
+  border: 0; background: transparent; color: #285b43; text-decoration: underline;
+  cursor: pointer; font-size: 13px; padding: 5px;
+}
+.submit-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 15px; }
+.submit-row .primary-button { padding: 12px 20px; }
+.hint-text { color: #758078; font-size: 13px; }
+.feedback { display: none; }
+.feedback.show { display: block; }
+.feedback-title { color: #285b43; }
+.feedback.incorrect .feedback-title { color: #79463e; }
+.feedback-text { line-height: 1.6; }
+.next-button.show { display: inline-block; }
+.side-panel {
+  background: #fff; border: 1px solid #ddd8cd; border-radius: 18px;
+  padding: 20px; box-shadow: 0 8px 25px rgba(30,50,40,.05);
+}
+.side-panel h3 { font-family: "Cardo"; color: #1e3f2f; font-size: 21px; margin-bottom: 10px; }
+.side-panel p { color: #667068; line-height: 1.55; font-size: 14px; }
+.term-list { display: grid; gap: 10px; margin-top: 15px; }
+.term-item { font-size: 14px; line-height: 1.5; color: #536057; }
+.term-item .term-help { cursor: help; }
+.side-tip { margin-top: 17px; padding: 12px; border-radius: 11px; background: #f5f2eb; color: #5e685f; font-size: 13px; line-height: 1.5; }
+.score-mini { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 13px; border-top: 1px solid #e8e5dc; color: #69736c; font-size: 13px; }
+.score-mini strong { color: #285b43; }
+.result-card { max-width: 760px; margin: 0 auto; }
+.result-badge { width: 80px; height: 80px; display: grid; place-items: center; margin: 0 auto 14px; border-radius: 50%; background: #e8f0eb; font-size: 38px; }
+.result-card p { line-height: 1.65; color: #59645c; }
+.result-stats { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 22px 0; }
+.result-stat { min-width: 130px; padding: 14px; border-radius: 12px; background: #f4f7f4; border: 1px solid #dce7df; }
+.result-stat strong { display: block; color: #285b43; font-size: 25px; }
+.result-stat span { color: #6a756d; font-size: 12px; }
+.result-note { max-width: 560px; margin: 0 auto 20px; }
+.term-help:focus { outline: 2px solid #9fbea9; outline-offset: 2px; }
+@media (max-width: 780px) {
+  .game-layout { grid-template-columns: 1fr; }
+  .side-panel { order: 2; }
+  .shop-scene { padding: 20px 14px; }
+  .dialog-area { padding: 17px; }
+}
+@media (max-width: 520px) {
+  .game-header { align-items: center; }
+  .brand h1 { font-size: 19px; }
+  .brand p { font-size: 12px; }
+  .score-box { min-width: 72px; }
+  .game-top-row { align-items: flex-start; flex-direction: column; }
+  .answer-entry { gap: 6px; }
+  .calc-keys { gap: 5px; }
+  .calc-key { min-height: 36px; }
+  .task-title { font-size: 22px; }
+}
