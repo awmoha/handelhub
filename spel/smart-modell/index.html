@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SMART-utmaningen | Handel hub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green: #285b43;
+        --deep: #183d2c;
+        --sage: #eaf1eb;
+        --cream: #f5f2eb;
+        --line: #dfded4;
+        --ink: #1d2923;
+        --gold: #c5a66b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Cardo";
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .top {
+        height: 72px;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: #fffefaed;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        backdrop-filter: blur(12px);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        background: var(--deep);
+        color: white;
+        border-radius: 12px;
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .brand strong {
+        font-size: 25px;
+        color: var(--deep);
+      }
+      .brand small {
+        border-left: 1px solid #aaa;
+        padding-left: 20px;
+        margin-left: 10px;
+        color: #69736c;
+        font-size: 15px;
+      }
+      .topstats {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        color: var(--deep);
+      }
+      .topstats b {
+        font-size: 18px;
+      }
+      .progress {
+        width: 150px;
+        height: 10px;
+        background: #dce5dc;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: var(--green);
+        width: 0;
+        transition: width 0.4s;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 205px 1fr;
+        min-height: calc(100vh - 72px);
+      }
+      nav {
+        background: #fbfaf6;
+        border-right: 1px solid var(--line);
+        padding: 24px 12px;
+        position: sticky;
+        top: 72px;
+        height: calc(100vh - 72px);
+      }
+      nav .navtitle {
+        font-size: 12px;
+        color: #879087;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0 12px 12px;
+      }
+      .navitem {
+        padding: 12px;
+        border-radius: 12px;
+        margin: 6px 0;
+        color: #58665d;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 16px;
+      }
+      .navitem .dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid #aab9ad;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+      .navitem.active {
+        background: var(--deep);
+        color: white;
+      }
+      .navitem.done {
+        background: #eaf1eb;
+        color: var(--green);
+      }
+      .navitem.done .dot {
+        background: var(--green);
+        color: white;
+        border-color: var(--green);
+      }
+      .navitem.locked {
+        opacity: 0.65;
+      }
+      .navfoot {
+        border-top: 1px solid var(--line);
+        margin-top: 25px;
+        padding-top: 14px;
+      }
+      main {
+        padding: 24px;
+        min-width: 0;
+      }
+      .scene {
+        position: relative;
+        min-height: calc(100vh - 120px);
+        border-radius: 22px;
+        overflow: hidden;
+        background: #d9c5a9;
+        box-shadow: 0 14px 40px #263b2918;
+      }
+      .scene::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          #162c2080 0%,
+          #162c2020 43%,
+          #f5f2eb18 100%
+        );
+        z-index: 1;
+      }
+      .sceneimg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        animation: slowpan 24s ease-in-out infinite alternate;
+        filter: saturate(0.92);
+      }
+      @keyframes slowpan {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.07) translateX(-1.2%);
+        }
+      }
+      .content {
+        position: relative;
+        z-index: 2;
+        min-height: calc(100vh - 120px);
+        display: grid;
+        grid-template-columns: minmax(190px, 0.7fr) minmax(500px, 1.5fr);
+        gap: 20px;
+        padding: 24px;
+        align-items: center;
+      }
+      .sarahcol {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 620px;
+        color: white;
+      }
+      .speech {
+        background: #fffdf5;
+        color: #233b2d;
+        border-radius: 18px;
+        padding: 18px 20px;
+        max-width: 280px;
+        box-shadow: 0 8px 25px #0002;
+        line-height: 1.5;
+        font-size: 18px;
+        position: relative;
+        animation: float 4s ease-in-out infinite;
+      }
+      .speech:after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 35px;
+        border-width: 13px 13px 0;
+        border-style: solid;
+        border-color: #fffdf5 transparent transparent;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+      .quote {
+        background: #f8f1dfed;
+        color: var(--deep);
+        padding: 16px 20px;
+        border-radius: 15px;
+        max-width: 260px;
+        font-size: 19px;
+        line-height: 1.4;
+        transform: rotate(-2deg);
+        box-shadow: 0 8px 20px #0002;
+      }
+      .taskpanel {
+        background: #fffefaf2;
+        border: 1px solid #e5e0d5;
+        border-radius: 22px;
+        padding: clamp(18px, 2.5vw, 30px);
+        box-shadow: 0 12px 35px #172d201c;
+        backdrop-filter: blur(8px);
+        min-width: 0;
+      }
+      .tasktop {
+        background: linear-gradient(120deg, var(--deep), #285b43);
+        color: white;
+        border-radius: 17px;
+        padding: 20px 23px;
+        margin: -4px -4px 20px;
+      }
+      .taskmeta {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        font-size: 14px;
+        color: #e8eee8;
+      }
+      .taskmeta .pill {
+        background: #ffffff20;
+        padding: 6px 12px;
+        border-radius: 20px;
+      }
+      .tasktop h1 {
+        font-size: clamp(26px, 3vw, 39px);
+        margin: 10px 0 5px;
+      }
+      .tasktop p {
+        margin: 0;
+        color: #e7eee8;
+        line-height: 1.45;
+        font-size: 17px;
+      }
+      .taskhead {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        margin: 8px 0 15px;
+      }
+      .taskhead h2 {
+        margin: 0;
+        color: var(--deep);
+        font-size: 25px;
+      }
+      .muted {
+        color: #68756c;
+      }
+      .story {
+        background: #eef4ef;
+        border-left: 4px solid #367254;
+        padding: 13px 16px;
+        border-radius: 10px;
+        line-height: 1.5;
+        margin: 14px 0;
+        font-size: 17px;
+      }
+      .question {
+        font-size: 20px;
+        line-height: 1.5;
+        margin: 15px 0;
+      }
+      .options {
+        display: grid;
+        gap: 9px;
+      }
+      .opt {
+        width: 100%;
+        text-align: left;
+        background: #fff;
+        border: 1px solid #d6ded7;
+        border-radius: 12px;
+        padding: 13px 15px;
+        font-size: 17px;
+        line-height: 1.4;
+        color: #1f2b24;
+        transition: 0.18s;
+      }
+      .opt:hover {
+        border-color: var(--green);
+        background: #f5f9f5;
+      }
+      .opt.selected {
+        border: 2px solid var(--green);
+        background: #edf5ee;
+        padding: 12px 14px;
+      }
+      .opt.correct {
+        background: #e5f2e7;
+        border-color: #4e8b5e;
+      }
+      .opt.wrong {
+        background: #faece9;
+        border-color: #b96b60;
+      }
+      .matchgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .matchcol h3 {
+        color: var(--deep);
+        font-size: 18px;
+        margin: 0 0 9px;
+      }
+      .matchrow {
+        display: grid;
+        grid-template-columns: 42px 1fr 42px;
+        gap: 8px;
+        align-items: center;
+        margin: 8px 0;
+      }
+      .letter {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: var(--deep);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 23px;
+        font-weight: bold;
+      }
+      .definition {
+        background: #f8f5ed;
+        border: 1px solid #e2dccf;
+        border-radius: 11px;
+        padding: 11px 12px;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 15px;
+        line-height: 1.3;
+      }
+      .defletter {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #e8e1d2;
+        display: grid;
+        place-items: center;
+        color: var(--deep);
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+      .matchselect {
+        width: 100%;
+        min-width: 0;
+        border: 1px dashed #aebfb1;
+        background: #f7faf7;
+        border-radius: 10px;
+        padding: 10px 5px;
+        color: var(--deep);
+        font-weight: bold;
+        font-size: 17px;
+      }
+      .sortrow {
+        border: 1px solid #dce2da;
+        border-radius: 12px;
+        padding: 13px 15px;
+        margin: 10px 0;
+        background: #fff;
+      }
+      .sortrow p {
+        margin: 0 0 8px;
+        font-size: 17px;
+      }
+      .choicebtn {
+        border: 1px solid #cbd8ce;
+        background: #f4f7f3;
+        border-radius: 20px;
+        padding: 7px 13px;
+        margin-right: 7px;
+        color: var(--deep);
+      }
+      .choicebtn.chosen {
+        background: var(--green);
+        color: white;
+        border-color: var(--green);
+      }
+      textarea {
+        width: 100%;
+        min-height: 110px;
+        padding: 14px;
+        border: 1px solid #cbd8ce;
+        border-radius: 12px;
+        background: #fff;
+        font-size: 17px;
+        resize: vertical;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 17px;
+      }
+      .btn {
+        background: var(--green);
+        color: white;
+        border: 0;
+        border-radius: 12px;
+        padding: 13px 21px;
+        font-weight: bold;
+        font-size: 17px;
+        box-shadow: 0 4px 10px #193d2b18;
+      }
+      .btn:hover {
+        background: var(--deep);
+      }
+      .btn.secondary {
+        background: #e9efe9;
+        color: var(--deep);
+        box-shadow: none;
+      }
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .hintbox {
+        margin-top: 15px;
+        background: #f0f5ef;
+        border: 1px solid #dce7dc;
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .hintbox strong {
+        color: var(--deep);
+      }
+      .hintbox p {
+        margin: 3px 0 0;
+        line-height: 1.4;
+      }
+      .hintbox button {
+        background: none;
+        border: 0;
+        color: var(--green);
+        text-decoration: underline;
+        padding: 0;
+        font-size: 15px;
+      }
+      .feedback {
+        display: none;
+        margin-top: 14px;
+        border-radius: 12px;
+        padding: 13px 15px;
+        line-height: 1.5;
+      }
+      .feedback.show {
+        display: block;
+      }
+      .feedback.good {
+        background: #e8f4e9;
+        border: 1px solid #b7d4bd;
+      }
+      .feedback.retry {
+        background: #fff4e3;
+        border: 1px solid #ead5a9;
+      }
+      .bottomline {
+        border-top: 1px solid var(--line);
+        margin-top: 17px;
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        color: #69756d;
+        font-size: 14px;
+      }
+      .startcard,
+      .resultcard {
+        max-width: 850px;
+        margin: 5vh auto;
+        background: #fffefaf2;
+        padding: clamp(24px, 5vw, 50px);
+        border-radius: 24px;
+        box-shadow: 0 12px 35px #172d2030;
+        text-align: center;
+      }
+      .tag {
+        display: inline-block;
+        background: #eaf1eb;
+        color: #285b43;
+        padding: 6px 13px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 13px;
+      }
+      .startcard h1,
+      .resultcard h1 {
+        font-size: clamp(34px, 5vw, 52px);
+        color: var(--deep);
+        margin: 10px 0;
+      }
+      .startcard p,
+      .resultcard p {
+        font-size: 19px;
+        line-height: 1.55;
+        max-width: 690px;
+        margin: 12px auto;
+      }
+      .starttiles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 25px 0;
+        text-align: left;
+      }
+      .tile {
+        background: #f0f5ef;
+        border: 1px solid #dce7dc;
+        border-radius: 13px;
+        padding: 15px;
+      }
+      .tile b {
+        display: block;
+        color: var(--deep);
+        margin-bottom: 5px;
+      }
+      .namebox {
+        max-width: 420px;
+        margin: 20px auto;
+        text-align: left;
+      }
+      .namebox label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 7px;
+      }
+      .namebox input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #cbd8ce;
+        border-radius: 11px;
+        font-size: 18px;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .scorebig {
+        font-size: 55px;
+        color: var(--green);
+        font-weight: bold;
+      }
+      .resultlist {
+        text-align: left;
+        max-width: 650px;
+        margin: 20px auto;
+      }
+      .resultlist div {
+        border-bottom: 1px solid var(--line);
+        padding: 10px;
+      }
+      @media (max-width: 1050px) {
+        .shell {
+          grid-template-columns: 165px 1fr;
+        }
+        .content {
+          grid-template-columns: 1fr;
+          padding: 16px;
+        }
+        .sarahcol {
+          min-height: 0;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .quote {
+          display: none;
+        }
+        .speech {
+          max-width: 340px;
+        }
+        .scene {
+          min-height: calc(100vh - 110px);
+        }
+        .taskpanel {
+          max-width: 850px;
+          margin: auto;
+          width: 100%;
+        }
+      }
+      @media (max-width: 700px) {
+        .top {
+          padding: 0 12px;
+          height: 62px;
+        }
+        .brand strong {
+          font-size: 19px;
+        }
+        .brand small {
+          display: none;
+        }
+        .topstats {
+          gap: 10px;
+          font-size: 13px;
+        }
+        .progress {
+          width: 65px;
+        }
+        .shell {
+          display: block;
+        }
+        nav {
+          display: flex;
+          position: static;
+          height: auto;
+          overflow-x: auto;
+          padding: 7px;
+          gap: 5px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        nav .navtitle,
+        .navfoot {
+          display: none;
+        }
+        .navitem {
+          white-space: nowrap;
+          margin: 0;
+          padding: 8px;
+          font-size: 13px;
+        }
+        .navitem .dot {
+          width: 18px;
+          height: 18px;
+        }
+        .navitem span:last-child {
+          display: none;
+        }
+        main {
+          padding: 10px;
+        }
+        .scene {
+          min-height: calc(100vh - 125px);
+        }
+        .content {
+          padding: 10px;
+          gap: 10px;
+        }
+        .sarahcol {
+          display: block;
+        }
+        .speech {
+          font-size: 15px;
+          padding: 10px 13px;
+          max-width: 100%;
+        }
+        .taskpanel {
+          padding: 14px;
+        }
+        .tasktop {
+          padding: 15px;
+        }
+        .tasktop h1 {
+          font-size: 26px;
+        }
+        .tasktop p {
+          font-size: 15px;
+        }
+        .matchgrid {
+          grid-template-columns: 1fr;
+        }
+        .starttiles {
+          grid-template-columns: 1fr;
+        }
+        .bottomline {
+          font-size: 12px;
+        }
+        .matchrow {
+          grid-template-columns: 38px 1fr 38px;
+        }
+        .definition {
+          font-size: 14px;
+        }
+      }
+
+      /* Centered, distraction-free game layout */
+      body {
+        overflow-x: hidden;
+      }
+      .shell {
+        grid-template-columns: 205px minmax(0, 1fr);
+        min-height: calc(100dvh - 72px);
+      }
+      nav {
+        height: calc(100dvh - 72px);
+        overflow-y: auto;
+      }
+      main {
+        min-width: 0;
+        min-height: calc(100dvh - 72px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(14px, 2.2vw, 30px);
+      }
+      .scene {
+        width: 100%;
+        max-width: 1180px;
+        min-height: 0;
+        height: auto;
+        max-height: calc(100dvh - 110px);
+        overflow-y: auto;
+        margin: 0 auto;
+        border-radius: 22px;
+        background: linear-gradient(145deg, #f9f7f0, #eef3ed);
+        box-shadow: 0 14px 40px #263b2918;
+      }
+      .scene::before,
+      .sceneimg {
+        display: none !important;
+      }
+      .content {
+        width: 100%;
+        min-height: 0;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        padding: clamp(16px, 2.5vw, 32px);
+      }
+      .sarahcol {
+        display: none !important;
+      }
+      .taskpanel {
+        width: 100%;
+        max-width: 980px;
+        margin: 0 auto;
+        background: #fffefa;
+        backdrop-filter: none;
+      }
+      .startcard,
+      .resultcard {
+        width: 100%;
+        max-width: 920px;
+        margin: 0 auto;
+        background: #fffefa;
+      }
+      .startcard p,
+      .resultcard p {
+        font-size: 17px;
+      }
+      .starttiles {
+        margin: 16px 0;
+      }
+      .tile {
+        padding: 12px;
+      }
+      .tasktop {
+        margin-bottom: 16px;
+      }
+      @media (max-height: 800px) and (min-width: 701px) {
+        main {
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+        .scene {
+          max-height: calc(100dvh - 92px);
+        }
+        .content {
+          padding: 14px 22px;
+        }
+        .startcard,
+        .resultcard {
+          padding: 18px 26px;
+        }
+        .startcard h1,
+        .resultcard h1 {
+          font-size: 34px;
+          margin: 5px 0;
+        }
+        .startcard p,
+        .resultcard p {
+          font-size: 15px;
+          line-height: 1.35;
+          margin: 7px auto;
+        }
+        .starttiles {
+          margin: 10px 0;
+          gap: 9px;
+        }
+        .tile {
+          padding: 9px;
+          font-size: 13px;
+        }
+        .taskpanel {
+          padding: 18px;
+        }
+        .tasktop {
+          padding: 14px 18px;
+          margin-bottom: 12px;
+        }
+        .tasktop h1 {
+          font-size: 30px;
+          margin: 6px 0 3px;
+        }
+      }
+      @media (max-width: 700px) {
+        .shell {
+          display: block;
+        }
+        nav {
+          display: flex;
+          position: static;
+          width: 100%;
+          height: auto;
+          overflow-x: auto;
+          padding: 7px;
+          gap: 5px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        nav .navtitle,
+        nav .navfoot {
+          display: none;
+        }
+        .navitem {
+          white-space: nowrap;
+          margin: 0;
+          padding: 8px;
+          font-size: 13px;
+        }
+        .navitem .dot {
+          width: 18px;
+          height: 18px;
+        }
+        .navitem span:last-child {
+          display: none;
+        }
+        main {
+          display: block;
+          min-height: 0;
+          padding: 10px;
+        }
+        .scene {
+          max-height: none;
+          min-height: calc(100dvh - 130px);
+          overflow: visible;
+        }
+        .content {
+          padding: 12px;
+        }
+        .startcard,
+        .resultcard {
+          padding: 20px 15px;
+        }
+        .starttiles {
+          grid-template-columns: 1fr;
+        }
+        .taskpanel {
+          padding: 14px;
+        }
+        .tasktop {
+          padding: 15px;
+        }
+        .tasktop h1 {
+          font-size: 26px;
+        }
+        .matchgrid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+/* SMART final assignment */
+.smart-field {
+  background: #f8faf7;
+  border: 1px solid #dce7dc;
+  border-left: 5px solid #285b43;
+  border-radius: 13px;
+  padding: 15px 17px;
+  margin: 13px 0;
+}
+
+.smart-field h3 {
+  color: #183d2c;
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.smart-field p {
+  color: #58665d;
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.smart-field textarea {
+  min-height: 75px;
+  resize: vertical;
+  background: #fffefa;
+  border: 1px solid #cbd8ce;
+  line-height: 1.5;
+}
+
+.smart-field textarea:focus {
+  outline: 2px solid #285b43;
+  border-color: #285b43;
+}
+
+.smart-intro {
+  background: #eaf1eb;
+  border-left: 4px solid #367254;
+  padding: 14px 17px;
+  border-radius: 11px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.smart-result {
+  background: #edf5ee;
+  border: 1px solid #cbdccf;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 15px;
+}
+
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <div class="logo">H</div>
+        <strong>Försäljning och Service 2</strong><small>Lär dig. SMART-Modellen.</small>
+      </div>
+      <div class="topstats">
+        <span>Poäng: <b id="topScore">0</b></span
+        ><span>Nivå <b id="topLevel">0</b> av 5</span>
+        <div class="progress"><span id="topProgress"></span></div>
+      </div>
+    </header>
+    <div class="shell">
+      <nav>
+        <div class="navtitle">Dina uppdrag</div>
+        <div class="navitem active" data-nav="0">
+          <i class="dot">1</i
+          ><span>Nivå 1<br /><small>Hitta rätt mål</small></span>
+        </div>
+        <div class="navitem locked" data-nav="1">
+          <i class="dot">2</i
+          ><span>Nivå 2<br /><small>SMART-byggaren</small></span>
+        </div>
+        <div class="navitem locked" data-nav="2">
+          <i class="dot">3</i
+          ><span>Nivå 3<br /><small>Sortera målen</small></span>
+        </div>
+        <div class="navitem locked" data-nav="3">
+          <i class="dot">4</i
+          ><span>Nivå 4<br /><small>Butikens problem</small></span>
+        </div>
+        <div class="navitem locked" data-nav="4">
+          <i class="dot">5</i><span>Nivå 5<br /><small>Slutprovet</small></span>
+        </div>
+        <div class="navfoot">
+          <div class="navitem" id="resultNav">
+            <i class="dot">★</i><span>Resultat</span>
+          </div>
+        </div>
+      </nav>
+      <main>
+        <section id="startScreen" class="scene">
+          <div class="content">
+            <div class="sarahcol">
+              <div class="speech">
+                <b>Sarah säger:</b><br />”Välkommen! Jag behöver din hjälp att
+                göra butikens mål tydliga och möjliga att följa upp.”
+              </div>
+              <div class="quote">
+                ”Små mål skapar stora resultat.”<br /><small>– Sarah</small>
+              </div>
+            </div>
+            <div class="startcard">
+              <span class="tag">HANDEL HUB · KAPITEL 9</span>
+              <h1>SMART-utmaningen</h1>
+              <p><b>Bli butikens målexpert!</b></p>
+              <p>
+                Sarah har flera idéer för butiken, men behöver hjälp att
+                formulera tydliga mål. Genom fem uppdrag får du granska mål,
+                använda SMART-modellen och lösa situationer från butikens
+                vardag.
+              </p>
+              <div class="starttiles">
+                <div class="tile">
+                  <b>Spelets syfte</b>Förstå och använda SMART-modellen i
+                  praktiken.
+                </div>
+                <div class="tile">
+                  <b>Du tränar på</b>Begrepp, analys, måltyper och målsättning.
+                </div>
+                <div class="tile">
+                  <b>Fem uppdrag</b>Samla poäng, använd ledtrådar och få
+                  förklaringar.
+                </div>
+              </div>
+              <div class="namebox">
+                <label for="playerName">Skriv ditt namn för att börja</label
+                ><input
+                  id="playerName"
+                  maxlength="35"
+                  placeholder="Ditt namn"
+                />
+              </div>
+              <button class="btn" id="startBtn">Starta uppdraget →</button>
+              <p class="muted" style="font-size: 14px">
+                Tips: Läs varje situation noggrant. Flera alternativ kan verka
+                rimliga, men bara ett passar bäst.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section id="gameScreen" class="scene hidden">
+          <div class="content">
+            <div class="sarahcol">
+              <div class="speech" id="sarahSpeech">
+                <b>Sarah säger:</b><br />Vi tar ett uppdrag i taget. Du klarar
+                det!
+              </div>
+              <div class="quote">
+                ”Små mål skapar stora resultat.”<br /><small>– Sarah</small>
+              </div>
+            </div>
+            <article class="taskpanel">
+              <div class="tasktop">
+                <div class="taskmeta">
+                  <span class="pill" id="levelPill">Nivå 1 av 5</span
+                  ><span id="taskCount">Uppdrag 1</span>
+                </div>
+                <h1 id="taskTitle">Hitta rätt mål</h1>
+                <p id="taskDesc"></p>
+              </div>
+              <div class="taskhead">
+                <h2 id="taskHeading">Granska målet</h2>
+                <span class="muted" id="taskPoints">0 poäng</span>
+              </div>
+              <div class="story" id="story"></div>
+              <div id="taskArea"></div>
+              <div class="feedback" id="feedback"></div>
+              <div class="actions">
+                <button class="btn" id="checkBtn">Kontrollera svar</button
+                ><button class="btn secondary hidden" id="nextBtn">
+                  Nästa uppdrag →
+                </button>
+              </div>
+              <div class="hintbox">
+                <span style="font-size: 23px">♧</span>
+                <div>
+                  <strong>Ledtråd</strong>
+                  <p id="hintText">
+                    Tryck på ”Visa ledtråd” om du behöver hjälp.
+                  </p>
+                  <button id="hintBtn" type="button">Visa ledtråd</button>
+                </div>
+              </div>
+              <div class="bottomline">
+                <span>★ Poäng: <b id="scoreBottom">0</b></span
+                ><span id="hintsLeft">Ledtrådar: 2 kvar</span>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="resultScreen" class="scene hidden">
+          <div class="content">
+            <div class="sarahcol">
+              <div class="speech">
+                <b>Sarah säger:</b><br />Tack för hjälpen! Nu har vi mål som går
+                att arbeta mot.
+              </div>
+            </div>
+            <div class="resultcard">
+              <span class="tag">ALLA UPPDRAG GENOMFÖRDA</span>
+              <h1 id="resultTitle">Bra jobbat!</h1>
+              <p id="resultLead"></p>
+              <div class="scorebig" id="finalScore">0</div>
+              <p>poäng</p>
+              <div class="resultlist" id="resultDetails"></div>
+              <button class="btn" id="restartBtn">Spela igen</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
