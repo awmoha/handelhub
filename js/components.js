@@ -3,28 +3,34 @@ async function loadComponent(selector, file) {
     const element = document.querySelector(selector);
 
     if (!element) {
-        console.error("Element not found:", selector);
+        console.warn("Element not found:", selector);
         return;
     }
 
     try {
-        const response = await fetch(file);
+        const projectRoot = new URL("../../", import.meta.url);
+
+        const componentUrl = new URL(file, projectRoot);
+
+        const response = await fetch(componentUrl);
 
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);
         }
 
-        const html = await response.text();
-        element.innerHTML = html;
+        element.innerHTML = await response.text();
 
-        console.log("Component loaded:", file);
+        console.log("Component loaded:", componentUrl.href);
 
     } catch (error) {
         console.error("Loading failed:", error);
     }
 }
 
-loadComponent(
-    "#site-footer",
-    "./components/footer.html"
-);
+async function loadLayout() {
+    await Promise.all([
+        loadComponent("#site-footer", "components/footer.html")
+    ]);
+}
+
+loadLayout();
