@@ -288,7 +288,7 @@ body {
   margin: 0;
   background: #f7f5ef;
   color: #171717;
-  font-family: "Times New Roman", serif;
+  font-family: "Cardo";
 }
 
 .game-wrapper {
@@ -325,13 +325,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 24px;
 }
 
 .brand h1 {
   margin: 0;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 26px;
   color: #183d2c;
 }
@@ -358,7 +358,7 @@ body {
 }
 
 .score {
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 23px;
   font-weight: bold;
   color: #24553d;
@@ -395,7 +395,7 @@ body {
 
 .start-card h2 {
   margin-top: 20px;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   color: #1d4c35;
   font-size: 36px;
 }
@@ -413,7 +413,7 @@ body {
   padding: 14px 16px;
   border: 1px solid #c8c8c8;
   border-radius: 10px;
-  font-family: "Times New Roman", serif;
+  font-family: "Cardo";
   font-size: 17px;
   margin-bottom: 15px;
 }
@@ -429,7 +429,7 @@ body {
   color: white;
   padding: 14px 28px;
   border-radius: 10px;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 18px;
   cursor: pointer;
   transition: 0.2s;
@@ -459,7 +459,7 @@ body {
 }
 
 .game-title {
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 22px;
   color: #214b36;
 }
@@ -511,7 +511,7 @@ body {
 
 .shop-sign {
   text-align: center;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
   font-size: 28px;
   color: #24543c;
   margin-bottom: 30px;
@@ -536,7 +536,7 @@ body {
   justify-content: center;
   text-align: center;
   color: #315740;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
 }
 
 .characters {
@@ -574,7 +574,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Cardo", serif;
+  font-family: "Cardo";
 }
 
 /* DIALOG */
@@ -624,7 +624,7 @@ body {
   background: white;
   border: 1px solid #cfd5d0;
   border-radius: 10px;
-  font-family: "Times New Roman", serif;
+  font-family: "Cardo";
   font-size: 17px;
   cursor: pointer;
   transition: 0.2s;
