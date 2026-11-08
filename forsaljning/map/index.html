@@ -3,10 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Interaktiv och pedagogisk tankekarta för Kapitel 10 – Konsumenträtt, lagar och reklamationer."
-    />
     <title>Kapitel 10 – Konsumenträtt | Handelhub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,27 +10,22 @@
       href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../css/styles.css" />
     <link rel="stylesheet" href="styles.css" />
-
     <script defer src="script.js"></script>
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="#" aria-label="Handelhub startsida">
-        <span class="brand-mark">H</span>
-        <span
-          ><strong>Handelhub</strong
-          ><small>Kunskap för butik och handel</small></span
-        >
-      </a>
-      <span class="chapter-pill">KAPITEL 10</span>
+    <header>
+      <a class="brand" href="#"
+        ><span class="logo">H</span
+        ><span
+          ><b>Handelhub</b><small>Kunskap för butik och handel</small></span
+        ></a
+      ><span class="pill">KAPITEL 10</span>
     </header>
-
     <main>
-      <section class="intro">
+      <section class="hero">
         <a
-          class="back-link"
+          class="back"
           href="#"
           onclick="
             history.back();
@@ -43,185 +34,154 @@
           >← Tillbaka</a
         >
         <p class="eyebrow">INTERAKTIV STUDIEKARTA</p>
-        <h1>
-          Konsumenträtt, lagar<br class="desktop-break" />
-          och reklamationer
-        </h1>
+        <h1>Konsumenträtt</h1>
         <p class="lead">
-          Lär dig vilka regler som gäller när en butik säljer varor och
-          tjänster. Klicka på en gren för att öppna en enkel förklaring och ett
-          exempel från vardagen.
+          Utforska kapitlets sju områden. Klicka på en gren runt mitten för att
+          öppna den och se dess underämnen.
         </p>
-        <div class="learning-tip">
-          <span class="tip-icon">*</span
-          ><span
-            ><strong>Så använder du kartan:</strong> Välj ett område i
-            tankekartan ovan. Scrolla sedan ner på sidan för att läsa
-            förklaringen och se ett enkelt exempel från en vanlig butik. Längst
-            ner hittar du en fråga. Försök svara själv innan du klickar på Visa
-            svar för att kontrollera om du har förstått..</span
-          >
-        </div>
+        <p class="instruction">
+          <b>Så fungerar tankekartan:</b> Välj ett av de sju områdena runt
+          cirkeln. Då öppnas underämnen. Klicka på ett underämne för att läsa en
+          enkel förklaring, ett exempel från en butik och testa dina kunskaper.
+        </p>
       </section>
-
-      <section class="map-section" aria-label="Tankekarta för Kapitel 10">
-        <div class="map-heading">
+      <section class="map-card">
+        <div class="map-head">
           <div>
             <p class="eyebrow">ÖVERSIKT</p>
-            <h2>Välj ett område</h2>
+            <h2>Utforska tankekartan</h2>
           </div>
-          <span class="map-count">7 kunskapsområden</span>
+          <span class="count">7 kunskapsområden</span>
         </div>
         <div class="mindmap">
           <svg
-            class="map-lines"
-            viewBox="0 0 1000 520"
+            class="connections"
+            viewBox="0 0 1000 700"
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <path d="M205 260 C290 260 280 40 380 40" />
-            <path d="M205 260 C300 260 290 115 380 115" />
-            <path d="M205 260 C300 260 290 190 380 190" />
-            <path d="M205 260 C300 260 290 265 380 265" />
-            <path d="M205 260 C300 260 290 340 380 340" />
-            <path d="M205 260 C300 260 290 415 380 415" />
-            <path d="M205 260 C300 260 290 490 380 490" />
+            <path d="M500 350 Q500 220 500 95" />
+            <path d="M500 350 Q690 210 805 170" />
+            <path d="M500 350 Q790 350 850 350" />
+            <path d="M500 350 Q700 510 805 555" />
+            <path d="M500 350 Q500 520 500 610" />
+            <path d="M500 350 Q300 510 195 555" />
+            <path d="M500 350 Q210 350 150 350" />
           </svg>
-          <div class="root-node">
-            <span class="root-icon">§</span>
-            <span class="root-label">KAPITEL 10</span>
-            <strong>Konsumenträtt</strong>
-            <small>Lagar & reklamationer</small>
-            <span class="root-orbit orbit-one"></span
-            ><span class="root-orbit orbit-two"></span>
+          <div class="hub">
+            <span>§</span><small>KAPITEL 10</small><strong>Konsumenträtt</strong
+            ><em>Lagar & reklamationer</em>
           </div>
-          <div class="branch-list">
-            <button class="branch active" data-topic="purpose">
-              <span class="branch-number">01</span
-              ><span class="branch-text"
-                ><strong>Syfte och mål</strong
-                ><small>Varför finns reglerna?</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="laws">
-              <span class="branch-number">02</span
-              ><span class="branch-text"
-                ><strong>Viktiga konsumentlagar</strong
-                ><small>Vilka lagar ska man känna till?</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="contracts">
-              <span class="branch-number">03</span
-              ><span class="branch-text"
-                ><strong>Köp och avtalsformer</strong
-                ><small>B2B · B2C · C2C</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="goods">
-              <span class="branch-number">04</span
-              ><span class="branch-text"
-                ><strong>Reklamation av vara</strong
-                ><small>När en köpt produkt har fel</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="services">
-              <span class="branch-number">05</span
-              ><span class="branch-text"
-                ><strong>Reklamation av tjänst</strong
-                ><small>När ett arbete blir fel</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="returns">
-              <span class="branch-number">06</span
-              ><span class="branch-text"
-                ><strong>Garanti, öppet köp och ångerrätt</strong
-                ><small>Tre olika saker att skilja på</small></span
-              ><span class="branch-arrow">›</span>
-            </button>
-            <button class="branch" data-topic="disputes">
-              <span class="branch-number">07</span
-              ><span class="branch-text"
-                ><strong>Myndigheter och tvister</strong
-                ><small>Vart kan kunden vända sig?</small></span
-              ><span class="branch-arrow">›</span>
+          <button class="node n1" data-topic="purpose">
+            <span class="node-icon">🎯</span
+            ><span
+              ><b>01 · Syfte och mål</b
+              ><small>Varför finns reglerna?</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n2" data-topic="laws">
+            <span class="node-icon">⚖️</span
+            ><span
+              ><b>02 · Viktiga konsumentlagar</b
+              ><small>Vilka lagar ska man känna till?</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n3" data-topic="contracts">
+            <span class="node-icon">🤝</span
+            ><span
+              ><b>03 · Köp och avtalsformer</b
+              ><small>B2B · B2C · C2C</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n4" data-topic="goods">
+            <span class="node-icon">📦</span
+            ><span
+              ><b>04 · Reklamation av vara</b
+              ><small>När en köpt produkt har fel</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n5" data-topic="services">
+            <span class="node-icon">🛠️</span
+            ><span
+              ><b>05 · Reklamation av tjänst</b
+              ><small>När ett arbete blir fel</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n6" data-topic="returns">
+            <span class="node-icon">↩️</span
+            ><span
+              ><b>06 · Garanti, öppet köp och ångerrätt</b
+              ><small>Tre olika saker att skilja på</small></span
+            ><i>＋</i>
+          </button>
+          <button class="node n7" data-topic="disputes">
+            <span class="node-icon">🏛️</span
+            ><span
+              ><b>07 · Myndigheter och tvister</b
+              ><small>Vart kan kunden vända sig?</small></span
+            ><i>＋</i>
+          </button>
+        </div>
+        <div class="branch-panel" id="branchPanel" hidden>
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">ÖPPNAD GREN</p>
+              <h3 id="branchTitle"></h3>
+            </div>
+            <button id="closeBranch" class="close" aria-label="Stäng gren">
+              ×
             </button>
           </div>
+          <p id="branchIntro" class="branch-intro"></p>
+          <div id="subtopics" class="subtopics"></div>
         </div>
       </section>
-
-      <section class="detail-wrap" id="detail" aria-live="polite">
-        <div class="detail-topline">
-          <span class="detail-kicker">FÖRDJUPNING</span
-          ><span class="detail-step" id="detailStep">OMRÅDE 01 AV 07</span>
+      <section class="lesson" id="lesson" hidden>
+        <div class="lesson-top">
+          <span class="eyebrow">FÖRDJUPNING</span
+          ><span id="lessonNumber"></span>
         </div>
-        <article class="detail-card">
-          <div class="detail-icon" id="detailIcon">🎯</div>
-          <div class="detail-content">
-            <p class="eyebrow" id="detailEyebrow">GRUNDEN</p>
-            <h2 id="detailTitle">Syfte och mål</h2>
-            <p class="detail-intro" id="detailIntro"></p>
-            <div class="detail-grid">
-              <div class="info-panel">
-                <h3><span>📘</span> Förklaring</h3>
-                <div id="detailBody"></div>
+        <article>
+          <div class="lesson-icon" id="lessonIcon"></div>
+          <div>
+            <h2 id="lessonTitle"></h2>
+            <p class="lesson-lead" id="lessonLead"></p>
+            <div class="lesson-columns">
+              <div class="explain">
+                <h3>Förklaring</h3>
+                <div id="lessonText"></div>
               </div>
-              <div class="example-panel">
-                <h3><span>🛍️</span> Enkelt exempel</h3>
-                <p id="detailExample"></p>
-                <div class="remember" id="detailRemember"></div>
+              <div class="example">
+                <h3>Exempel från en butik</h3>
+                <p id="lessonExample"></p>
+                <strong id="lessonRemember"></strong>
               </div>
             </div>
-            <div class="check-panel">
+            <div class="quiz">
               <div>
-                <span class="check-label">KOLLA ATT DU FÖRSTÅTT</span>
-                <p id="detailQuestion"></p>
+                <small>TESTA DIG SJÄLV</small>
+                <p id="lessonQuestion"></p>
               </div>
-              <button class="reveal-button" id="revealAnswer" type="button">
-                Visa svar <span>＋</span>
-              </button>
-              <p class="answer" id="detailAnswer" hidden></p>
+              <button id="showAnswer">Visa svar ＋</button>
+              <p id="lessonAnswer" hidden></p>
             </div>
           </div>
         </article>
-        <div class="detail-nav">
-          <button class="nav-button" id="prevTopic" type="button">
-            ← Föregående
-          </button>
-          <span id="navPosition">1 / 7</span>
-          <button class="nav-button next" id="nextTopic" type="button">
-            Nästa område →
-          </button>
-        </div>
       </section>
-
+     
       <section class="sources">
-        <h2>Vill du läsa mer?</h2>
-        <p>
-          Här finns information från svenska myndigheter. Regler kan ha
-          undantag, så läs alltid villkoren och kontrollera vad som gäller i den
-          aktuella situationen.
-        </p>
-        <div class="source-links">
-          <a
-            href="https://www.konsumentverket.se/"
-            target="_blank"
-            rel="noopener"
-            >Konsumentverket ↗</a
-          >
-          <a href="https://www.arn.se/" target="_blank" rel="noopener"
-            >Allmänna reklamationsnämnden (ARN) ↗</a
-          >
-          <a
-            href="https://www.riksdagen.se/sv/dokument-och-lagar/"
-            target="_blank"
-            rel="noopener"
-            >Sveriges riksdag – lagar ↗</a
-          >
-        </div>
+        <h2>Läs mer hos myndigheterna</h2>
+        <a href="https://www.konsumentverket.se/" target="_blank" rel="noopener"
+          >Konsumentverket ↗</a
+        ><a href="https://www.arn.se/" target="_blank" rel="noopener">ARN ↗</a
+        ><a
+          href="https://www.riksdagen.se/sv/dokument-och-lagar/"
+          target="_blank"
+          rel="noopener"
+          >Sveriges riksdag ↗</a
+        >
       </section>
     </main>
-    <footer>
-      <span>Handelhub · Kapitel 10</span>
-    </footer>
+    <footer>Handelhub · Kapitel 10</footer>
   </body>
 </html>

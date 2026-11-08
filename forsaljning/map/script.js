@@ -1,112 +1,44 @@
-const topics = [
-  {
-    id:"purpose", icon:"🎯", eyebrow:"GRUNDEN", title:"Syfte och mål",
-    intro:"Konsumenträtt handlar om regler som skyddar personer när de köper varor eller tjänster av företag.",
-    body:`<p>Reglerna ska göra handeln tryggare och tydligare. Kunden ska få det som företaget har lovat och kunna få hjälp om något blir fel.</p><ul><li>Kunden ska få tydlig information.</li><li>Företaget ska följa de lagar som gäller för köpet.</li><li>Kunden ska veta vart hen kan vända sig vid problem.</li></ul>`,
-    example:"En kund köper en mobiltelefon. Butiken berättar att mobilen har 128 GB lagring. Om kunden får en modell med mindre lagring stämmer varan inte med informationen som gavs.",
-    remember:"Kom ihåg: Konsumenträtt = regler som skyddar kunden när kunden handlar av ett företag.",
-    question:"Varför finns konsumentlagarna?",
-    answer:"För att skydda kunden och skapa tydliga och rättvisa regler mellan kunden och företaget."
-  },
-  {
-    id:"laws", icon:"📚", eyebrow:"LAGAR ATT KÄNNA TILL", title:"Viktiga konsumentlagar",
-    intro:"Olika lagar gäller i olika situationer. En butiksägare behöver veta vilken lag som passar till köpet.",
-    body:`<ul><li><strong>Konsumentköplagen:</strong> gäller när en privatperson köper en vara av ett företag.</li><li><strong>Konsumenttjänstlagen:</strong> gäller vissa tjänster som företag utför åt privatpersoner, till exempel reparation av en cykel.</li><li><strong>Distansavtalslagen:</strong> gäller bland annat köp på nätet och via telefon. Den ger ofta 14 dagars ångerrätt.</li><li><strong>Marknadsföringslagen:</strong> reklam får inte vara vilseledande eller ge fel bild.</li><li><strong>Prisinformationslagen:</strong> prisinformation ska vara tydlig och korrekt.</li><li><strong>Avtalsvillkorslagen:</strong> skyddar konsumenter mot oskäliga villkor i avtal.</li><li><strong>Produktsäkerhetslagen:</strong> företag får inte tillhandahålla farliga konsumentprodukter.</li><li><strong>Köplagen:</strong> gäller bland annat köp mellan företag och mellan privatpersoner.</li></ul>`,
-    example:"En butik skriver ”50 % rabatt” på en skylt. Då måste erbjudandet vara korrekt och prisinformationen får inte lura kunden.",
-    remember:"Kom ihåg: Konsumentköplagen gäller varor. Konsumenttjänstlagen gäller vissa arbeten och tjänster.",
-    question:"Vilken lag gäller vanligtvis när en privatperson köper en vara av en butik?",
-    answer:"Konsumentköplagen."
-  },
-  {
-    id:"contracts", icon:"🤝", eyebrow:"VEM KÖPER AV VEM?", title:"Köp och avtalsformer",
-    intro:"Bokstäverna visar vilka som köper och säljer. Det hjälper oss att förstå vilka regler som gäller.",
-    body:`<ul><li><strong>B2B – Business to Business:</strong> ett företag säljer till ett annat företag. Exempel: en grossist säljer varor till en butik.</li><li><strong>B2C – Business to Consumer:</strong> ett företag säljer till en privatperson. Exempel: en butik säljer skor till en kund.</li><li><strong>C2C – Consumer to Consumer:</strong> en privatperson säljer till en annan privatperson. Exempel: någon säljer en begagnad cykel till en granne.</li></ul><p>Vid B2C gäller ofta konsumentlagar. Vid B2B och C2C kan till exempel köplagen gälla. Avtalet och situationen spelar också roll.</p>`,
-    example:"En skoaffär säljer ett par skor till Sara. Det är B2C eftersom säljaren är ett företag och köparen är en privatperson.",
-    remember:"Minnesregel: B = Business (företag). C = Consumer (konsument/privatperson).",
-    question:"En butik säljer en jacka till en privatperson. Är det B2B, B2C eller C2C?",
-    answer:"B2C – ett företag säljer till en privatperson."
-  },
-  {
-    id:"goods", icon:"📦", eyebrow:"NÄR EN VARA HAR FEL", title:"Reklamation av vara",
-    intro:"Att reklamera betyder att kunden kontaktar butiken och klagar på ett fel på en vara.",
-    body:`<p>Om en privatperson köper en vara av ett företag gäller konsumentköplagen.</p><ul><li>Kunden har normalt <strong>3 år</strong> på sig att reklamera fel på varan.</li><li>Kunden ska klaga inom <strong>2 månader</strong> från att felet upptäcktes. Då räknas reklamationen alltid som gjord i rätt tid.</li><li>Felet ska vara ett fel som företaget ansvarar för – till exempel ett ursprungligt fel eller att varan inte stämmer med vad som avtalats.</li><li>Under de första <strong>2 åren</strong> är utgångspunkten att företaget ansvarar för fel som visar sig, om företaget inte kan visa något annat.</li></ul><p>En lösning kan vara att butiken lagar varan eller byter den. I vissa fall kan kunden få prisavdrag eller häva köpet.</p>`,
-    example:"En kund köper hörlurar. Efter fyra månader slutar ena sidan att fungera trots normal användning. Kunden kontaktar butiken och reklamerar. Butiken behöver undersöka felet och hantera kundens krav enligt lagen.",
-    remember:"Viktigt: 3 år är reklamationstiden för varor – det betyder inte att alla skador automatiskt ersätts. Felet måste omfattas av lagen.",
-    question:"Hur lång är reklamationsrätten för en vara som en privatperson köper av ett företag?",
-    answer:"Normalt 3 år. Kunden ska också klaga inom 2 månader från att felet upptäcktes."
-  },
-  {
-    id:"services", icon:"🛠️", eyebrow:"NÄR ETT ARBETE HAR FEL", title:"Reklamation av tjänst",
-    intro:"En tjänst är ett arbete som ett företag gör åt en kund. Kunden kan klaga om arbetet inte är gjort på rätt sätt.",
-    body:`<p>Konsumenttjänstlagen gäller bland annat arbete på saker, till exempel reparation av en cykel eller bil, och arbete på hus eller andra byggnader.</p><ul><li>Arbetet ska utföras på ett fackmässigt sätt – alltså ordentligt och med rätt kunskap.</li><li>Företaget ska ta hänsyn till kundens intressen.</li><li>Kunden ska klaga inom rimlig tid efter att felet upptäckts.</li><li>För arbete på lösa saker är reklamationstiden normalt 3 år. För arbete på byggnader och annan fast egendom kan den vara 10 år.</li></ul>`,
-    example:"En kund lämnar in sin cykel för reparation. När kunden hämtar cykeln fungerar bromsen fortfarande dåligt. Kunden kan klaga på arbetet och be verkstaden rätta till felet.",
-    remember:"Fackmässigt betyder att arbetet ska göras på ett professionellt och kunnigt sätt.",
-    question:"Vilken lag gäller ofta när en verkstad reparerar en privatpersons cykel?",
-    answer:"Konsumenttjänstlagen."
-  },
-  {
-    id:"returns", icon:"↩️", eyebrow:"TRE OLIKA BEGREPP", title:"Garanti, öppet köp och ångerrätt",
-    intro:"De här tre begreppen betyder olika saker. Det är viktigt att butiken inte blandar ihop dem.",
-    body:`<ul><li><strong>Garanti:</strong> ett frivilligt löfte från företaget eller tillverkaren. Garantin ger extra rättigheter, men får inte ta bort kundens rätt enligt lagen.</li><li><strong>Öppet köp:</strong> butiken låter kunden lämna tillbaka en vara och få pengarna tillbaka. Butiken bestämmer om den erbjuder öppet köp och vilka villkor som gäller.</li><li><strong>Bytesrätt:</strong> butiken låter kunden byta till en annan vara. Det är frivilligt för butiken.</li><li><strong>Ångerrätt:</strong> vid många köp på nätet eller via telefon har kunden 14 dagar på sig att ångra köpet. Det finns undantag. Vid vanliga köp i fysisk butik finns ingen lagstadgad ångerrätt.</li></ul>`,
-    example:"Ali köper en tröja i en fysisk butik och ångrar färgen hemma. Han har inte automatiskt rätt att lämna tillbaka den. Men om butiken erbjuder öppet köp kan han följa butikens villkor. Om han i stället köper tröjan på nätet har han normalt 14 dagars ångerrätt, med vissa undantag.",
-    remember:"Minnesregel: Garanti = extra löfte. Öppet köp = butikens erbjudande. Ångerrätt = rätt enligt lag vid många distansköp.",
-    question:"Har kunden alltid 14 dagars ångerrätt när kunden handlar i en vanlig fysisk butik?",
-    answer:"Nej. Ångerrätt gäller normalt vid distansköp, till exempel på nätet. I fysisk butik är öppet köp frivilligt."
-  },
-  {
-    id:"disputes", icon:"⚖️", eyebrow:"NÄR MAN INTE KOMMER ÖVERENS", title:"Myndigheter och tvister",
-    intro:"En tvist betyder att kunden och företaget inte är överens. Det finns platser där kunden kan få information eller få saken prövad.",
-    body:`<ul><li><strong>Konsumentverket:</strong> arbetar för att företag ska följa konsumentregler. Här finns information om konsumenters rättigheter.</li><li><strong>ARN – Allmänna reklamationsnämnden:</strong> prövar många tvister mellan konsumenter och företag. ARN ger en rekommendation om hur tvisten bör lösas.</li><li><strong>Kommunal konsumentvägledning:</strong> vissa kommuner erbjuder hjälp och vägledning till konsumenter.</li><li><strong>Domstol:</strong> en tvist kan i vissa fall tas vidare till domstol.</li></ul><p>Kunden bör först kontakta företaget och förklara problemet. Det är bra att spara kvitto, mejl, bilder och annan information.</p>`,
-    example:"En kund reklamerar en trasig vara, men butiken säger nej. Kunden och butiken kommer inte överens. Kunden kan läsa om sina rättigheter och undersöka om ärendet kan anmälas till ARN.",
-    remember:"ARN bestämmer inte åt kunden i alla situationer. Nämnden prövar ärendet och lämnar en rekommendation.",
-    question:"Vad står ARN för?",
-    answer:"Allmänna reklamationsnämnden."
-  }
-];
-
-const buttons = [...document.querySelectorAll(".branch")];
-let current = 0;
-const byId = id => topics.findIndex(t => t.id === id);
-
-function renderTopic(index) {
-  current = Math.max(0, Math.min(topics.length - 1, index));
-  const t = topics[current];
-  buttons.forEach((button, i) => {
-    const active = i === current;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-  document.getElementById("detailIcon").textContent = t.icon;
-  document.getElementById("detailEyebrow").textContent = t.eyebrow;
-  document.getElementById("detailTitle").textContent = t.title;
-  document.getElementById("detailIntro").textContent = t.intro;
-  document.getElementById("detailBody").innerHTML = t.body;
-  document.getElementById("detailExample").textContent = t.example;
-  document.getElementById("detailRemember").textContent = t.remember;
-  document.getElementById("detailQuestion").textContent = t.question;
-  const answer = document.getElementById("detailAnswer");
-  answer.textContent = "Svar: " + t.answer;
-  answer.hidden = true;
-  document.getElementById("revealAnswer").innerHTML = 'Visa svar <span>＋</span>';
-  document.getElementById("detailStep").textContent = `OMRÅDE ${String(current + 1).padStart(2,"0")} AV 07`;
-  document.getElementById("navPosition").textContent = `${current + 1} / ${topics.length}`;
-  document.getElementById("prevTopic").disabled = current === 0;
-  document.getElementById("nextTopic").disabled = current === topics.length - 1;
-  const card = document.querySelector(".detail-card");
-  card.style.animation = "none";
-  void card.offsetWidth;
-  card.style.animation = "rise .35s ease both";
-}
-
-buttons.forEach(button => button.addEventListener("click", () => {
-  renderTopic(byId(button.dataset.topic));
-  if (window.innerWidth < 720) document.getElementById("detail").scrollIntoView({behavior:"smooth",block:"start"});
-}));
-document.getElementById("prevTopic").addEventListener("click", () => renderTopic(current - 1));
-document.getElementById("nextTopic").addEventListener("click", () => renderTopic(current + 1));
-document.getElementById("revealAnswer").addEventListener("click", () => {
-  const answer = document.getElementById("detailAnswer");
-  answer.hidden = !answer.hidden;
-  document.getElementById("revealAnswer").innerHTML = answer.hidden ? 'Visa svar <span>＋</span>' : 'Dölj svar <span>−</span>';
-});
-renderTopic(0);
+const data={
+purpose:{title:"Syfte och mål",icon:"🎯",intro:"Konsumenträtt handlar om regler som skyddar personer när de köper varor eller tjänster av företag.",subs:["Varför finns konsumentregler?","Kundens rättigheter","Företagets skyldigheter"],lessons:[
+["Varför finns konsumentregler?","Reglerna ska göra handeln trygg och tydlig. Kunden ska få det som företaget har lovat och kunna få hjälp om något blir fel.","En kund köper en mobil. Butiken har sagt att mobilen har 128 GB lagring. Om kunden får en annan modell som inte stämmer med informationen kan kunden klaga.","Konsumenträtt skyddar kunden och skapar tydliga regler.","Varför finns konsumentlagarna?","För att skydda kunden och skapa tydliga och rättvisa regler."],
+["Kundens rättigheter","Kunden har rätt att få tydlig information och en vara eller tjänst som stämmer med avtalet.","En kund beställer en blå jacka men får en röd. Kunden kan kontakta butiken eftersom leveransen inte stämmer med beställningen.","Kunden ska få det som har avtalats.","Vad betyder det att en vara ska stämma med avtalet?","Att varan ska motsvara det som kunden och butiken har kommit överens om."],
+["Företagets skyldigheter","Företaget ska följa de lagar som gäller för köpet och hantera kundens klagomål på rätt sätt.","En kund berättar att en ny vattenkokare inte fungerar. Butiken ska ta emot kundens reklamation och bedöma felet.","Butiken ska följa lagen – inte bara sina egna regler.","Kan butikens egna regler ta bort kundens rätt enligt lag?","Nej. Butikens egna villkor får inte ta bort rättigheter som kunden har enligt lag."]]},
+laws:{title:"Viktiga konsumentlagar",icon:"⚖️",intro:"Olika lagar gäller i olika situationer. Välj en lag för att se vad den betyder.",subs:["Konsumentköplagen","Konsumenttjänstlagen","Distansavtalslagen","Marknadsföringslagen","Prisinformationslagen","Avtalsvillkorslagen","Produktsäkerhetslagen","Köplagen"],lessons:[
+["Konsumentköplagen","Gäller när en privatperson köper en vara av ett företag. Lagen innehåller regler om fel på varan och kundens rättigheter.","En kund köper en mobil i en butik. Efter en tid visar det sig att mobilen hade ett ursprungligt fel.","Konsumentköplagen gäller köp av varor från företag till konsument.","Vilken lag gäller när en privatperson köper en vara av en butik?","Konsumentköplagen."],
+["Konsumenttjänstlagen","Gäller vissa tjänster som företag utför åt privatpersoner, till exempel reparation av en cykel eller bil.","En verkstad reparerar en cykel men bromsen fungerar fortfarande inte som den ska. Kunden kan klaga på arbetet.","Lagen gäller vissa arbeten och tjänster – inte vanliga varuköp.","Vilken lag gäller ofta när en verkstad reparerar en privatpersons cykel?","Konsumenttjänstlagen."],
+["Distansavtalslagen","Gäller bland annat köp på nätet och via telefon. Vid många sådana köp har kunden 14 dagars ångerrätt. Det finns undantag.","En kund beställer en tröja på nätet och ångrar köpet. Kunden har normalt 14 dagar på sig att meddela företaget.","Distansköp betyder att kunden och säljaren inte möts på samma plats när avtalet görs.","Vilken ångerrätt gäller normalt vid många köp på nätet?","14 dagar."],
+["Marknadsföringslagen","Reklam och erbjudanden får inte lura kunden eller ge fel information.","En butik skriver ”halva priset” fast priset inte har sänkts på riktigt. Det kan vara vilseledande marknadsföring.","Reklam ska vara sann och tydlig.","Får en butik använda reklam som lurar kunden?","Nej, marknadsföring får inte vara vilseledande."],
+["Prisinformationslagen","Priser ska visas tydligt och korrekt så att kunden kan förstå vad varan kostar.","En tröja har en prislapp där priset är lätt att se. Kunden ska inte behöva gissa vad den kostar.","Priset ska vara tydligt.","Varför ska priser visas tydligt?","Så att kunden kan förstå och jämföra priset innan köpet."],
+["Avtalsvillkorslagen","Skyddar konsumenter mot oskäliga villkor i avtal som företag använder.","Ett företag skriver ett villkor som ger företaget alla rättigheter men tar bort kundens lagliga rättigheter. Ett sådant villkor kan vara oskäligt.","Avtalsvillkor ska vara rimliga och följa lagen.","Vad skyddar avtalsvillkorslagen konsumenten mot?","Oskäliga villkor i avtal."],
+["Produktsäkerhetslagen","Företag får inte tillhandahålla farliga konsumentprodukter. Produkter ska vara säkra vid normal användning.","En butik får information om att en leksak kan vara farlig. Butiken måste agera enligt säkerhetsreglerna.","Säkerhet går före försäljning.","Vad är viktigt när en butik säljer produkter?","Produkterna ska vara säkra att använda."],
+["Köplagen","Gäller bland annat köp mellan företag och köp mellan privatpersoner. Den är inte samma sak som konsumentköplagen.","Ett företag köper in varor från en grossist. Då kan köplagen gälla.","Köplagen används ofta när köpet inte är ett konsumentköp.","Vilken lag gäller ofta när två företag handlar med varandra?","Köplagen."]]},
+contracts:{title:"Köp och avtalsformer",icon:"🤝",intro:"Bokstäverna visar vilka som köper och säljer.",subs:["B2B – företag till företag","B2C – företag till privatperson","C2C – privatperson till privatperson"],lessons:[
+["B2B – företag till företag","B2B betyder Business to Business. Ett företag säljer till ett annat företag.","En grossist säljer lådor med kaffe till en matbutik.","B = Business, alltså företag.","Vad betyder B2B?","Företag säljer till företag."],
+["B2C – företag till privatperson","B2C betyder Business to Consumer. Ett företag säljer till en privatperson.","En skoaffär säljer ett par skor till Sara.","B2C är vanligt när kunder handlar i butik.","Vad betyder B2C?","Företag säljer till privatperson."],
+["C2C – privatperson till privatperson","C2C betyder Consumer to Consumer. En privatperson säljer till en annan privatperson.","Ali säljer sin begagnade cykel till en granne.","C2C är köp mellan privatpersoner.","Vad betyder C2C?","Privatperson säljer till privatperson."]]},
+goods:{title:"Reklamation av vara",icon:"📦",intro:"Att reklamera betyder att kunden kontaktar butiken och klagar på ett fel på en vara.",subs:["Vad är en reklamation?","Hur länge kan kunden reklamera?","Vilka lösningar finns?"],lessons:[
+["Vad är en reklamation?","Kunden kan reklamera om en vara har ett fel som företaget ansvarar för, till exempel ett ursprungligt fel eller att varan inte stämmer med avtalet.","En kund köper hörlurar. Ena sidan slutar fungera trots normal användning. Kunden kontaktar butiken och reklamerar.","Reklamation är en rätt enligt lag – inte samma sak som garanti.","Vad betyder reklamera?","Att kunden klagar på ett fel på en vara eller tjänst."],
+["Hur länge kan kunden reklamera?","För varor är reklamationstiden normalt tre år. Kunden ska klaga inom två månader från att felet upptäcktes. Under de första två åren är utgångspunkten att företaget ansvarar för fel som visar sig, om företaget inte kan visa något annat.","En mobil får ett fel efter ett år. Kunden kontaktar butiken så snart felet upptäckts.","Tre år är reklamationstiden – men felet måste omfattas av lagen.","Hur lång är reklamationstiden normalt för en vara?","Tre år."],
+["Vilka lösningar finns?","Butiken kan behöva laga varan eller ge kunden en ny. I vissa fall kan kunden få prisavdrag eller häva köpet.","En ny kaffebryggare fungerar inte. Butiken kan behöva reparera den eller ge kunden en ny, beroende på situationen.","Lösningen beror på felet och vad lagen säger.","Vilka två lösningar kan bli aktuella först?","Att laga varan eller ge kunden en ny."]]},
+services:{title:"Reklamation av tjänst",icon:"🛠️",intro:"En tjänst är ett arbete som ett företag gör åt en kund, till exempel en reparation.",subs:["Vad är en tjänst?","Krav på arbetet","Hur länge kan kunden klaga?"],lessons:[
+["Vad är en tjänst?","Konsumenttjänstlagen gäller bland annat arbete på lösa saker, till exempel reparation av cykel eller bil, och arbete på hus och byggnader.","En kund lämnar in sin cykel på verkstad för att få bromsarna lagade.","En tjänst är ett arbete som utförs åt kunden.","Ge ett exempel på en tjänst.","Att en verkstad reparerar en cykel."],
+["Krav på arbetet","Arbetet ska utföras fackmässigt. Det betyder att arbetet ska göras ordentligt och med rätt kunskap.","En hantverkare ska följa rätt arbetssätt när ett handfat installeras.","Fackmässigt betyder professionellt och kunnigt.","Vad betyder fackmässigt?","Att arbetet görs ordentligt och med rätt kunskap."],
+["Hur länge kan kunden klaga?","För arbete på lösa saker är reklamationstiden normalt tre år. För arbete på byggnader och annan fast egendom kan den vara tio år.","En kund upptäcker fel efter en reparation av en hushållsmaskin och kontaktar företaget.","Tiden beror på vilken typ av arbete det gäller.","Hur lång kan reklamationstiden vara för arbete på en byggnad?","Tio år."]]},
+returns:{title:"Garanti, öppet köp och ångerrätt",icon:"↩️",intro:"De här begreppen betyder olika saker. Välj ett för att se skillnaden.",subs:["Garanti","Öppet köp","Bytesrätt","Ångerrätt"],lessons:[
+["Garanti","Garanti är ett frivilligt löfte från företaget eller tillverkaren. Garantin får inte ta bort kundens rätt enligt lag.","En butik lovar att en kaffemaskin har ett års garanti. Kunden har ändå kvar sina rättigheter enligt konsumentköplagen.","Garanti är ett extra löfte.","Vad är garanti?","Ett frivilligt extra löfte från företaget eller tillverkaren."],
+["Öppet köp","Öppet köp betyder att butiken låter kunden lämna tillbaka en vara enligt butikens villkor. Det finns ingen allmän laglig rätt till öppet köp i fysisk butik.","Sara köper en tröja och ångrar färgen. Butiken erbjuder öppet köp i 30 dagar, så hon kan lämna tillbaka den enligt villkoren.","Öppet köp är frivilligt för butiken.","Måste en fysisk butik alltid erbjuda öppet köp?","Nej, öppet köp är frivilligt."],
+["Bytesrätt","Bytesrätt betyder att kunden får byta en vara, till exempel till en annan storlek. Butiken bestämmer om den erbjuder bytesrätt och vilka villkor som gäller.","En kund köper skor i storlek 38 men vill byta till storlek 39. Butiken erbjuder bytesrätt.","Bytesrätt betyder byte – inte automatiskt pengar tillbaka.","Vad betyder bytesrätt?","Att kunden får byta varan enligt butikens villkor."],
+["Ångerrätt","Vid många köp på nätet eller via telefon har kunden 14 dagars ångerrätt. Det finns undantag. Vid vanliga köp i fysisk butik finns ingen lagstadgad ångerrätt.","En kund köper en tröja på nätet och ångrar sig. Kunden har normalt 14 dagar på sig att meddela företaget.","Ångerrätt gäller normalt vid distansköp – inte vanliga köp i butik.","Har kunden alltid 14 dagars ångerrätt i en fysisk butik?","Nej, inte enligt lag."]]},
+disputes:{title:"Myndigheter och tvister",icon:"🏛️",intro:"En tvist betyder att kunden och företaget inte är överens. Här ser du vart kunden kan vända sig.",subs:["Konsumentverket","ARN – Allmänna reklamationsnämnden","Kommunal konsumentvägledning","Domstol"],lessons:[
+["Konsumentverket","Konsumentverket arbetar med konsumentskydd och ger information om regler för konsumenter och företag.","En kund vill läsa om sina rättigheter vid köp på nätet och hittar information hos Konsumentverket.","Konsumentverket arbetar för att konsumentregler ska följas.","Vad arbetar Konsumentverket med?","Konsumentskydd och information om konsumentregler."],
+["ARN – Allmänna reklamationsnämnden","ARN prövar många tvister mellan konsumenter och företag och lämnar en rekommendation om hur tvisten bör lösas.","En kund och en butik kommer inte överens om en reklamation. Kunden kan undersöka om ärendet kan prövas av ARN.","ARN ger rekommendationer om hur tvister bör lösas.","Vad står ARN för?","Allmänna reklamationsnämnden."],
+["Kommunal konsumentvägledning","Vissa kommuner erbjuder konsumentvägledning. Där kan kunden få information och stöd.","En kund är osäker på hur en reklamation ska göras och kontaktar kommunens konsumentvägledning.","Alla kommuner erbjuder inte samma hjälp.","Vad kan kommunal konsumentvägledning hjälpa till med?","Information och vägledning om konsumentfrågor."],
+["Domstol","I vissa fall kan en tvist tas vidare till domstol. Domstolen kan fatta ett juridiskt beslut.","Kunden och företaget kan inte lösa en tvist och frågan tas vidare rättsligt.","Domstol är en möjlighet i vissa tvister.","Vart kan en tvist i vissa fall tas vidare?","Till domstol."]]}
+};
+const nodes=[...document.querySelectorAll(".node")];let active=null;
+const panel=document.getElementById("branchPanel");
+function openTopic(id){active=id;const d=data[id];nodes.forEach(n=>{n.classList.toggle("active",n.dataset.topic===id);n.querySelector("i").textContent=n.dataset.topic===id?"−":"＋"});document.getElementById("branchTitle").textContent=d.title;document.getElementById("branchIntro").textContent=d.intro;const list=document.getElementById("subtopics");list.innerHTML="";d.subs.forEach((s,i)=>{const b=document.createElement("button");b.className="subtopic";b.textContent=s+" →";b.addEventListener("click",()=>showLesson(id,i));list.appendChild(b)});panel.hidden=false;panel.scrollIntoView({behavior:"smooth",block:"nearest"})}
+function showLesson(id,i){const d=data[id],l=d.lessons[i];document.querySelectorAll(".subtopic").forEach((b,j)=>b.classList.toggle("selected",j===i));document.getElementById("lesson").hidden=false;document.getElementById("lessonIcon").textContent=d.icon;document.getElementById("lessonTitle").textContent=l[0];document.getElementById("lessonLead").textContent=d.intro;document.getElementById("lessonText").textContent=l[1];document.getElementById("lessonExample").textContent=l[2];document.getElementById("lessonRemember").textContent=l[3];document.getElementById("lessonQuestion").textContent=l[4];const a=document.getElementById("lessonAnswer");a.textContent="Svar: "+l[5];a.hidden=true;document.getElementById("showAnswer").textContent="Visa svar ＋";document.getElementById("lessonNumber").textContent=`OMRÅDE ${nodes.findIndex(n=>n.dataset.topic===id)+1} · DEL ${i+1}`;document.getElementById("lesson").scrollIntoView({behavior:"smooth",block:"start"})}
+nodes.forEach(n=>n.addEventListener("click",()=>{if(active===n.dataset.topic){panel.hidden=true;active=null;n.classList.remove("active");n.querySelector("i").textContent="＋"}else openTopic(n.dataset.topic)}));
+document.getElementById("closeBranch").addEventListener("click",()=>{panel.hidden=true;nodes.forEach(n=>{n.classList.remove("active");n.querySelector("i").textContent="＋"});active=null});
+document.getElementById("showAnswer").addEventListener("click",()=>{const a=document.getElementById("lessonAnswer");a.hidden=!a.hidden;document.getElementById("showAnswer").textContent=a.hidden?"Visa svar ＋":"Dölj svar −"});
