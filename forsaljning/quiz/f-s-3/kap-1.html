@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – Retorik</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              beige: {
+                50: "#FAF8F5",
+                100: "#F5F2EB",
+                200: "#E7E2D5",
+                300: "#D5CDBA",
+              },
+              sage: {
+                100: "#E6EFEA",
+                200: "#C2D8CB",
+                500: "#4A7C59",
+                700: "#2D5A43",
+                800: "#1E3F2F",
+                900: "#142B20",
+              },
+              slateText: "#1F2421",
+              accentGold: "#D4A373",
+            },
+            fontFamily: {
+              cardo: ["Cardo", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .term-help {
+        position: relative;
+        display: inline;
+        border-bottom: 1px dotted #2d5a43;
+        color: #1e3f2f;
+        font-weight: 700;
+        cursor: help;
+      }
+      .term-help::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+        width: max-content;
+        max-width: 260px;
+        padding: 10px 14px;
+        background: #e6efea;
+        color: #1e3f2f;
+        border: 1px solid #c2d8cb;
+        border-radius: 12px;
+        font-family: "Cardo";
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+        white-space: normal;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 1000;
+        box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .term-help:hover::after,
+      .term-help:focus::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+      .btn-bounce {
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+      }
+      .btn-bounce:active {
+        transform: scale(0.97);
+      }
+      .custom-shadow {
+        box-shadow: 0 4px 24px rgba(30, 63, 47, 0.08);
+      }
+    </style>
+  </head>
+  <body
+    class="font-cardo min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900"
+  >
+    <!-- HEADER -->
+    <header
+      class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8"
+    >
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md"
+          >
+            🛍️
+          </div>
+          <div>
+            <h1 class="font-cardo font-bold text-xl text-sage-900 leading-tight">
+              Försäljning &amp; Service 3
+            </h1>
+            <p class="text-xs text-gray-500 font-medium">
+              Interaktivt Klassrumsquiz &bull; Retorik
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            id="soundToggleBtn"
+            onclick="toggleSound()"
+            class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1"
+            title="Ljud av/på"
+          >
+            <span id="soundIcon">🔊</span>
+          </button>
+          <button
+            onclick="openShareModal()"
+            class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+              ></path>
+            </svg>
+            <span class="hidden sm:inline">Dela</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div class="w-full max-w-4xl">
+
+        <!-- STARTSKÄRM -->
+        <section
+          id="startScreen"
+          class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden"
+        >
+          <div class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"></div>
+          <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"></div>
+
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6">
+              <span>✨</span> Utformat för Gymnasiet &amp; SFI
+            </div>
+
+            <h2 class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight">
+              QUIZ – RETORIK
+            </h2>
+
+            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+              Testa dina kunskaper om retorik och argumentation inom försäljning. Du övar på Ethos, Logos, Pathos, att bygga argument, bemöta invändningar och skillnaden mellan att övertyga och manipulera.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left">
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">❓</div>
+                <div id="startQuestionCount" class="font-semibold text-sm text-sage-900">40 Frågor</div>
+                <div class="text-xs text-gray-500">Blandade nivåer</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">🧘</div>
+                <div class="font-semibold text-sm text-sage-900">Ingen tidspress</div>
+                <div class="text-xs text-gray-500">Svara i lugn och ro</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">⭐</div>
+                <div class="font-semibold text-sm text-sage-900">Poäng</div>
+                <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">💡</div>
+                <div class="font-semibold text-sm text-sage-900">Korta svar</div>
+                <div class="text-xs text-gray-500">Lär dig direkt</div>
+              </div>
+            </div>
+
+            <!-- FILTER -->
+            <div class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                <h3 class="font-cardo font-bold text-xl text-sage-900">Välj frågetyper</h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button type="button" onclick="selectAllTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Välj alla</button>
+                  <span class="text-beige-300">|</span>
+                  <button type="button" onclick="clearTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Rensa</button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">Klicka på en typ för att välja eller ta bort den.</p>
+              <div id="typeFilter" class="flex flex-wrap justify-center gap-3"></div>
+              <div class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800">
+                <span>📋</span>
+                <span id="filterSummary">40 frågor valda</span>
+              </div>
+            </div>
+
+            <button
+              id="startBtn"
+              onclick="startGame()"
+              class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto"
+            >
+              <span>STARTA SPELET</span>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- SPELSKÄRM -->
+        <section id="gameScreen" class="hidden flex-col gap-6">
+          <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="w-full sm:w-auto flex-grow max-w-md">
+              <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
+                <span id="questionNumberText">Fråga 1 av 40</span>
+                <span id="progressTextVisual" class="font-mono text-sage-700 font-bold">█░░░░░░░░░ 1/40</span>
+              </div>
+              <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
+                <div id="progressBarFill" class="bg-sage-700 h-full transition-all duration-300 rounded-full" style="width: 2.5%"></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+              <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
+                <span class="text-lg">🏆</span>
+                <div>
+                  <div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">Poäng</div>
+                  <div id="scoreText" class="font-mono font-bold text-base text-white">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span id="categoryTag" class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase">Begrepp</span>
+                <span id="hintBadge" class="hidden sm:inline-block text-xs text-gray-400 font-medium">💡 Välj ett svar nedan</span>
+              </div>
+              <h3 id="questionText" class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6">Laddar fråga...</h3>
+            </div>
+
+            <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"></div>
+
+            <div id="feedbackContainer" class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start space-x-3">
+                  <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                  <div>
+                    <h4 id="feedbackTitle" class="font-bold text-lg leading-tight mb-1"></h4>
+                    <p id="feedbackExplanation" class="text-sm text-gray-700 leading-relaxed"></p>
+                  </div>
+                </div>
+                <button
+                  id="nextBtn"
+                  onclick="nextQuestion()"
+                  class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center"
+                >
+                  <span id="nextBtnText">Nästa fråga</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESULTATSKÄRM -->
+        <section id="resultScreen" class="hidden bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center">
+          <div class="text-5xl mb-4">🎓</div>
+          <h2 class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2">Quiz klart!</h2>
+          <p class="text-gray-500 mb-8 text-base">Retorik – Försäljning och Service</p>
+
+          <div class="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-8">
+            <div class="p-4 rounded-2xl bg-sage-50 border border-sage-200">
+              <div class="text-2xl font-black text-sage-700 font-mono" id="finalScore">0</div>
+              <div class="text-xs text-sage-800 font-medium uppercase mt-1">Poäng</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <div class="text-2xl font-black text-emerald-700 font-mono" id="finalCorrect">0</div>
+              <div class="text-xs text-emerald-800 font-medium uppercase mt-1">Antal rätt</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+              <div class="text-2xl font-black text-rose-700 font-mono" id="finalWrong">0</div>
+              <div class="text-xs text-rose-800 font-medium uppercase mt-1">Antal fel</div>
+            </div>
+          </div>
+
+          <p id="resultSummaryText" class="text-sage-900 font-semibold text-lg mb-4"></p>
+
+          <div id="encouragementBox" class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left">
+            <h4 class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2">
+              <span>🌟</span> Lärarfeedback:
+            </h4>
+            <p id="encouragementText" class="text-sm text-sage-800 leading-relaxed">Bra kämpat! Försök igen för att förbättra ditt resultat!</p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="startGame()" class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>Spela igen</span>
+            </button>
+            <button onclick="backToStart()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2">
+              <span>Ändra frågetyper</span>
+            </button>
+            <button onclick="openShareModal()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2">
+              <span>Dela länken</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50">
+      Försäljning och Service &bull; Quiz – Retorik
+    </footer>
+
+    <!-- SHARE MODAL -->
+    <div id="shareModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center">
+        <button onclick="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+        <div class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner">
+          <div id="qrcode"></div>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <input id="shareUrlInput" type="text" readonly class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all" value="" />
+          <button onclick="copyShareUrl()" class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition">Kopiera</button>
+        </div>
+        <div id="copySuccessMsg" class="hidden text-xs text-emerald-600 font-bold text-center mb-4">✓ Länken kopierad till urklipp!</div>
+        <button onclick="closeShareModal()" class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl">Stäng</button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+      const termDefinitions = {
+        "Retorik": "Konsten att tala och övertyga andra genom argument och språk.",
+        "Ethos": "Att skapa förtroende – visa att du är trovärdig och kunnig.",
+        "Logos": "Att använda fakta och logik för att argumentera.",
+        "Pathos": "Att väcka känslor och engagemang hos lyssnaren.",
+        "Argumentation": "Att förklara varför man rekommenderar eller tycker något.",
+        "Egenskap": "Något som beskriver vad produkten har eller kan göra.",
+        "Fördel": "Vad kunden faktiskt får ut av produktens egenskap.",
+        "Invändning": "När kunden är tveksam eller har frågor om produkten.",
+        "Övertyga": "Att påverka någon med argument och information.",
+        "Manipulera": "Att påverka någon på ett vilseledande eller oärligt sätt.",
+        "Trovärdighet": "Att andra kan lita på det du säger.",
+      };
+
+      const allQuestions = [
+        // --- BEGREPP ---
+        {
+          type: "Begrepp",
+          question: "Vad betyder retorik?",
+          options: [
+            { text: "Konsten att tala och övertyga genom argument och språk", isCorrect: true },
+            { text: "Konsten att räkna och analysera siffror", isCorrect: false },
+            { text: "En metod för att göra reklam på internet", isCorrect: false },
+            { text: "Ett sätt att prissätta produkter", isCorrect: false }
+          ],
+          explanation: "Retorik handlar om konsten att tala och övertyga andra människor genom sitt sätt att använda ord och argument."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder Ethos?",
+          options: [
+            { text: "Att väcka känslor hos kunden", isCorrect: false },
+            { text: "Att använda fakta och statistik", isCorrect: false },
+            { text: "Att skapa förtroende och visa trovärdighet", isCorrect: true },
+            { text: "Att jämföra olika produkter", isCorrect: false }
+          ],
+          explanation: "Ethos handlar om att visa att du är trovärdig och att andra kan lita på dig."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder Logos?",
+          options: [
+            { text: "Att påverka kundens känslor", isCorrect: false },
+            { text: "Att använda fakta, information och logiska argument", isCorrect: true },
+            { text: "Att skapa förtroende genom ärlighet", isCorrect: false },
+            { text: "Att lyssna aktivt på kunden", isCorrect: false }
+          ],
+          explanation: "Logos handlar om att övertyga genom fakta, information och logiska argument som går att kontrollera."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder Pathos?",
+          options: [
+            { text: "Att använda matematiska bevis", isCorrect: false },
+            { text: "Att visa produktens certifikat", isCorrect: false },
+            { text: "Att påverka människors känslor och skapa engagemang", isCorrect: true },
+            { text: "Att lista produktens tekniska specifikationer", isCorrect: false }
+          ],
+          explanation: "Pathos handlar om att påverka känslor och skapa engagemang – koppla produkten till kundens intressen och upplevelser."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är skillnaden mellan en produktegenskap och en produktfördel?",
+          options: [
+            { text: "De betyder samma sak", isCorrect: false },
+            { text: "Egenskapen beskriver vad produkten har; fördelen beskriver nyttan för kunden", isCorrect: true },
+            { text: "Fördelen handlar om priset; egenskapen om utseendet", isCorrect: false },
+            { text: "Egenskapen är för säljaren; fördelen är för lagret", isCorrect: false }
+          ],
+          explanation: "Egenskap: vad produkten har eller kan göra. Fördel: vilken nytta kunden får av egenskapen."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder invändning inom försäljning?",
+          options: [
+            { text: "När kunden vill köpa direkt utan frågor", isCorrect: false },
+            { text: "När kunden är tveksam eller har frågor om produkten", isCorrect: true },
+            { text: "När säljaren erbjuder rabatt", isCorrect: false },
+            { text: "När produkten är slut i lager", isCorrect: false }
+          ],
+          explanation: "En invändning innebär att kunden är tveksam eller har frågor – det är säljarens uppgift att bemöta detta på ett bra sätt."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är skillnaden mellan att övertyga och att manipulera?",
+          options: [
+            { text: "Det finns ingen skillnad – båda syftar till köp", isCorrect: false },
+            { text: "Att övertyga handlar om ärliga argument; att manipulera om vilseledande påverkan", isCorrect: true },
+            { text: "Manipulation är tillåtet om priset är lågt", isCorrect: false },
+            { text: "Att övertyga är bara för chefer", isCorrect: false }
+          ],
+          explanation: "Att övertyga = använda argument och information. Att manipulera = påverka på ett vilseledande eller oärligt sätt."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad menas med trovärdighet i försäljning?",
+          options: [
+            { text: "Att ha många produkter i sortimentet", isCorrect: false },
+            { text: "Att kunden kan lita på det du säger", isCorrect: true },
+            { text: "Att erbjuda det lägsta priset", isCorrect: false },
+            { text: "Att tala snabbt och säkert", isCorrect: false }
+          ],
+          explanation: "Trovärdighet innebär att andra kan lita på det du säger – det är grunden för Ethos."
+        },
+
+        // --- KUNSKAP ---
+        {
+          type: "Kunskap",
+          question: "Vilken av följande metoder hör till Ethos?",
+          options: [
+            { text: "Berätta en rörande historia om produkten", isCorrect: false },
+            { text: "Visa produktens tekniska specifikationer", isCorrect: false },
+            { text: "Vara ärlig och ge korrekt information", isCorrect: true },
+            { text: "Erbjuda tidsbegränsad rabatt", isCorrect: false }
+          ],
+          explanation: "Ethos skapas bl.a. genom ärlighet, korrekt information och att hålla sina löften."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför är retorik viktigt inom försäljning?",
+          options: [
+            { text: "Det gör produkten billigare", isCorrect: false },
+            { text: "Det hjälper säljaren att uttrycka sig tydligt, trovärdigt och övertygande", isCorrect: true },
+            { text: "Det ersätter behovet av produktkunskap", isCorrect: false },
+            { text: "Det gör att kunden alltid köper direkt", isCorrect: false }
+          ],
+          explanation: "Retorik hjälper säljaren att förklara varför en produkt kan passa kunden och ge argument som underlättar beslut."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför behöver säljaren anpassa argumenten efter kunden?",
+          options: [
+            { text: "För att alla kunder gillar samma argument", isCorrect: false },
+            { text: "För att det är lag på det", isCorrect: false },
+            { text: "Eftersom olika kunder har olika behov", isCorrect: true },
+            { text: "För att undvika att använda Logos", isCorrect: false }
+          ],
+          explanation: "Samma argument passar inte alla. En säljare behöver förstå vad kunden söker innan den börjar argumentera."
+        },
+        {
+          type: "Kunskap",
+          question: "Vad är en öppen fråga?",
+          options: [
+            { text: "En fråga som bara kan besvaras med ja eller nej", isCorrect: false },
+            { text: "En fråga som ger mer information om kundens behov", isCorrect: true },
+            { text: "En fråga om priset på produkten", isCorrect: false },
+            { text: "En fråga som säljaren ställer till chefen", isCorrect: false }
+          ],
+          explanation: "Öppna frågor hjälper säljaren att få mer information om kunden, t.ex. 'Vad ska du använda produkten till?'"
+        },
+        {
+          type: "Kunskap",
+          question: "Vilka tre delar beskrev Aristoteles för att övertyga människor?",
+          options: [
+            { text: "Pris, kvalitet och service", isCorrect: false },
+            { text: "Ethos, Logos och Pathos", isCorrect: true },
+            { text: "Produkt, plats och promotion", isCorrect: false },
+            { text: "Fråga, lyssna och avsluta", isCorrect: false }
+          ],
+          explanation: "Aristoteles beskrev Ethos (förtroende), Logos (fakta/logik) och Pathos (känslor) som tre sätt att övertyga."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför kan det vara dåligt om en kund känner sig lurad?",
+          options: [
+            { text: "Det påverkar inte relationen alls", isCorrect: false },
+            { text: "Det kan leda till missnöje, klagomål och förlorat förtroende", isCorrect: true },
+            { text: "Kunden brukar ändå köpa igen", isCorrect: false },
+            { text: "Det är säljarens chefs problem", isCorrect: false }
+          ],
+          explanation: "En kund som känner sig lurad kan bli missnöjd, klaga och välja en annan butik nästa gång."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför är fakta viktiga när man argumenterar med Logos?",
+          options: [
+            { text: "Fakta gör att kunden alltid väljer den dyraste produkten", isCorrect: false },
+            { text: "Fakta kan kontrolleras och ger kunden ett tryggt beslutsunderlag", isCorrect: true },
+            { text: "Fakta behövs bara i reklam, inte i butik", isCorrect: false },
+            { text: "Fakta är bara viktiga om kunden frågar", isCorrect: false }
+          ],
+          explanation: "Logos bygger på information som går att kontrollera – det ger kunden ett tryggt och rationellt beslutsunderlag."
+        },
+        {
+          type: "Kunskap",
+          question: "Vad är syftet med att ställa öppna frågor till kunden?",
+          options: [
+            { text: "Att avsluta samtalet snabbare", isCorrect: false },
+            { text: "Att kunna skapa bättre och mer relevanta argument", isCorrect: true },
+            { text: "Att visa att man har mycket produkter", isCorrect: false },
+            { text: "Att undvika invändningar helt och hållet", isCorrect: false }
+          ],
+          explanation: "Genom att ställa frågor och förstå kundens behov kan säljaren skapa mer relevanta och träffsäkra argument."
+        },
+
+        // --- SITUATION ---
+        {
+          type: "Situation",
+          question: "En kund frågar om en dator passar för avancerade spel. Säljaren är osäker. Vad bör säljaren göra?",
+          options: [
+            { text: "Säga att datorn passar perfekt för allt", isCorrect: false },
+            { text: "Kontrollera specifikationerna och ge korrekt information", isCorrect: true },
+            { text: "Byta ämne och prata om ett annat erbjudande", isCorrect: false },
+            { text: "Be kunden ta en annan säljare", isCorrect: false }
+          ],
+          explanation: "Det är ett exempel på Ethos – säljaren visar ansvar och ärlighet genom att kontrollera informationen istället för att gissa."
+        },
+        {
+          type: "Situation",
+          question: "En kund säger: 'Jag tycker att jackan är för dyr.' Vad är bäst att svara?",
+          options: [
+            { text: "'Alla köper den – du borde skynda dig!'", isCorrect: false },
+            { text: "'Förstår du inte kvaliteten?'", isCorrect: false },
+            { text: "'Jag förstår. Vill du jämföra med ett annat alternativ?'", isCorrect: true },
+            { text: "Låtsas inte höra invändningen och fortsätta prata", isCorrect: false }
+          ],
+          explanation: "En bra säljare bemöter invändningen utan press – försöker förstå kundens tveksamhet och erbjuder hjälp."
+        },
+        {
+          type: "Situation",
+          question: "Du arbetar i en kamerabutik. En kund berättar att hen älskar att fotografera på resor. Hur använder du Pathos?",
+          options: [
+            { text: "Räkna upp kamerans tekniska specifikationer", isCorrect: false },
+            { text: "Koppla kameran till kundens resor och minnen från familjen", isCorrect: true },
+            { text: "Visa kamerans pris och jämföra med konkurrenter", isCorrect: false },
+            { text: "Be kunden läsa manualen själv", isCorrect: false }
+          ],
+          explanation: "Pathos = koppla produkten till kundens känslor och intressen. 'Den här kameran hjälper dig fånga fina minnen på dina resor.'"
+        },
+        {
+          type: "Situation",
+          question: "En kund vill köpa löparskor. Vad bör säljaren göra FÖRST?",
+          options: [
+            { text: "Presentera den dyraste modellen direkt", isCorrect: false },
+            { text: "Ställa öppna frågor om hur kunden springer och vad hen behöver", isCorrect: true },
+            { text: "Erbjuda rabatt för att snabba på beslutet", isCorrect: false },
+            { text: "Säga att alla modeller är lika bra", isCorrect: false }
+          ],
+          explanation: "Säljaren behöver förstå kundens behov innan argumentationen börjar – öppna frågor är nyckeln."
+        },
+        {
+          type: "Situation",
+          question: "En säljare säger: 'Om du inte köper den idag ångrar du dig säkert!' Vad är detta ett exempel på?",
+          options: [
+            { text: "Ethos", isCorrect: false },
+            { text: "Logos", isCorrect: false },
+            { text: "Manipulation", isCorrect: true },
+            { text: "Pathos", isCorrect: false }
+          ],
+          explanation: "Det är manipulation – säljaren pressar kunden utan relevanta argument, vilket kan leda till missnöje och förlorat förtroende."
+        },
+        {
+          type: "Situation",
+          question: "En kund säger: 'Jag behöver tänka.' Vad är ett bra svar från säljaren?",
+          options: [
+            { text: "'OK, men om du inte köper nu är den borta imorgon.'", isCorrect: false },
+            { text: "'Självklart. Är det något du känner dig osäker på?'", isCorrect: true },
+            { text: "'Det förstår jag inte – den är ju perfekt.'", isCorrect: false },
+            { text: "Avsluta samtalet direkt", isCorrect: false }
+          ],
+          explanation: "En bra säljare respekterar kundens tid och försöker förstå vad kunden är osäker på, utan att pressa."
+        },
+        {
+          type: "Situation",
+          question: "Du presenterar hörlurar med brusreducering för en kund som pendlar med tåg. Vilken retorisk del använder du när du kopplar funktionen till pendlandet?",
+          options: [
+            { text: "Enbart Logos", isCorrect: false },
+            { text: "Enbart Ethos", isCorrect: false },
+            { text: "Pathos och Logos kombinerat", isCorrect: true },
+            { text: "Varken Ethos, Logos eller Pathos", isCorrect: false }
+          ],
+          explanation: "Du använder Logos (fakta om brusreducering) och Pathos (kopplar det till kundens vardag på tåget) – en stark kombination."
+        },
+        {
+          type: "Situation",
+          question: "En kund tittar på en soffa och berättar att hen har en stor familj. Hur använder du detta?",
+          options: [
+            { text: "Ignorera det och prata om soffans färg", isCorrect: false },
+            { text: "Koppla soffans egenskaper (många platser, avtagbart överdrag) till familjens behov", isCorrect: true },
+            { text: "Visa den minsta soffan i butiken", isCorrect: false },
+            { text: "Be kunden läsa produktbeskrivningen på webben", isCorrect: false }
+          ],
+          explanation: "En bra säljare kopplar produktens egenskaper direkt till kundens livssituation – det är argumentation anpassad efter kunden."
+        },
+
+        // --- JÄMFÖRELSE ---
+        {
+          type: "Jämförelse",
+          question: "Vad är skillnaden mellan Ethos och Logos?",
+          options: [
+            { text: "Ethos handlar om fakta; Logos handlar om förtroende", isCorrect: false },
+            { text: "Ethos handlar om förtroende; Logos handlar om fakta och logik", isCorrect: true },
+            { text: "De betyder samma sak", isCorrect: false },
+            { text: "Ethos används bara i reklam; Logos bara i butik", isCorrect: false }
+          ],
+          explanation: "Ethos = skapa förtroende/trovärdighet. Logos = använda fakta och logiska argument."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vilket alternativ är en FÖRDEL (inte en egenskap)?",
+          options: [
+            { text: "Jackan är vattenavvisande", isCorrect: false },
+            { text: "Skorna har mjuk sula", isCorrect: false },
+            { text: "Du kan spara fler bilder eftersom datorn har mycket lagringsutrymme", isCorrect: true },
+            { text: "Mobilen har 256 GB lagring", isCorrect: false }
+          ],
+          explanation: "En fördel förklarar nyttan för kunden. 'Du kan spara fler bilder' är fördelen av egenskapen '256 GB lagring'."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vad är skillnaden mellan att övertyga och manipulera?",
+          options: [
+            { text: "Manipulation är snabbare; övertygande tar längre tid", isCorrect: false },
+            { text: "Övertygande bygger på ärliga argument; manipulation på vilseledande påverkan", isCorrect: true },
+            { text: "Det finns ingen skillnad i praktiken", isCorrect: false },
+            { text: "Manipulation används bara inom marknadsföring", isCorrect: false }
+          ],
+          explanation: "Övertygande = ärlig argumentation. Manipulation = vilseledande, oärlig påverkan som inte respekterar kundens beslut."
+        },
+        {
+          type: "Jämförelse",
+          question: "Säljare A säger 'Den är jättebra, köp den!'. Säljare B förklarar jackan är vattenavvisande och passar för höst och vinter. Vad är skillnaden?",
+          options: [
+            { text: "Säljare A är mer professionell", isCorrect: false },
+            { text: "Säljare B använder argument och egenskaper; säljare A ger ingen information", isCorrect: true },
+            { text: "Säljare A använder Logos", isCorrect: false },
+            { text: "Det finns ingen skillnad", isCorrect: false }
+          ],
+          explanation: "Säljare B ger ärlig argumentation med produktegenskaper och fördelar – det är retorik i praktiken. Säljare A ger inga argument."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vilket alternativ är ett exempel på Logos och INTE Pathos?",
+          options: [
+            { text: "Tänk dig att fånga fina minnen med familjen på semestern", isCorrect: false },
+            { text: "Kameran har 50x zoom och 4K-video", isCorrect: true },
+            { text: "Det här är precis vad du drömde om", isCorrect: false },
+            { text: "Alla fotografer älskar den här modellen", isCorrect: false }
+          ],
+          explanation: "Logos = fakta om produkten. '50x zoom och 4K-video' är konkret, kontrollerbar information – det är Logos."
+        },
+
+        // --- GÅTA ---
+        {
+          type: "Gåta",
+          question: "Jag är det som gör att kunden kan lita på dig. Jag byggs upp av ärlighet, kunskap och att hålla löften. Vad är jag?",
+          options: [
+            { text: "Logos", isCorrect: false },
+            { text: "Pathos", isCorrect: false },
+            { text: "Ethos", isCorrect: true },
+            { text: "Invändning", isCorrect: false }
+          ],
+          explanation: "Ethos handlar om att skapa förtroende och trovärdighet – grunden för all god försäljning."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är när kunden tvekar och ställer frågor eller uttrycker osäkerhet om produkten. Vad heter jag?",
+          options: [
+            { text: "Retorik", isCorrect: false },
+            { text: "Invändning", isCorrect: true },
+            { text: "Egenskap", isCorrect: false },
+            { text: "Trovärdighet", isCorrect: false }
+          ],
+          explanation: "En invändning är när kunden är tveksam – t.ex. 'Den är för dyr' eller 'Jag vet inte om den passar mig'."
+        },
+        {
+          type: "Gåta",
+          question: "Jag beskriver vad kunden faktiskt får ut av produkten – inte vad produkten HAR. Vad heter jag?",
+          options: [
+            { text: "Egenskap", isCorrect: false },
+            { text: "Retorik", isCorrect: false },
+            { text: "Fördel", isCorrect: true },
+            { text: "Logos", isCorrect: false }
+          ],
+          explanation: "Fördelen förklarar nyttan för kunden. 'Mjuk sula → du känner dig bekvämare vid promenader' är en fördel."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är när säljaren försöker pressa kunden med felaktig information eller rädsla – utan ärliga argument. Vad heter jag?",
+          options: [
+            { text: "Ethos", isCorrect: false },
+            { text: "Argumentation", isCorrect: false },
+            { text: "Manipulation", isCorrect: true },
+            { text: "Pathos", isCorrect: false }
+          ],
+          explanation: "Manipulation är att påverka på ett vilseledande sätt – t.ex. 'Du kommer ångra dig om du inte köper nu.'"
+        },
+        {
+          type: "Gåta",
+          question: "Jag är den retoriska del som använder statistik, priser, produktfunktioner och jämförelser. Vad heter jag?",
+          options: [
+            { text: "Pathos", isCorrect: false },
+            { text: "Logos", isCorrect: true },
+            { text: "Ethos", isCorrect: false },
+            { text: "Invändning", isCorrect: false }
+          ],
+          explanation: "Logos = fakta och logik. Du använder produktens funktioner, pris, kvalitet och jämförelser."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är metoden som kopplar produkten till kundens känslor, intressen och upplevelser i vardagen. Vad heter jag?",
+          options: [
+            { text: "Logos", isCorrect: false },
+            { text: "Ethos", isCorrect: false },
+            { text: "Retorik", isCorrect: false },
+            { text: "Pathos", isCorrect: true }
+          ],
+          explanation: "Pathos väcker känslor – t.ex. 'Den här kameran hjälper dig fånga fina minnen när du reser med familjen.'"
+        },
+        {
+          type: "Gåta",
+          question: "Jag hjälper säljaren att förstå vad kunden behöver – och jag kan inte besvaras med bara 'ja' eller 'nej'. Vad är jag?",
+          options: [
+            { text: "En sluten fråga", isCorrect: false },
+            { text: "En öppen fråga", isCorrect: true },
+            { text: "En invändning", isCorrect: false },
+            { text: "En produktegenskap", isCorrect: false }
+          ],
+          explanation: "Öppna frågor ger mer information om kunden, t.ex. 'Vad ska du använda produkten till?' eller 'Vilka funktioner är viktigast?'"
+        },
+      ];
+
+      // ---- LOGIK ----
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[char]);
+      }
+
+      function renderTerms(value) {
+        const terms = Object.keys(termDefinitions).sort((a, b) => b.length - a.length);
+        const pattern = new RegExp(
+          "(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")",
+          "gi"
+        );
+        let result = "";
+        let lastIndex = 0;
+        for (const match of value.matchAll(pattern)) {
+          const key = terms.find(item => item.toLowerCase() === match[0].toLowerCase());
+          result += escapeHtml(value.slice(lastIndex, match.index));
+          result += `<abbr class="term-help" tabindex="0" data-tooltip="${escapeHtml(termDefinitions[key])}">${escapeHtml(match[0])}</abbr>`;
+          lastIndex = match.index + match[0].length;
+        }
+        return result + escapeHtml(value.slice(lastIndex));
+      }
+
+      let questions = [...allQuestions];
+      const TYPE_ORDER = ["Gåta", "Begrepp", "Situation", "Jämförelse", "Kunskap"];
+      const TYPE_INFO = {
+        "Gåta":      { icon: "🧩", hint: "Gissa ordet" },
+        "Begrepp":   { icon: "📖", hint: "Vad betyder ordet?" },
+        "Situation": { icon: "🛒", hint: "Vad gör du?" },
+        "Jämförelse":{ icon: "⚖️", hint: "Vad är skillnaden?" },
+        "Kunskap":   { icon: "🎓", hint: "Fakta och regler" },
+      };
+      let selectedTypes = new Set(allQuestions.map(q => q.type));
+      const POINTS_PER_CORRECT = 100;
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let soundEnabled = true;
+      let answered = false;
+
+      // AUDIO
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioCtx = null;
+      function initAudio() {
+        try { if (!audioCtx && AudioContext) audioCtx = new AudioContext(); } catch(e) { audioCtx = null; }
+      }
+      function playSound(type) {
+        if (!soundEnabled) return;
+        try {
+          initAudio();
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          if (type === "correct") {
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+          } else {
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(164.81, audioCtx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+          }
+        } catch(e) {}
+      }
+      function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById("soundIcon").innerText = soundEnabled ? "🔊" : "🔇";
+      }
+
+      // SHUFFLE
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+
+      // GAME
+      function startGame() {
+        initAudio();
+        questions = allQuestions.filter(q => selectedTypes.has(q.type));
+        if (questions.length === 0) return;
+        shuffleArray(questions);
+        currentQuestionIndex = 0;
+        score = 0; correctCount = 0; wrongCount = 0;
+        document.getElementById("startScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("scoreText").innerText = "0";
+        loadQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function loadQuestion() {
+        answered = false;
+        const q = questions[currentQuestionIndex];
+        document.getElementById("questionNumberText").innerText = `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
+        document.getElementById("categoryTag").innerText = q.type;
+        document.getElementById("questionText").innerHTML = renderTerms(q.question);
+
+        const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBarFill").style.width = `${percent}%`;
+        const filled = Math.round(((currentQuestionIndex + 1) / questions.length) * 10);
+        document.getElementById("progressTextVisual").innerText = `${"█".repeat(filled)}${"░".repeat(10-filled)} ${currentQuestionIndex+1}/${questions.length}`;
+        document.getElementById("nextBtnText").innerText = currentQuestionIndex + 1 < questions.length ? "Nästa fråga" : "Se resultat";
+
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        feedbackContainer.className = "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+        const opts = document.getElementById("optionsContainer");
+        opts.innerHTML = "";
+        // Shuffle options
+        const shuffledOpts = [...q.options];
+        shuffleArray(shuffledOpts);
+
+        shuffledOpts.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+          btn.onclick = () => selectOption(idx, shuffledOpts);
+
+          const badge = document.createElement("span");
+          badge.className = "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+          badge.innerText = String.fromCharCode(65 + idx);
+
+          const textSpan = document.createElement("span");
+          textSpan.className = "mt-0.5 leading-snug";
+          textSpan.innerHTML = renderTerms(opt.text);
+
+          btn.appendChild(badge);
+          btn.appendChild(textSpan);
+          opts.appendChild(btn);
+        });
+      }
+
+      function selectOption(selectedIndex, shuffledOpts) {
+        if (answered) return;
+        answered = true;
+        const isCorrect = shuffledOpts[selectedIndex].isCorrect;
+        const q = questions[currentQuestionIndex];
+        const optionBtns = document.getElementById("optionsContainer").children;
+
+        let pointsEarned = 0;
+        if (isCorrect) {
+          correctCount++;
+          pointsEarned = POINTS_PER_CORRECT;
+          score += pointsEarned;
+          playSound("correct");
+        } else {
+          wrongCount++;
+          playSound("wrong");
+        }
+        document.getElementById("scoreText").innerText = score;
+
+        Array.from(optionBtns).forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove("hover:bg-beige-100", "hover:border-sage-500", "btn-bounce");
+          btn.classList.add("cursor-default");
+          if (shuffledOpts[idx].isCorrect) {
+            btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+            btn.querySelector("span").className = "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText = "✓";
+          } else if (idx === selectedIndex && !isCorrect) {
+            btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+            btn.querySelector("span").className = "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText = "✕";
+          } else {
+            btn.classList.add("opacity-40");
+          }
+        });
+
+        showFeedback(isCorrect, q.explanation, pointsEarned);
+      }
+
+      function showFeedback(isCorrect, explanation, pointsEarned) {
+        const feedbackContainer = document.getElementById("feedbackContainer");
+        feedbackContainer.classList.remove("hidden");
+        if (isCorrect) {
+          feedbackContainer.className = "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300";
+          document.getElementById("feedbackIcon").innerText = "🎉";
+          document.getElementById("feedbackTitle").innerText = `Rätt svar! (+${pointsEarned} p)`;
+        } else {
+          feedbackContainer.className = "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+          document.getElementById("feedbackIcon").innerText = "💡";
+          document.getElementById("feedbackTitle").innerText = "Fel!";
+        }
+        document.getElementById("feedbackExplanation").innerHTML = renderTerms(explanation);
+        setTimeout(() => {
+          document.getElementById("feedbackContainer").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 100);
+      }
+
+      function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      }
+
+      function showResults() {
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("flex");
+        document.getElementById("resultScreen").classList.remove("hidden");
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("finalCorrect").innerText = correctCount;
+        document.getElementById("finalWrong").innerText = wrongCount;
+        const pct = Math.round((correctCount / questions.length) * 100);
+        document.getElementById("resultSummaryText").innerText = `Du fick ${correctCount} av ${questions.length} rätt (${pct} %).`;
+        const enc = document.getElementById("encouragementText");
+        if (pct >= 85) {
+          enc.innerText = "Strålande resultat! Du har mycket god förståelse för retorik och argumentation. Du är redo för provet!";
+        } else if (pct >= 60) {
+          enc.innerText = "Bra jobbat! Du kan de flesta begreppen. Repetera Ethos, Logos och Pathos och tänk på skillnaden mellan egenskap och fördel.";
+        } else {
+          enc.innerText = "Bra kämpat! Repetera Ethos, Logos och Pathos samt skillnaden mellan att övertyga och manipulera.";
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // SHARE MODAL
+      let qrcodeObj = null;
+      function openShareModal() {
+        const url = window.location.href;
+        document.getElementById("shareUrlInput").value = url;
+        const qrcodeContainer = document.getElementById("qrcode");
+        qrcodeContainer.innerHTML = "";
+        try {
+          qrcodeObj = new QRCode(qrcodeContainer, { text: url, width: 140, height: 140, colorDark: "#1E3F2F", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
+        } catch(e) {
+          qrcodeContainer.innerText = "QR-kod genereras när sidan ligger på en webbadress.";
+        }
+        document.getElementById("shareModal").classList.remove("hidden");
+      }
+      function closeShareModal() {
+        document.getElementById("shareModal").classList.add("hidden");
+        document.getElementById("copySuccessMsg").classList.add("hidden");
+      }
+      function copyShareUrl() {
+        const input = document.getElementById("shareUrlInput");
+        input.select();
+        navigator.clipboard.writeText(input.value).then(() => {
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
+        }).catch(() => {
+          document.execCommand("copy");
+          document.getElementById("copySuccessMsg").classList.remove("hidden");
+        });
+      }
+
+      // FILTER
+      function countType(type) { return allQuestions.filter(q => q.type === type).length; }
+      function buildTypeFilter() {
+        const container = document.getElementById("typeFilter");
+        container.innerHTML = "";
+        const types = [
+          ...TYPE_ORDER.filter(t => countType(t) > 0),
+          ...[...new Set(allQuestions.map(q => q.type))].filter(t => !TYPE_ORDER.includes(t))
+        ];
+        types.forEach(type => {
+          const info = TYPE_INFO[type] || { icon: "❓", hint: "" };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.type = type;
+          btn.onclick = () => toggleType(type);
+          btn.innerHTML = `
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>
+          `;
+          container.appendChild(btn);
+        });
+        updateFilterUI();
+      }
+      function toggleType(type) {
+        if (selectedTypes.has(type)) selectedTypes.delete(type);
+        else selectedTypes.add(type);
+        updateFilterUI();
+      }
+      function selectAllTypes() { selectedTypes = new Set(allQuestions.map(q => q.type)); updateFilterUI(); }
+      function clearTypes() { selectedTypes = new Set(); updateFilterUI(); }
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach(btn => {
+          const on = selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed", on);
+          btn.className = "btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer " +
+            (on ? "bg-sage-700 border-sage-700 text-white shadow-md" : "bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display = on ? "flex" : "none";
+          btn.querySelector(".chip-hint").className = "chip-hint block text-xs " + (on ? "text-sage-200" : "text-gray-500");
+          btn.querySelector(".chip-count").className = "chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg " + (on ? "bg-sage-800 text-white" : "bg-beige-100 text-sage-800");
+        });
+        const total = allQuestions.filter(q => selectedTypes.has(q.type)).length;
+        document.getElementById("startQuestionCount").innerText = `${total} Frågor`;
+        document.getElementById("filterSummary").innerText = total === 0 ? "Välj minst en frågetyp för att starta" : `${total} ${total === 1 ? "fråga vald" : "frågor valda"}`;
+        const startBtn = document.getElementById("startBtn");
+        startBtn.disabled = total === 0;
+        startBtn.classList.toggle("opacity-50", total === 0);
+        startBtn.classList.toggle("cursor-not-allowed", total === 0);
+      }
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      buildTypeFilter();
+    </script>
+  </body>
+</html>

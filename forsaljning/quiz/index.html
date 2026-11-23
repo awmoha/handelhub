@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="sv">
   <head>
@@ -6,9 +7,6 @@
 
     <title>Quiz – Försäljning & Service</title>
 
-    <!-- Gemensam CSS -->
-    <link rel="stylesheet" href="../../css/styles.css" />
-
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +14,49 @@
       href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Gemensam CSS -->
+    <link rel="stylesheet" href="../../css/styles.css" />
+
+    <!-- CSS för kurssektionerna -->
+    <style>
+      .course-section {
+        margin-bottom: 65px;
+      }
+
+      .course-heading {
+        margin-bottom: 28px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #e2ded3;
+      }
+
+      .course-heading h2 {
+        font-family: "Cardo", serif;
+        color: #1e3f2f;
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+
+      .course-heading p {
+        color: #6b716d;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .course-section:last-child {
+        margin-bottom: 0;
+      }
+
+      @media (max-width: 600px) {
+        .course-heading h2 {
+          font-size: 27px;
+        }
+
+        .course-section {
+          margin-bottom: 45px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -25,8 +66,7 @@
         <div class="logo">📚</div>
 
         <div>
-          <div class="header-title">Försäljning & Service 1 & 2</div>
-
+          <div class="header-title">Försäljning & Service</div>
           <div class="header-subtitle">Quiz och spel</div>
         </div>
       </div>
@@ -35,160 +75,225 @@
     <!-- MAIN -->
     <main>
       <div class="hero">
-        <a href="../index.html" class="back-link"> ← Tillbaka </a>
+        <a href="../index.html" class="back-link">← Tillbaka</a>
 
         <h1>Välj quiz</h1>
 
         <p>
-          Här kan du träna på viktiga begrepp och kunskaper inom försäljning och
-          service.
+          Här kan du träna på viktiga begrepp och kunskaper inom
+          försäljning och service. Välj kurs och kapitel för att börja!
         </p>
       </div>
 
-      <!-- QUIZ CARDS -->
-      <div class="quiz-list">
-        <!-- KAPITEL 1–5 -->
-        <a href="./f-s-1/kap1-5.html" class="quiz-card">
-          <div class="quiz-icon">
-            📚
-            <span class="course-label">F & S 1</span>
-          </div>
+      <!-- ================================= -->
+      <!-- FÖRSÄLJNING & SERVICE 1 -->
+      <!-- ================================= -->
 
-          <h2>Kapitel 1–5</h2>
+      <section class="course-section">
 
+        <div class="course-heading">
+          <h2>Försäljning & Service 1</h2>
           <p>
-            Butik Pyramiden & Service och bemötande & Servicekedjan &
-            Butiksmedarbetarens arbetsuppgifter & Kunderna
+            Grundläggande kunskaper inom handel, försäljning,
+            service och kundbemötande.
           </p>
-
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
-
-        <!-- KAPITEL 6–8 -->
-        <a href="./f-s-1/kap6-8.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 1</span> 📚
-          </div>
-
-          <h2>Kapitel 6–8</h2>
-
-          <p>
-            Kommunikation inom försäljning och service & Säljsamtalet &
-            E-handel, AI och omnikanalhandel
-          </p>
-
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
-
-        <!-- KUNDBEMÖTANDE -->
-        <!-- <div class="quiz-card">
-
-        <div class="quiz-icon">
-          🤝
         </div>
 
-        <h2>
-          Kundbemötande
-        </h2>
+        <div class="quiz-list">
 
-        <p>
-          Träna på kundservice, kommunikation
-          och olika situationer i kundmötet.
-        </p>
+          <!-- KAPITEL 1-5 -->
+          <a href="./f-s-1/kap1-5.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 1</span>
+            </div>
 
-        <span class="open-quiz">
-          Kommer snart
-        </span>
+            <h2>Kapitel 1–5</h2>
 
-      </div> -->
+            <p>
+              Butik Pyramiden, service och bemötande, servicekedjan,
+              butiksmedarbetarens arbetsuppgifter och kunderna.
+            </p>
 
-        <!-- FLER QUIZ -->
-        <a href="./f-s-1/kap9-10.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 1</span> 📚
-          </div>
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
 
-          <h2>Kapitel 9–10</h2>
+          <!-- KAPITEL 6-8 -->
+          <a href="./f-s-1/kap6-8.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 1</span>
+            </div>
 
+            <h2>Kapitel 6–8</h2>
+
+            <p>
+              Kommunikation inom försäljning och service,
+              säljsamtalet, e-handel, AI och omnikanalhandel.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+          <!-- KAPITEL 9-10 -->
+          <a href="./f-s-1/kap9-10.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 1</span>
+            </div>
+
+            <h2>Kapitel 9–10</h2>
+
+            <p>
+              Planera och utvärdera service och försäljning
+              samt yrkesetik inom försäljning och service.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+          <!-- KAPITEL 11-12 -->
+          <a href="./f-s-1/kap11-12.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 1</span>
+            </div>
+
+            <h2>Kapitel 11–12</h2>
+
+            <p>
+              Hållbara företag och organisationer
+              samt lagar och andra bestämmelser.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+        </div>
+      </section>
+
+
+      <!-- ================================= -->
+      <!-- FÖRSÄLJNING & SERVICE 2 -->
+      <!-- ================================= -->
+
+      <section class="course-section">
+
+        <div class="course-heading">
+          <h2>Försäljning & Service 2</h2>
           <p>
-            Planera och utvärdera service och försäljning & Yrkesetik inom
-            försäljning och service
+            Fördjupa dina kunskaper inom handel, kundbemötande,
+            försäljning och kommunikation.
           </p>
+        </div>
 
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
+        <div class="quiz-list">
 
-        <a href="./f-s-1/kap11-12.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 1</span> 📚
-          </div>
+          <!-- KAPITEL 1-3 -->
+          <a href="./f-s-2/kap1-3.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 2</span>
+            </div>
 
-          <h2>Kapitel 11–12</h2>
+            <h2>Kapitel 1–3</h2>
 
+            <p>
+              Du får lära dig om olika yrkesroller inom handel,
+              hur varor köps in och distribueras samt hur företag
+              kan förstå kundernas behov och ge bra service.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+          <!-- KAPITEL 4-6 -->
+          <a href="./f-s-2/kap4-6.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 2</span>
+            </div>
+
+            <h2>Kapitel 4–6</h2>
+
+            <p>
+              Du får lära dig om kundbemötande och säljsamtal,
+              hur man använder EFI och USP för att förklara
+              produkters värde samt hur kommunikation, olika
+              kulturer och arbetsplatsens regler påverkar arbetet.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+          <!-- KAPITEL 7-10 -->
+          <a href="./f-s-2/kap7-10.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 2</span>
+            </div>
+
+            <h2>Kapitel 7–10</h2>
+
+            <p>
+              Du får lära dig om professionell kundkommunikation
+              via telefon, e-post och chatt, marknadsundersökningar,
+              kostnader och prissättning, SMART-modellen,
+              reklamationer, konsumenträtt och regler vid e-handel.
+            </p>
+
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
+
+        </div>
+      </section>
+
+
+      <!-- ================================= -->
+      <!-- FÖRSÄLJNING & SERVICE 3 -->
+      <!-- ================================= -->
+
+      <section class="course-section">
+
+        <div class="course-heading">
+          <h2>Försäljning & Service 3</h2>
           <p>
-            Hållbara företag och organisationer & Lagar och andra bestämmelser
+            Utveckla dina kunskaper inom argumentation,
+            retorik och professionell försäljning.
           </p>
+        </div>
 
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
+        <div class="quiz-list">
 
-        <!-- F & S 2 -->
-        <a href="./f-s-2/kap1-3.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 2</span> 📚
-          </div>
+          <!-- KAPITEL 1 -->
+          <a href="./f-s-3/kap-1.html" class="quiz-card">
+            <div class="quiz-icon">
+              📚
+              <span class="course-label">F & S 3</span>
+            </div>
 
-          <h2>Kapitel 1-3</h2>
+            <h2>Kapitel 1</h2>
 
-          <p>
-            Du får lära dig om olika yrkesroller inom handel, hur varor köps in
-            och distribueras samt hur företag kan förstå kundernas behov och ge
-            bra service.
-          </p>
+            <p>
+              Testa dina kunskaper om retorik och argumentation
+              inom försäljning. Du övar på Ethos, Logos, Pathos,
+              att bygga argument, bemöta invändningar och
+              skillnaden mellan att övertyga och manipulera.
+            </p>
 
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
+            <span class="open-quiz">Starta quiz →</span>
+          </a>
 
-        <a href="./f-s-2/kap4-6.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 2</span> 📚
-          </div>
+        </div>
+      </section>
 
-          <h2>Kapitel 4-6</h2>
-
-          <p>
-            Du får lära dig om kundbemötande och säljsamtal, hur man använder
-            EFI och USP för att förklara produkters värde samt hur
-            kommunikation, olika kulturer och arbetsplatsens regler påverkar
-            arbetet inom handel.
-          </p>
-
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
-
-        <a href="./f-s-2/kap7-10.html" class="quiz-card">
-          <div class="quiz-icon">
-            <span class="course-label">F & S 2</span> 📚
-          </div>
-
-          <h2>Kapitel 7-10</h2>
-
-          <p>
-            Du får lära dig om professionell kundkommunikation via telefon,
-            e-post och chatt, hur företag arbetar med marknadsundersökningar,
-            kostnader och prissättning samt hur man sätter upp mål med
-            SMART-modellen. Du får också lära dig om reklamationer,
-            konsumenträtt och regler vid e-handel.
-          </p>
-
-          <span class="open-quiz"> Starta quiz → </span>
-        </a>
-      </div>
     </main>
 
     <!-- FOOTER -->
     <div id="site-footer"></div>
 
-    <script type="module" src="../../js/components.js"></script>
+    <!-- JAVASCRIPT -->
+    <script type="module" src="../../components/footer.html"></script>
+
   </body>
 </html>
