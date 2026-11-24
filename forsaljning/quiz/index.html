@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="sv">
   <head>
@@ -66,88 +65,86 @@
 
       /* PIL */
 
-    
-/* COURSE TOGGLE BUTTON */
+      /* COURSE TOGGLE BUTTON */
 
-.course-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+      .course-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
 
-  flex-shrink: 0;
-  padding: 11px 17px;
+        flex-shrink: 0;
+        padding: 11px 17px;
 
-  background: #eaf1eb;
-  border: 1px solid #d6e4d9;
-  border-radius: 50px;
+        background: #eaf1eb;
+        border: 1px solid #d6e4d9;
+        border-radius: 50px;
 
-  color: #24543c;
-  font-family: "Cardo", serif;
-  font-size: 14px;
-  font-weight: 700;
+        color: #24543c;
+        font-family: "Cardo", serif;
+        font-size: 14px;
+        font-weight: 700;
 
-  transition: all 0.25s ease;
-}
+        transition: all 0.25s ease;
+      }
 
-/* Button text */
+      /* Button text */
 
-.toggle-label::before {
-  content: "Visa kapitel";
-}
+      .toggle-label::before {
+        content: "Visa kapitel";
+      }
 
-/* Arrow */
+      /* Arrow */
 
-.course-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+      .course-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
-  font-family: Arial, sans-serif;
-  font-size: 19px;
-  line-height: 1;
+        font-family: Arial, sans-serif;
+        font-size: 19px;
+        line-height: 1;
 
-  transition: transform 0.3s ease;
-}
+        transition: transform 0.3s ease;
+      }
 
-/* Hover */
+      /* Hover */
 
-.course-heading:hover .course-toggle {
-  background: #dcebe0;
-  border-color: #b9d1c0;
-  transform: translateY(-2px);
-}
+      .course-heading:hover .course-toggle {
+        background: #dcebe0;
+        border-color: #b9d1c0;
+        transform: translateY(-2px);
+      }
 
-/* When course is open */
+      /* When course is open */
 
-.course-section[open] .course-toggle {
-  background: #24543c;
-  border-color: #24543c;
-  color: white;
-}
+      .course-section[open] .course-toggle {
+        background: #24543c;
+        border-color: #24543c;
+        color: white;
+      }
 
-.course-section[open] .toggle-label::before {
-  content: "Dölj kapitel";
-}
+      .course-section[open] .toggle-label::before {
+        content: "Dölj kapitel";
+      }
 
-.course-section[open] .course-arrow {
-  transform: rotate(180deg);
-}
+      .course-section[open] .course-arrow {
+        transform: rotate(180deg);
+      }
 
-/* Mobile */
+      /* Mobile */
 
-@media (max-width: 600px) {
-  .course-toggle {
-    padding: 9px 12px;
-    gap: 7px;
-    font-size: 12px;
-  }
+      @media (max-width: 600px) {
+        .course-toggle {
+          padding: 9px 12px;
+          gap: 7px;
+          font-size: 12px;
+        }
 
-  .course-arrow {
-    font-size: 17px;
-  }
-}
-
+        .course-arrow {
+          font-size: 17px;
+        }
+      }
 
       /* Rotera pilen när kursen öppnas */
 
@@ -211,7 +208,6 @@
   </head>
 
   <body>
-
     <!-- HEADER -->
 
     <header>
@@ -225,48 +221,43 @@
       </div>
     </header>
 
-
     <!-- MAIN -->
 
     <main>
-
       <div class="hero">
         <a href="../index.html" class="back-link">← Tillbaka</a>
 
         <h1>Välj quiz</h1>
 
         <p>
-          Här kan du träna på viktiga begrepp och kunskaper inom
-          Försäljning och kundservice. Välj kurs och kapitel för att börja!
+          Här kan du träna på viktiga begrepp och kunskaper inom Försäljning och
+          kundservice. Välj kurs och kapitel för att börja!
         </p>
       </div>
-
 
       <!-- ================================= -->
       <!-- FÖRSÄLJNING & KUNDSERVICE 1 -->
       <!-- ================================= -->
 
       <details class="course-section">
-
         <summary class="course-heading">
           <div>
             <h2>Försäljning & kundservice 1</h2>
 
             <p>
-              Grundläggande kunskaper inom handel, försäljning,
-              service och kundbemötande.
+              Grundläggande kunskaper inom handel, försäljning, service och
+              kundbemötande.
             </p>
           </div>
 
-<span class="course-toggle">
-  <span class="toggle-label"></span>
-  <span class="course-arrow"></span>
-</span>        </summary>
-
+          <span class="course-toggle">
+            <span class="toggle-label"></span>
+            <span class="course-arrow"></span>
+          </span>
+        </summary>
 
         <div class="course-content">
           <div class="quiz-list">
-
             <!-- KAPITEL 1-5 -->
 
             <a href="./f-s-1/kap1-5.html" class="quiz-card">
@@ -285,7 +276,6 @@
               <span class="open-quiz">Starta quiz →</span>
             </a>
 
-
             <!-- KAPITEL 6-8 -->
 
             <a href="./f-s-1/kap6-8.html" class="quiz-card">
@@ -297,13 +287,12 @@
               <h2>Kapitel 6–8</h2>
 
               <p>
-                Kommunikation inom Försäljning och kundservice,
-                säljsamtalet, e-handel, AI och omnikanalhandel.
+                Kommunikation inom Försäljning och kundservice, säljsamtalet,
+                e-handel, AI och omnikanalhandel.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
 
             <!-- KAPITEL 9-10 -->
 
@@ -316,13 +305,12 @@
               <h2>Kapitel 9–10</h2>
 
               <p>
-                Planera och utvärdera service och försäljning
-                samt yrkesetik inom Försäljning och kundservice.
+                Planera och utvärdera service och försäljning samt yrkesetik
+                inom Försäljning och kundservice.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
 
             <!-- KAPITEL 11-12 -->
 
@@ -335,45 +323,39 @@
               <h2>Kapitel 11–12</h2>
 
               <p>
-                Hållbara företag och organisationer
-                samt lagar och andra bestämmelser.
+                Hållbara företag och organisationer samt lagar och andra
+                bestämmelser.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
           </div>
         </div>
-
       </details>
-
-
 
       <!-- ================================= -->
       <!-- FÖRSÄLJNING & KUNDSERVICE 2 -->
       <!-- ================================= -->
 
       <details class="course-section">
-
         <summary class="course-heading">
           <div>
             <h2>Försäljning & kundservice 2</h2>
 
             <p>
-              Fördjupa dina kunskaper inom handel, kundbemötande,
-              försäljning och kommunikation.
+              Fördjupa dina kunskaper inom handel, kundbemötande, försäljning
+              och kommunikation.
             </p>
           </div>
 
-<span class="course-toggle">
-  <span class="toggle-label"></span>
-  <span class="course-arrow"></span>
-</span>        </summary>
-
+          <span class="course-toggle">
+            <span class="toggle-label"></span>
+            <span class="course-arrow"></span>
+          </span>
+        </summary>
 
         <div class="course-content">
           <div class="quiz-list">
-
             <!-- KAPITEL 1-3 -->
 
             <a href="./f-s-2/kap1-3.html" class="quiz-card">
@@ -385,14 +367,13 @@
               <h2>Kapitel 1–3</h2>
 
               <p>
-                Olika yrkesroller inom handel, hur varor köps in
-                och distribueras samt hur företag kan förstå
-                kundernas behov och ge bra service.
+                Olika yrkesroller inom handel, hur varor köps in och
+                distribueras samt hur företag kan förstå kundernas behov och ge
+                bra service.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
 
             <!-- KAPITEL 4-6 -->
 
@@ -405,13 +386,12 @@
               <h2>Kapitel 4–6</h2>
 
               <p>
-                Kundbemötande och säljsamtal, EFI och USP,
-                kommunikation, olika kulturer och arbetsplatsens regler.
+                Kundbemötande och säljsamtal, EFI och USP, kommunikation, olika
+                kulturer och arbetsplatsens regler.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
 
             <!-- KAPITEL 7-10 -->
 
@@ -431,39 +411,33 @@
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
           </div>
         </div>
-
       </details>
-
-
 
       <!-- ================================= -->
       <!-- FÖRSÄLJNING & KUNDSERVICE 3 -->
       <!-- ================================= -->
 
       <details class="course-section">
-
         <summary class="course-heading">
           <div>
             <h2>Försäljning & kundservice 3</h2>
 
             <p>
-              Utveckla dina kunskaper inom argumentation,
-              retorik och professionell försäljning.
+              Utveckla dina kunskaper inom argumentation, retorik och
+              professionell försäljning.
             </p>
           </div>
 
-<span class="course-toggle">
-  <span class="toggle-label"></span>
-  <span class="course-arrow"></span>
-</span>        </summary>
-
+          <span class="course-toggle">
+            <span class="toggle-label"></span>
+            <span class="course-arrow"></span>
+          </span>
+        </summary>
 
         <div class="course-content">
           <div class="quiz-list">
-
             <!-- KAPITEL 1 -->
 
             <a href="./f-s-3/kap-1.html" class="quiz-card">
@@ -475,14 +449,12 @@
               <h2>Kapitel 1</h2>
 
               <p>
-                Retorik och argumentation inom försäljning.
-                Ethos, Logos, Pathos, argumentation och bemötande
-                av invändningar.
+                Retorik och argumentation inom försäljning. Ethos, Logos,
+                Pathos, argumentation och bemötande av invändningar.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
-
 
             <!-- KAPITEL 2 -->
 
@@ -495,30 +467,41 @@
               <h2>Kapitel 2</h2>
 
               <p>
-                Verbal och icke-verbal kommunikation i försäljning
-                och kundservice. Kroppsspråk, tonläge, aktivt
-                lyssnande och professionellt bemötande.
+                Verbal och icke-verbal kommunikation i försäljning och
+                kundservice. Kroppsspråk, tonläge, aktivt lyssnande och
+                professionellt bemötande.
               </p>
 
               <span class="open-quiz">Starta quiz →</span>
             </a>
 
+            <a href="./f-s-3/kap-3.html" class="quiz-card">
+              <div class="quiz-icon">
+                📚
+                <span class="course-label">F & S 3</span>
+              </div>
+
+              <h2>Kapitel 3</h2>
+
+              <p>
+                Testa dina kunskaper om hur kunder tänker och vad som påverkar
+                köpbeslut. Du övar på begrepp som behov, önskemål, attityd,
+                förhållningssätt, värderingar och förtroende.
+              </p>
+
+              <span class="open-quiz">Starta quiz →</span>
+            </a>
           </div>
         </div>
-
       </details>
-
     </main>
-
 
     <!-- FOOTER -->
 
     <div id="site-footer"></div>
 
-
     <!-- JAVASCRIPT -->
 
     <script type="module" src="../../js/components/footer.js"></script>
-
   </body>
 </html>

@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – Kund- och säljpsykologi</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              beige: { 50:"#FAF8F5", 100:"#F5F2EB", 200:"#E7E2D5", 300:"#D5CDBA" },
+              sage:  { 100:"#E6EFEA", 200:"#C2D8CB", 500:"#4A7C59", 700:"#2D5A43", 800:"#1E3F2F", 900:"#142B20" },
+              slateText:"#1F2421", accentGold:"#D4A373",
+            },
+            fontFamily: { cardo:["Cardo","serif"], sans:["Inter","sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .term-help { position:relative; display:inline; border-bottom:1px dotted #2d5a43; color:#1e3f2f; font-weight:700; cursor:help; }
+      .term-help::after { content:attr(data-tooltip); position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) translateY(5px); width:max-content; max-width:260px; padding:10px 14px; background:#e6efea; color:#1e3f2f; border:1px solid #c2d8cb; border-radius:12px; font-family:"Cardo"; font-size:13px; font-weight:500; line-height:1.5; text-align:left; white-space:normal; opacity:0; visibility:hidden; pointer-events:none; z-index:1000; box-shadow:0 6px 18px rgba(30,63,47,0.15); transition:opacity 0.2s ease, transform 0.2s ease; }
+      .term-help:hover::after, .term-help:focus::after { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+      .btn-bounce { transition:transform 0.1s ease, box-shadow 0.1s ease; }
+      .btn-bounce:active { transform:scale(0.97); }
+      .custom-shadow { box-shadow:0 4px 24px rgba(30,63,47,0.08); }
+    </style>
+  </head>
+  <body class="font-cardo min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900">
+
+    <!-- HEADER -->
+    <header class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8">
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md">🛍️</div>
+          <div>
+            <h1 class="font-cardo font-bold text-xl text-sage-900 leading-tight">Försäljning &amp; Kundservice</h1>
+            <p class="text-xs text-gray-500 font-medium">Interaktivt Klassrumsquiz &bull; Kund- och säljpsykologi</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="toggleSound()" class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition text-sm" title="Ljud av/på"><span id="soundIcon">🔊</span></button>
+          <button onclick="openShareModal()" class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+            <span class="hidden sm:inline">Dela</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div class="w-full max-w-4xl">
+
+        <!-- STARTSKÄRM -->
+        <section id="startScreen" class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"></div>
+          <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"></div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6"><span>✨</span> Utformat för Gymnasiet &amp; SFI</div>
+            <h2 class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight">QUIZ – KUND- OCH SÄLJPSYKOLOGI</h2>
+            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+              Testa dina kunskaper om hur kunder tänker och vad som påverkar köpbeslut. Du övar på begrepp som behov, önskemål, attityd, förhållningssätt, värderingar och förtroende.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left">
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200"><div class="text-xl mb-1">❓</div><div id="startQuestionCount" class="font-semibold text-sm text-sage-900">40 Frågor</div><div class="text-xs text-gray-500">Blandade nivåer</div></div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200"><div class="text-xl mb-1">🧘</div><div class="font-semibold text-sm text-sage-900">Ingen tidspress</div><div class="text-xs text-gray-500">Svara i lugn och ro</div></div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200"><div class="text-xl mb-1">⭐</div><div class="font-semibold text-sm text-sage-900">Poäng</div><div class="text-xs text-gray-500">Rätt svar ger poäng</div></div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200"><div class="text-xl mb-1">💡</div><div class="font-semibold text-sm text-sage-900">Korta svar</div><div class="text-xs text-gray-500">Lär dig direkt</div></div>
+            </div>
+
+            <!-- FILTER -->
+            <div class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                <h3 class="font-cardo font-bold text-xl text-sage-900">Välj frågetyper</h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button type="button" onclick="selectAllTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Välj alla</button>
+                  <span class="text-beige-300">|</span>
+                  <button type="button" onclick="clearTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Rensa</button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">Klicka på en typ för att välja eller ta bort den.</p>
+              <div id="typeFilter" class="flex flex-wrap justify-center gap-3"></div>
+              <div class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800">
+                <span>📋</span><span id="filterSummary">40 frågor valda</span>
+              </div>
+            </div>
+
+            <button id="startBtn" onclick="startGame()"
+              class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition w-full sm:w-auto">
+              <span>STARTA SPELET</span>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- SPELSKÄRM -->
+        <section id="gameScreen" class="hidden flex-col gap-6">
+          <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="w-full sm:w-auto flex-grow max-w-md">
+              <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
+                <span id="questionNumberText">Fråga 1 av 40</span>
+                <span id="progressTextVisual" class="font-mono text-sage-700 font-bold">█░░░░░░░░░ 1/40</span>
+              </div>
+              <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
+                <div id="progressBarFill" class="bg-sage-700 h-full transition-all duration-300 rounded-full" style="width:2.5%"></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
+              <span class="text-lg">🏆</span>
+              <div><div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">Poäng</div><div id="scoreText" class="font-mono font-bold text-base text-white">0</div></div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span id="categoryTag" class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase">Begrepp</span>
+                <span class="hidden sm:inline-block text-xs text-gray-400 font-medium">💡 Välj ett svar nedan</span>
+              </div>
+              <h3 id="questionText" class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6">Laddar fråga...</h3>
+            </div>
+            <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"></div>
+            <div id="feedbackContainer" class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start space-x-3">
+                  <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                  <div>
+                    <h4 id="feedbackTitle" class="font-bold text-lg leading-tight mb-1"></h4>
+                    <p id="feedbackExplanation" class="text-sm text-gray-700 leading-relaxed"></p>
+                  </div>
+                </div>
+                <button id="nextBtn" onclick="nextQuestion()"
+                  class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center">
+                  <span id="nextBtnText">Nästa fråga</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESULTATSKÄRM -->
+        <section id="resultScreen" class="hidden bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center">
+          <div class="text-5xl mb-4">🎓</div>
+          <h2 class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2">Quiz klart!</h2>
+          <p class="text-gray-500 mb-8 text-base">Kund- och säljpsykologi – Försäljning och Kundservice</p>
+          <div class="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-8">
+            <div class="p-4 rounded-2xl bg-sage-50 border border-sage-200"><div class="text-2xl font-black text-sage-700 font-mono" id="finalScore">0</div><div class="text-xs text-sage-800 font-medium uppercase mt-1">Poäng</div></div>
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200"><div class="text-2xl font-black text-emerald-700 font-mono" id="finalCorrect">0</div><div class="text-xs text-emerald-800 font-medium uppercase mt-1">Antal rätt</div></div>
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200"><div class="text-2xl font-black text-rose-700 font-mono" id="finalWrong">0</div><div class="text-xs text-rose-800 font-medium uppercase mt-1">Antal fel</div></div>
+          </div>
+          <p id="resultSummaryText" class="text-sage-900 font-semibold text-lg mb-4"></p>
+          <div id="encouragementBox" class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left">
+            <h4 class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2"><span>🌟</span> Lärarfeedback:</h4>
+            <p id="encouragementText" class="text-sm text-sage-800 leading-relaxed"></p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="startGame()" class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              <span>Spela igen</span>
+            </button>
+            <button onclick="backToStart()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition">Ändra frågetyper</button>
+            <button onclick="openShareModal()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition">Dela länken</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50">
+      Försäljning och Kundservice &bull; Quiz – Kund- och säljpsykologi
+    </footer>
+
+    <!-- SHARE MODAL -->
+    <div id="shareModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center">
+        <button onclick="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+        <div class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner"><div id="qrcode"></div></div>
+        <div class="flex items-center gap-2 mb-4">
+          <input id="shareUrlInput" type="text" readonly class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all" value="" />
+          <button onclick="copyShareUrl()" class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition">Kopiera</button>
+        </div>
+        <div id="copySuccessMsg" class="hidden text-xs text-emerald-600 font-bold text-center mb-4">✓ Länken kopierad!</div>
+        <button onclick="closeShareModal()" class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl">Stäng</button>
+      </div>
+    </div>
+
+    <script>
+      const termDefinitions = {
+        "Kundpsykologi":  "Hur kunder tänker, känner och beter sig när de handlar.",
+        "Säljpsykologi":  "Hur säljaren förstår kunden och anpassar sitt sätt att sälja.",
+        "Behov":          "Något som kunden behöver.",
+        "Önskemål":       "Något som kunden vill ha.",
+        "Attityd":        "En persons inställning till något eller någon.",
+        "Förhållningssätt":"Hur en person agerar och bemöter andra.",
+        "Värderingar":    "Vad en person tycker är viktigt i livet.",
+        "Köpbeteende":    "Hur en kund agerar när den planerar och genomför ett köp.",
+        "Förtroende":     "Att kunden känner tillit till säljaren eller företaget.",
+        "Köpbeslut":      "När kunden bestämmer sig för att köpa eller inte köpa en produkt.",
+      };
+
+      const allQuestions = [
+
+        // ── BEGREPP ──────────────────────────────────────────────────
+        {
+          type:"Begrepp",
+          question:"Vad betyder kundpsykologi?",
+          options:[
+            {text:"Hur kunder tänker, känner och beter sig när de handlar", isCorrect:true},
+            {text:"Hur säljaren sätter priser på produkter", isCorrect:false},
+            {text:"Hur man annonserar produkter på nätet", isCorrect:false},
+            {text:"Hur man räknar ut vinst i butiken", isCorrect:false},
+          ],
+          explanation:"Kundpsykologi handlar om hur kunder tänker, känner och beter sig när de handlar – t.ex. varför de väljer en viss produkt."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad betyder säljpsykologi?",
+          options:[
+            {text:"Hur säljaren förstår kunden och anpassar sitt sätt att sälja", isCorrect:true},
+            {text:"Hur man dekorerar en butik", isCorrect:false},
+            {text:"En metod för att räkna kassaregister", isCorrect:false},
+            {text:"Hur man sätter upp skyltar i butiken", isCorrect:false},
+          ],
+          explanation:"Säljpsykologi handlar om hur säljaren kan förstå kunden och anpassa sitt sätt att sälja efter kundens behov."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad är skillnaden mellan ett behov och ett önskemål?",
+          options:[
+            {text:"De betyder samma sak", isCorrect:false},
+            {text:"Behov = något kunden måste ha; önskemål = något kunden vill ha men inte måste ha", isCorrect:true},
+            {text:"Önskemål är alltid dyrare än behov", isCorrect:false},
+            {text:"Behov handlar om pris; önskemål handlar om kvalitet", isCorrect:false},
+          ],
+          explanation:"Behov är något kunden verkligen behöver (t.ex. vinterjacka för kyla). Önskemål är något man vill ha men inte nödvändigtvis behöver (t.ex. ett visst märke)."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad betyder attityd?",
+          options:[
+            {text:"Hur snabbt kunden fattar ett köpbeslut", isCorrect:false},
+            {text:"En persons inställning till något eller någon", isCorrect:true},
+            {text:"Priset på en produkt", isCorrect:false},
+            {text:"Hur man bemöter kunden i kassan", isCorrect:false},
+          ],
+          explanation:"En attityd är en persons inställning till något eller någon – den kan vara positiv eller negativ och påverkar beteendet."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad betyder förhållningssätt?",
+          options:[
+            {text:"Hur en person agerar och bemöter andra i olika situationer", isCorrect:true},
+            {text:"Hur man ställer upp produkter i hyllan", isCorrect:false},
+            {text:"Hur man beräknar kundrabatter", isCorrect:false},
+            {text:"Vilka produkter kunden köper", isCorrect:false},
+          ],
+          explanation:"Förhållningssätt handlar om hur en person agerar och bemöter andra – en säljare med gott förhållningssätt är lugn, respektfull och anpassar sig efter kunden."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad menas med värderingar i köpsammanhang?",
+          options:[
+            {text:"Hur kunden jämför priser", isCorrect:false},
+            {text:"Vad en person tycker är viktigt i livet och vilka principer hen vill följa", isCorrect:true},
+            {text:"Hur säljaren värderar produkterna", isCorrect:false},
+            {text:"Butikens öppettider", isCorrect:false},
+          ],
+          explanation:"Värderingar är vad en person tycker är viktigt – t.ex. miljö, hälsa, kvalitet eller ekonomi. De kan styra vilka produkter och företag kunden väljer."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad betyder förtroende inom försäljning?",
+          options:[
+            {text:"Att kunden betalar i tid", isCorrect:false},
+            {text:"Att kunden känner tillit till säljaren eller företaget", isCorrect:true},
+            {text:"Att säljaren når sina försäljningsmål", isCorrect:false},
+            {text:"Att produkten är billig", isCorrect:false},
+          ],
+          explanation:"Förtroende innebär att kunden känner tillit – en säljare bygger förtroende genom ärlighet, korrekt information och att hålla löften."
+        },
+        {
+          type:"Begrepp",
+          question:"Vad betyder köpbeslut?",
+          options:[
+            {text:"När butiken bestämmer priset", isCorrect:false},
+            {text:"När kunden bestämmer sig för att köpa eller inte köpa en produkt", isCorrect:true},
+            {text:"När säljaren väljer vilka produkter att lyfta fram", isCorrect:false},
+            {text:"När kunden returnerar en produkt", isCorrect:false},
+          ],
+          explanation:"Ett köpbeslut är när kunden bestämmer sig – att köpa eller att inte köpa. Många faktorer påverkar detta val."
+        },
+
+        // ── KUNSKAP ──────────────────────────────────────────────────
+        {
+          type:"Kunskap",
+          question:"Vilka faktorer kan påverka kundens köpbeslut?",
+          options:[
+            {text:"Butikens öppettider och parkeringsplatser", isCorrect:false},
+            {text:"Behov, önskemål, pris, kvalitet, tidigare erfarenheter och rekommendationer", isCorrect:true},
+            {text:"Säljarens ålder och utbildning", isCorrect:false},
+            {text:"Antalet anställda i butiken", isCorrect:false},
+          ],
+          explanation:"Kundens köpbeslut kan påverkas av behov, önskemål, pris, kvalitet, tidigare erfarenheter och rekommendationer från andra."
+        },
+        {
+          type:"Kunskap",
+          question:"Varför behöver en säljare förstå kundens behov innan den rekommenderar en produkt?",
+          options:[
+            {text:"För att kunna sälja den dyraste produkten", isCorrect:false},
+            {text:"För att kunna rekommendera rätt produkt som passar kundens situation", isCorrect:true},
+            {text:"För att undvika att prata med kunden", isCorrect:false},
+            {text:"För att nå butikens veckomål", isCorrect:false},
+          ],
+          explanation:"När säljaren förstår kundens behov kan den rekommendera rätt produkt – det skapar nöjda kunder och förtroende."
+        },
+        {
+          type:"Kunskap",
+          question:"Hur kan säljarens attityd påverka kundens upplevelse?",
+          options:[
+            {text:"Den påverkar inte – bara produkten spelar roll", isCorrect:false},
+            {text:"En positiv attityd ger bättre kundupplevelse; en negativ attityd kan stöta bort kunden", isCorrect:true},
+            {text:"En negativ attityd gör att kunden köper mer", isCorrect:false},
+            {text:"Attityden är bara viktig om kunden klagar", isCorrect:false},
+          ],
+          explanation:"Säljarens attityd påverkar direkt hur kunden upplever besöket. En intresserad och hjälpsam säljare skapar en positiv upplevelse."
+        },
+        {
+          type:"Kunskap",
+          question:"Hur kan kundens tidigare erfarenheter påverka deras köpbeteende?",
+          options:[
+            {text:"Tidigare erfarenheter spelar ingen roll", isCorrect:false},
+            {text:"Bra erfarenhet kan leda till att kunden återkommer; dålig erfarenhet kan leda till att kunden väljer annan butik", isCorrect:true},
+            {text:"Dåliga erfarenheter gör alltid att kunden köper mer", isCorrect:false},
+            {text:"Erfarenheter påverkar bara priset kunden är beredd att betala", isCorrect:false},
+          ],
+          explanation:"Positiva erfarenheter bygger kundlojalitet. Negativa erfarenheter kan göra att kunden väljer att handla hos en konkurrent."
+        },
+        {
+          type:"Kunskap",
+          question:"Vad innebär ett professionellt förhållningssätt för en säljare?",
+          options:[
+            {text:"Att sälja så mycket som möjligt oavsett kundens behov", isCorrect:false},
+            {text:"Att behandla alla med respekt, lyssna, vara lugn och anpassa hjälpen efter kunden", isCorrect:true},
+            {text:"Att alltid ge rabatt för att göra kunden nöjd", isCorrect:false},
+            {text:"Att prata snabbt och effektivt med varje kund", isCorrect:false},
+          ],
+          explanation:"Professionellt förhållningssätt = respekt, tålamod, aktivt lyssnande och att anpassa hjälpen efter varje kunds unika behov."
+        },
+        {
+          type:"Kunskap",
+          question:"Hur skapar en säljare förtroende hos kunden?",
+          options:[
+            {text:"Genom att erbjuda rabatt på alla produkter", isCorrect:false},
+            {text:"Genom ärlighet, korrekt information, att lyssna och inte pressa kunden", isCorrect:true},
+            {text:"Genom att prata så fort som möjligt om produkterna", isCorrect:false},
+            {text:"Genom att bara visa de dyraste produkterna", isCorrect:false},
+          ],
+          explanation:"Förtroende byggs med ärlighet, korrekt info, att hålla löften, lyssna aktivt och låta kunden fatta sitt eget beslut utan press."
+        },
+        {
+          type:"Kunskap",
+          question:"Varför är det viktigt att säljaren tar hänsyn till kundens budget?",
+          options:[
+            {text:"Det är det inte – säljaren ska alltid rekommendera det bästa alternativet oavsett pris", isCorrect:false},
+            {text:"Kunden kan inte fatta ett genomtänkt beslut om alternativen kostar mer än budgeten tillåter", isCorrect:true},
+            {text:"Budgeten är bara viktig vid stora köp", isCorrect:false},
+            {text:"Säljaren tjänar mer på dyrare produkter", isCorrect:false},
+          ],
+          explanation:"En säljare som respekterar kundens budget hjälper kunden att hitta rätt produkt – det skapar förtroende och nöjda kunder."
+        },
+
+        // ── SITUATION ────────────────────────────────────────────────
+        {
+          type:"Situation",
+          question:"En kund kommer in med irriterad min och säger att hen haft en dålig upplevelse förra gången. Hur bemöter säljaren kunden bäst?",
+          options:[
+            {text:"Försvara butiken och säg att det inte var butikens fel", isCorrect:false},
+            {text:"Lyssna, visa förståelse och försök hjälpa kunden professionellt oavsett attityd", isCorrect:true},
+            {text:"Be kunden att lugna sig innan hen får hjälp", isCorrect:false},
+            {text:"Hänvisa kunden direkt till chefen", isCorrect:false},
+          ],
+          explanation:"Säljaren ska alltid bemöta kunden professionellt oavsett attityd – lyssna, visa empati och försöka lösa situationen."
+        },
+        {
+          type:"Situation",
+          question:"En kund frågar efter en mobiltelefon. Säljare A visar direkt den dyraste modellen. Säljare B frågar först vad kunden ska använda mobilen till och vad budgeten är. Vem agerar rätt?",
+          options:[
+            {text:"Säljare A – den dyraste är alltid bäst", isCorrect:false},
+            {text:"Säljare B – förstår kundens behov innan rekommendation ges", isCorrect:true},
+            {text:"Båda agerar lika rätt", isCorrect:false},
+            {text:"Ingen av dem – säljaren ska inte ställa frågor", isCorrect:false},
+          ],
+          explanation:"Säljare B använder säljpsykologi rätt – förstår kundens behov och budget innan produkter presenteras."
+        },
+        {
+          type:"Situation",
+          question:"En kund letar efter en tröja och säger att det är viktigt att den är tillverkad på ett ansvarsfullt sätt. Hur ska säljaren svara?",
+          options:[
+            {text:"Ignorera kommentaren och visa de billigaste tröjorna", isCorrect:false},
+            {text:"Berätta ärligt om tillgänglig information om produktionens ansvarstagande", isCorrect:true},
+            {text:"Lova att alla tröjor är hållbara utan att kontrollera", isCorrect:false},
+            {text:"Hänvisa kunden till en annan butik", isCorrect:false},
+          ],
+          explanation:"Säljaren ska lyssna på kundens värderingar, dela tillgänglig info ärligt och aldrig lova något som inte kan bevisas."
+        },
+        {
+          type:"Situation",
+          question:"En kund vet exakt vilken produkt hen vill köpa och har bråttom. Vad är bäst?",
+          options:[
+            {text:"Presentera alla produkter i sortimentet innan kunden får köpa", isCorrect:false},
+            {text:"Hjälpa kunden snabbt och tydligt utan onödig information", isCorrect:true},
+            {text:"Be kunden vänta medan säljaren avslutar ett annat ärende", isCorrect:false},
+            {text:"Fråga kunden om hen är säker på sitt val", isCorrect:false},
+          ],
+          explanation:"En säljare anpassar sig efter kunden – en kund som redan vet vad hen vill ha och har bråttom behöver snabb, tydlig hjälp."
+        },
+        {
+          type:"Situation",
+          question:"En kund är osäker på om en dyr dammsugare är värd priset. Vad gör en bra säljare?",
+          options:[
+            {text:"Upprepar att den är bäst tills kunden köper", isCorrect:false},
+            {text:"Förklarar för- och nackdelar och visar även ett billigare alternativ", isCorrect:true},
+            {text:"Erbjuder kunden att ta hem dammsugaren utan att betala", isCorrect:false},
+            {text:"Låter kunden besluta helt utan information", isCorrect:false},
+          ],
+          explanation:"En ärlig säljare visar alternativ och hjälper kunden jämföra – det bygger förtroende och ger kunden en genomtänkt köpupplevelse."
+        },
+        {
+          type:"Situation",
+          question:"En kund har läst dåliga recensioner om en produkt och är tveksam. Vad är bäst att säga?",
+          options:[
+            {text:"'Recensioner på nätet stämmer aldrig.'", isCorrect:false},
+            {text:"Erkänn att åsikter varierar, ge korrekt fakta om produkten och låt kunden bestämma", isCorrect:true},
+            {text:"'Köp den – alla andra kunder är nöjda.'", isCorrect:false},
+            {text:"Byt ämne och prata om en annan produkt", isCorrect:false},
+          ],
+          explanation:"Ärlighet och korrekt information är grunden för förtroende. Säljaren ska aldrig manipulera eller avfärda kundens farhågor."
+        },
+        {
+          type:"Situation",
+          question:"En kund vill köpa miljövänliga skor. Vilken reaktion passar bäst för säljaren?",
+          options:[
+            {text:"Säga att alla skor är miljövänliga", isCorrect:false},
+            {text:"Lyssna på kundens värdering och presentera de alternativ som faktiskt uppfyller kraven", isCorrect:true},
+            {text:"Ignorera miljöaspekten och prata om komfort", isCorrect:false},
+            {text:"Be kunden söka informationen själv på nätet", isCorrect:false},
+          ],
+          explanation:"En bra säljare lyssnar på kundens värderingar och presenterar ärliga alternativ – att hitta rätt produkt för kunden är målet."
+        },
+
+        // ── JÄMFÖRELSE ───────────────────────────────────────────────
+        {
+          type:"Jämförelse",
+          question:"Vad är skillnaden mellan behov och önskemål? Välj det bästa exemplet.",
+          options:[
+            {text:"Behov: kunden vill ha senaste iPhone. Önskemål: kunden behöver en fungerande mobiltelefon.", isCorrect:false},
+            {text:"Behov: kunden behöver en vinterjacka för jobbet. Önskemål: kunden vill ha en specifik färg och ett visst märke.", isCorrect:true},
+            {text:"De är samma sak i praktiken", isCorrect:false},
+            {text:"Behov är alltid billigare än önskemål", isCorrect:false},
+          ],
+          explanation:"Behov är nödvändigt (en jacka för kalla dagar). Önskemål är extra (färg och märke) – viktigt för säljaren att skilja på."
+        },
+        {
+          type:"Jämförelse",
+          question:"Vad är skillnaden mellan en positiv och negativ attityd hos säljaren?",
+          options:[
+            {text:"Det finns ingen skillnad – resultatet blir detsamma", isCorrect:false},
+            {text:"Positiv attityd: intresserad, hjälpsam, respektfull. Negativ attityd: ointresserad, avbryter, irriterad.", isCorrect:true},
+            {text:"Negativ attityd ger bättre försäljning", isCorrect:false},
+            {text:"Attityden påverkar bara chefen, inte kunden", isCorrect:false},
+          ],
+          explanation:"Säljarens attityd syns direkt i kundens upplevelse. Positiv = engagerad och hjälpsam. Negativ = verkar ointresserad och avvisande."
+        },
+        {
+          type:"Jämförelse",
+          question:"Vad skiljer att hjälpa kunden från att pressa kunden att köpa?",
+          options:[
+            {text:"Ingen skillnad – båda leder till ett köp", isCorrect:false},
+            {text:"Hjälpa = ge information och alternativ; pressa = tvinga fram ett beslut utan hänsyn till kunden", isCorrect:true},
+            {text:"Pressa är mer effektivt och rekommenderas", isCorrect:false},
+            {text:"Hjälpa är bara för dyra produkter", isCorrect:false},
+          ],
+          explanation:"En bra säljare hjälper kunden fatta ett genomtänkt beslut. Att pressa skapar missnöje och förstör förtroendet."
+        },
+        {
+          type:"Jämförelse",
+          question:"Vad skiljer kundpsykologi från säljpsykologi?",
+          options:[
+            {text:"De är samma sak", isCorrect:false},
+            {text:"Kundpsykologi = hur kunden tänker och beter sig; säljpsykologi = hur säljaren förstår och anpassar sig", isCorrect:true},
+            {text:"Kundpsykologi är bara för marknadsföring", isCorrect:false},
+            {text:"Säljpsykologi handlar om prissättning", isCorrect:false},
+          ],
+          explanation:"Kundpsykologi fokuserar på kundens tankesätt och beteende. Säljpsykologi handlar om hur säljaren använder den kunskapen för att anpassa sitt säljsätt."
+        },
+        {
+          type:"Jämförelse",
+          question:"Vad är skillnaden mellan en kund som påverkas av pris och en kund som påverkas av kvalitet?",
+          options:[
+            {text:"Det finns ingen skillnad – båda vill ha billigast", isCorrect:false},
+            {text:"Priskänslig kund vill köpa billigt; kvalitetskänslig kund betalar mer för bättre produkt", isCorrect:true},
+            {text:"Kvalitetskänsliga kunder handlar aldrig på rea", isCorrect:false},
+            {text:"Priskänsliga kunder är alltid missnöjda", isCorrect:false},
+          ],
+          explanation:"Priset påverkar kundens val, men på olika sätt. Säljaren behöver förstå om kunden prioriterar lågt pris eller hög kvalitet – och anpassa argumenten därefter."
+        },
+
+        // ── GÅTA ─────────────────────────────────────────────────────
+        {
+          type:"Gåta",
+          question:"Jag är det kunden verkligen måste ha – inte bara vill ha. Utan mig kan vardagen bli svår. Vad heter jag?",
+          options:[
+            {text:"Önskemål", isCorrect:false},
+            {text:"Behov", isCorrect:true},
+            {text:"Köpbeslut", isCorrect:false},
+            {text:"Attityd", isCorrect:false},
+          ],
+          explanation:"Behov är något kunden måste ha, som en vinterjacka för kalla dagar eller en dator för studier."
+        },
+        {
+          type:"Gåta",
+          question:"Jag är säljarens och kundens inställning till varandra och till situationen. Jag kan vara positiv eller negativ. Vad heter jag?",
+          options:[
+            {text:"Förtroende", isCorrect:false},
+            {text:"Köpbeteende", isCorrect:false},
+            {text:"Attityd", isCorrect:true},
+            {text:"Önskemål", isCorrect:false},
+          ],
+          explanation:"Attityden är inställningen – en positiv attityd hos säljaren skapar en bättre kundupplevelse."
+        },
+        {
+          type:"Gåta",
+          question:"Jag handlar om hur säljaren agerar mot kunden – med respekt, tålamod och anpassning. Vad heter jag?",
+          options:[
+            {text:"Köpbeslut", isCorrect:false},
+            {text:"Förhållningssätt", isCorrect:true},
+            {text:"Önskemål", isCorrect:false},
+            {text:"Kundpsykologi", isCorrect:false},
+          ],
+          explanation:"Förhållningssätt är hur säljaren agerar och bemöter kunden – ett professionellt förhållningssätt präglas av respekt och lyhördhet."
+        },
+        {
+          type:"Gåta",
+          question:"Jag är det kunden vill ha utöver det nödvändiga – ett visst märke, en viss färg eller den senaste modellen. Vad heter jag?",
+          options:[
+            {text:"Behov", isCorrect:false},
+            {text:"Förtroende", isCorrect:false},
+            {text:"Önskemål", isCorrect:true},
+            {text:"Värderingar", isCorrect:false},
+          ],
+          explanation:"Önskemål är det som kunden vill ha men inte nödvändigtvis behöver – t.ex. ett känt märke eller en speciell färg."
+        },
+        {
+          type:"Gåta",
+          question:"Jag är det som avgör om kunden handlar hos dig igen – att du är ärlig, håller löften och inte pressar kunden. Vad heter jag?",
+          options:[
+            {text:"Attityd", isCorrect:false},
+            {text:"Köpbeteende", isCorrect:false},
+            {text:"Förtroende", isCorrect:true},
+            {text:"Säljpsykologi", isCorrect:false},
+          ],
+          explanation:"Förtroende byggs över tid genom ärlighet och respekt – och det är avgörande för om kunden väljer att återkomma."
+        },
+        {
+          type:"Gåta",
+          question:"Jag styr vilka företag och produkter kunden väljer – miljö, hälsa, etik och ekonomi är exempel på mig. Vad heter jag?",
+          options:[
+            {text:"Köpbeslut", isCorrect:false},
+            {text:"Värderingar", isCorrect:true},
+            {text:"Önskemål", isCorrect:false},
+            {text:"Förhållningssätt", isCorrect:false},
+          ],
+          explanation:"Värderingar styr kundens val av produkter och företag – en kund med miljövärderingar söker aktivt hållbara alternativ."
+        },
+        {
+          type:"Gåta",
+          question:"Jag är det ögonblick när kunden bestämmer sig – att köpa eller att gå vidare utan produkt. Vad heter jag?",
+          options:[
+            {text:"Attityd", isCorrect:false},
+            {text:"Köpbeteende", isCorrect:false},
+            {text:"Förhållningssätt", isCorrect:false},
+            {text:"Köpbeslut", isCorrect:true},
+          ],
+          explanation:"Köpbeslutet är det avgörande ögonblicket – och påverkas av allt från pris och behov till förtroende och säljarens attityd."
+        },
+      ];
+
+      // ── HJÄLPFUNKTIONER ──────────────────────────────────────────
+      function escapeHtml(v) {
+        return String(v).replace(/[&<>"']/g, c =>
+          ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+      }
+      function renderTerms(value) {
+        const terms = Object.keys(termDefinitions).sort((a,b) => b.length - a.length);
+        const pattern = new RegExp("(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|") + ")","gi");
+        let result = "", lastIndex = 0;
+        for (const match of value.matchAll(pattern)) {
+          const key = terms.find(k => k.toLowerCase() === match[0].toLowerCase());
+          result += escapeHtml(value.slice(lastIndex, match.index));
+          result += `<abbr class="term-help" tabindex="0" data-tooltip="${escapeHtml(termDefinitions[key])}">${escapeHtml(match[0])}</abbr>`;
+          lastIndex = match.index + match[0].length;
+        }
+        return result + escapeHtml(value.slice(lastIndex));
+      }
+
+      let questions = [...allQuestions];
+      const TYPE_ORDER = ["Gåta","Begrepp","Situation","Jämförelse","Kunskap"];
+      const TYPE_INFO  = {
+        "Gåta":       {icon:"🧩", hint:"Gissa ordet"},
+        "Begrepp":    {icon:"📖", hint:"Vad betyder ordet?"},
+        "Situation":  {icon:"🛒", hint:"Vad gör du?"},
+        "Jämförelse": {icon:"⚖️", hint:"Vad är skillnaden?"},
+        "Kunskap":    {icon:"🎓", hint:"Fakta och regler"},
+      };
+      let selectedTypes = new Set(allQuestions.map(q => q.type));
+      const POINTS = 100;
+      let idx = 0, score = 0, correct = 0, wrong = 0, soundOn = true, answered = false;
+
+      // ── LJUD ─────────────────────────────────────────────────────
+      const AC = window.AudioContext || window.webkitAudioContext;
+      let ctx = null;
+      function initAudio() { try { if (!ctx && AC) ctx = new AC(); } catch(e) { ctx=null; } }
+      function playSound(type) {
+        if (!soundOn) return;
+        try {
+          initAudio(); if (!ctx) return;
+          const osc = ctx.createOscillator(), g = ctx.createGain();
+          osc.connect(g); g.connect(ctx.destination);
+          if (type==="correct") {
+            osc.type="sine"; osc.frequency.setValueAtTime(523.25,ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(659.25,ctx.currentTime+0.15);
+            g.gain.setValueAtTime(0.2,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.3);
+            osc.start(); osc.stop(ctx.currentTime+0.3);
+          } else {
+            osc.type="triangle"; osc.frequency.setValueAtTime(220,ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(164.81,ctx.currentTime+0.2);
+            g.gain.setValueAtTime(0.25,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.3);
+            osc.start(); osc.stop(ctx.currentTime+0.3);
+          }
+        } catch(e) {}
+      }
+      function toggleSound() { soundOn=!soundOn; document.getElementById("soundIcon").innerText=soundOn?"🔊":"🔇"; }
+
+      // ── SPEL ─────────────────────────────────────────────────────
+      function shuffle(arr) { for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } }
+
+      function startGame() {
+        initAudio();
+        questions = allQuestions.filter(q => selectedTypes.has(q.type));
+        if (!questions.length) return;
+        shuffle(questions);
+        idx=0; score=0; correct=0; wrong=0;
+        document.getElementById("startScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("scoreText").innerText="0";
+        loadQ();
+        window.scrollTo({top:0,behavior:"smooth"});
+      }
+
+      function loadQ() {
+        answered=false;
+        const q = questions[idx];
+        document.getElementById("questionNumberText").innerText=`Fråga ${idx+1} av ${questions.length}`;
+        document.getElementById("categoryTag").innerText=q.type;
+        document.getElementById("questionText").innerHTML=renderTerms(q.question);
+        const pct=((idx+1)/questions.length)*100;
+        document.getElementById("progressBarFill").style.width=`${pct}%`;
+        const filled=Math.round(((idx+1)/questions.length)*10);
+        document.getElementById("progressTextVisual").innerText=`${"█".repeat(filled)}${"░".repeat(10-filled)} ${idx+1}/${questions.length}`;
+        document.getElementById("nextBtnText").innerText=idx+1<questions.length?"Nästa fråga":"Se resultat";
+        document.getElementById("feedbackContainer").className="hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+        const opts=document.getElementById("optionsContainer");
+        opts.innerHTML="";
+        const shuffled=[...q.options]; shuffle(shuffled);
+        shuffled.forEach((opt,i) => {
+          const btn=document.createElement("button");
+          btn.className="btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+          btn.onclick=()=>pick(i,shuffled,q.explanation);
+          const badge=document.createElement("span");
+          badge.className="w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+          badge.innerText=String.fromCharCode(65+i);
+          const txt=document.createElement("span");
+          txt.className="mt-0.5 leading-snug";
+          txt.innerHTML=renderTerms(opt.text);
+          btn.appendChild(badge); btn.appendChild(txt); opts.appendChild(btn);
+        });
+      }
+
+      function pick(sel, shuffled, explanation) {
+        if (answered) return;
+        answered=true;
+        const isOk=shuffled[sel].isCorrect;
+        let pts=0;
+        if (isOk) { correct++; pts=POINTS; score+=pts; playSound("correct"); } else { wrong++; playSound("wrong"); }
+        document.getElementById("scoreText").innerText=score;
+
+        Array.from(document.getElementById("optionsContainer").children).forEach((btn,i)=>{
+          btn.disabled=true;
+          btn.classList.remove("hover:bg-beige-100","hover:border-sage-500","btn-bounce");
+          btn.classList.add("cursor-default");
+          if (shuffled[i].isCorrect) {
+            btn.className="w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+            btn.querySelector("span").className="w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText="✓";
+          } else if (i===sel && !isOk) {
+            btn.className="w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+            btn.querySelector("span").className="w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText="✕";
+          } else { btn.classList.add("opacity-40"); }
+        });
+        showFeedback(isOk, explanation, pts);
+      }
+
+      function showFeedback(isOk, explanation, pts) {
+        const fc=document.getElementById("feedbackContainer");
+        fc.classList.remove("hidden");
+        fc.className=isOk
+          ?"mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300"
+          :"mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+        document.getElementById("feedbackIcon").innerText=isOk?"🎉":"💡";
+        document.getElementById("feedbackTitle").innerText=isOk?`Rätt svar! (+${pts} p)`:"Fel!";
+        document.getElementById("feedbackExplanation").innerHTML=renderTerms(explanation);
+        setTimeout(()=>fc.scrollIntoView({behavior:"smooth",block:"nearest"}),100);
+      }
+
+      function nextQuestion() { idx++; idx<questions.length ? loadQ() : showResults(); }
+
+      function showResults() {
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("flex");
+        document.getElementById("resultScreen").classList.remove("hidden");
+        document.getElementById("finalScore").innerText=score;
+        document.getElementById("finalCorrect").innerText=correct;
+        document.getElementById("finalWrong").innerText=wrong;
+        const pct=Math.round((correct/questions.length)*100);
+        document.getElementById("resultSummaryText").innerText=`Du fick ${correct} av ${questions.length} rätt (${pct} %).`;
+        document.getElementById("encouragementText").innerText=
+          pct>=85?"Utmärkt! Du behärskar kund- och säljpsykologi mycket väl. Du är redo för provet!"
+          :pct>=60?"Bra jobbat! Repetera skillnaden mellan behov och önskemål, samt hur attityd och förhållningssätt påverkar kunden."
+          :"Bra kämpat! Gå igenom begreppen behov, önskemål, attityd, förhållningssätt, värderingar och förtroende en gång till.";
+        window.scrollTo({top:0,behavior:"smooth"});
+      }
+
+      // ── DELA ─────────────────────────────────────────────────────
+      function openShareModal() {
+        const url=window.location.href;
+        document.getElementById("shareUrlInput").value=url;
+        const qrc=document.getElementById("qrcode"); qrc.innerHTML="";
+        try { new QRCode(qrc,{text:url,width:140,height:140,colorDark:"#1E3F2F",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H}); }
+        catch(e) { qrc.innerText="QR-kod genereras när sidan ligger på en webbadress."; }
+        document.getElementById("shareModal").classList.remove("hidden");
+      }
+      function closeShareModal() { document.getElementById("shareModal").classList.add("hidden"); document.getElementById("copySuccessMsg").classList.add("hidden"); }
+      function copyShareUrl() {
+        const inp=document.getElementById("shareUrlInput"); inp.select();
+        navigator.clipboard.writeText(inp.value)
+          .then(()=>document.getElementById("copySuccessMsg").classList.remove("hidden"))
+          .catch(()=>{ document.execCommand("copy"); document.getElementById("copySuccessMsg").classList.remove("hidden"); });
+      }
+
+      // ── FILTER ───────────────────────────────────────────────────
+      function countType(t) { return allQuestions.filter(q=>q.type===t).length; }
+      function buildTypeFilter() {
+        const container=document.getElementById("typeFilter"); container.innerHTML="";
+        const types=[...TYPE_ORDER.filter(t=>countType(t)>0),...[...new Set(allQuestions.map(q=>q.type))].filter(t=>!TYPE_ORDER.includes(t))];
+        types.forEach(type=>{
+          const info=TYPE_INFO[type]||{icon:"❓",hint:""};
+          const btn=document.createElement("button");
+          btn.type="button"; btn.dataset.type=type; btn.onclick=()=>toggleType(type);
+          btn.innerHTML=`
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>`;
+          container.appendChild(btn);
+        });
+        updateFilterUI();
+      }
+      function toggleType(t) { selectedTypes.has(t)?selectedTypes.delete(t):selectedTypes.add(t); updateFilterUI(); }
+      function selectAllTypes() { selectedTypes=new Set(allQuestions.map(q=>q.type)); updateFilterUI(); }
+      function clearTypes() { selectedTypes=new Set(); updateFilterUI(); }
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach(btn=>{
+          const on=selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed",on);
+          btn.className="btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer "+
+            (on?"bg-sage-700 border-sage-700 text-white shadow-md":"bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display=on?"flex":"none";
+          btn.querySelector(".chip-hint").className="chip-hint block text-xs "+(on?"text-sage-200":"text-gray-500");
+          btn.querySelector(".chip-count").className="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg "+(on?"bg-sage-800 text-white":"bg-beige-100 text-sage-800");
+        });
+        const total=allQuestions.filter(q=>selectedTypes.has(q.type)).length;
+        document.getElementById("startQuestionCount").innerText=`${total} Frågor`;
+        document.getElementById("filterSummary").innerText=total===0?"Välj minst en frågetyp för att starta":`${total} ${total===1?"fråga vald":"frågor valda"}`;
+        const sb=document.getElementById("startBtn");
+        sb.disabled=total===0; sb.classList.toggle("opacity-50",total===0); sb.classList.toggle("cursor-not-allowed",total===0);
+      }
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI(); window.scrollTo({top:0,behavior:"smooth"});
+      }
+
+      buildTypeFilter();
+    </script>
+  </body>
+</html>
