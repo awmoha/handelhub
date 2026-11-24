@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – Kommunikation</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              beige: {
+                50: "#FAF8F5",
+                100: "#F5F2EB",
+                200: "#E7E2D5",
+                300: "#D5CDBA",
+              },
+              sage: {
+                100: "#E6EFEA",
+                200: "#C2D8CB",
+                500: "#4A7C59",
+                700: "#2D5A43",
+                800: "#1E3F2F",
+                900: "#142B20",
+              },
+              slateText: "#1F2421",
+              accentGold: "#D4A373",
+            },
+            fontFamily: {
+              cardo: ["Cardo", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .term-help {
+        position: relative;
+        display: inline;
+        border-bottom: 1px dotted #2d5a43;
+        color: #1e3f2f;
+        font-weight: 700;
+        cursor: help;
+      }
+      .term-help::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+        width: max-content;
+        max-width: 260px;
+        padding: 10px 14px;
+        background: #e6efea;
+        color: #1e3f2f;
+        border: 1px solid #c2d8cb;
+        border-radius: 12px;
+        font-family: "Cardo";
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+        white-space: normal;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 1000;
+        box-shadow: 0 6px 18px rgba(30, 63, 47, 0.15);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .term-help:hover::after,
+      .term-help:focus::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+      }
+      .btn-bounce {
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+      }
+      .btn-bounce:active {
+        transform: scale(0.97);
+      }
+      .custom-shadow {
+        box-shadow: 0 4px 24px rgba(30, 63, 47, 0.08);
+      }
+    </style>
+  </head>
+  <body
+    class="font-cardo min-h-screen flex flex-col justify-between selection:bg-sage-200 selection:text-sage-900"
+  >
+    <!-- HEADER -->
+    <header class="w-full bg-white/80 backdrop-blur border-b border-beige-200 sticky top-0 z-40 px-4 py-3 sm:px-8">
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-sage-700 text-white flex items-center justify-center font-bold text-xl shadow-md">
+            🛍️
+          </div>
+          <div>
+            <h1 class="font-cardo font-bold text-xl text-sage-900 leading-tight">Försäljning &amp; Kundservice 3</h1>
+            <p class="text-xs text-gray-500 font-medium">Interaktivt Klassrumsquiz &bull; Kommunikation</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button id="soundToggleBtn" onclick="toggleSound()"
+            class="p-2 rounded-lg bg-beige-100 hover:bg-beige-200 text-sage-800 transition font-medium text-sm flex items-center space-x-1"
+            title="Ljud av/på">
+            <span id="soundIcon">🔊</span>
+          </button>
+          <button onclick="openShareModal()"
+            class="px-3 py-2 rounded-lg bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold text-sm transition flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+            </svg>
+            <span class="hidden sm:inline">Dela</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div class="w-full max-w-4xl">
+
+        <!-- STARTSKÄRM -->
+        <section id="startScreen"
+          class="bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-40 h-40 bg-sage-100 rounded-full blur-2xl opacity-60"></div>
+          <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-beige-200 rounded-full blur-2xl opacity-60"></div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 font-semibold text-sm mb-6">
+              <span>✨</span> Utformat för Gymnasiet &amp; SFI
+            </div>
+            <h2 class="font-cardo text-3xl sm:text-5xl font-bold text-sage-900 mb-4 leading-tight">
+              QUIZ – KOMMUNIKATION
+            </h2>
+            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+              Testa dina kunskaper om verbal och icke-verbal kommunikation i försäljning och kundservice. Du övar på begrepp som kroppsspråk, tonläge, aktivt lyssnande, yrkesetik och professionellt bemötande.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10 text-left">
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">❓</div>
+                <div id="startQuestionCount" class="font-semibold text-sm text-sage-900">40 Frågor</div>
+                <div class="text-xs text-gray-500">Blandade nivåer</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">🧘</div>
+                <div class="font-semibold text-sm text-sage-900">Ingen tidspress</div>
+                <div class="text-xs text-gray-500">Svara i lugn och ro</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">⭐</div>
+                <div class="font-semibold text-sm text-sage-900">Poäng</div>
+                <div class="text-xs text-gray-500">Rätt svar ger poäng</div>
+              </div>
+              <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                <div class="text-xl mb-1">💡</div>
+                <div class="font-semibold text-sm text-sage-900">Korta svar</div>
+                <div class="text-xs text-gray-500">Lär dig direkt</div>
+              </div>
+            </div>
+
+            <!-- FILTER -->
+            <div class="max-w-2xl mx-auto mb-8 p-5 sm:p-6 rounded-2xl bg-beige-50 border border-beige-200 text-left">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                <h3 class="font-cardo font-bold text-xl text-sage-900">Välj frågetyper</h3>
+                <div class="flex items-center gap-1 text-xs font-semibold">
+                  <button type="button" onclick="selectAllTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Välj alla</button>
+                  <span class="text-beige-300">|</span>
+                  <button type="button" onclick="clearTypes()" class="px-2.5 py-1 rounded-lg text-sage-700 hover:bg-sage-100 transition">Rensa</button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mb-4">Klicka på en typ för att välja eller ta bort den.</p>
+              <div id="typeFilter" class="flex flex-wrap justify-center gap-3"></div>
+              <div class="mt-4 pt-4 border-t border-beige-200 flex items-center justify-center gap-2 text-sm font-semibold text-sage-800">
+                <span>📋</span>
+                <span id="filterSummary">40 frågor valda</span>
+              </div>
+            </div>
+
+            <button id="startBtn" onclick="startGame()"
+              class="btn-bounce inline-flex items-center justify-center space-x-3 px-10 py-5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition text-center w-full sm:w-auto">
+              <span>STARTA SPELET</span>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- SPELSKÄRM -->
+        <section id="gameScreen" class="hidden flex-col gap-6">
+          <div class="bg-white rounded-2xl p-4 sm:p-5 custom-shadow border border-beige-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="w-full sm:w-auto flex-grow max-w-md">
+              <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-semibold text-sage-900">
+                <span id="questionNumberText">Fråga 1 av 40</span>
+                <span id="progressTextVisual" class="font-mono text-sage-700 font-bold">█░░░░░░░░░ 1/40</span>
+              </div>
+              <div class="w-full bg-beige-100 rounded-full h-3 overflow-hidden border border-beige-200">
+                <div id="progressBarFill" class="bg-sage-700 h-full transition-all duration-300 rounded-full" style="width: 2.5%"></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+              <div class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-sage-700 text-white shadow-sm">
+                <span class="text-lg">🏆</span>
+                <div>
+                  <div class="text-[10px] text-sage-200 font-bold uppercase tracking-wider">Poäng</div>
+                  <div id="scoreText" class="font-mono font-bold text-base text-white">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-beige-200 flex flex-col justify-between min-h-[420px]">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span id="categoryTag" class="px-3 py-1 rounded-lg bg-sage-100 text-sage-800 text-xs font-semibold tracking-wide uppercase">Begrepp</span>
+                <span id="hintBadge" class="hidden sm:inline-block text-xs text-gray-400 font-medium">💡 Välj ett svar nedan</span>
+              </div>
+              <h3 id="questionText" class="font-cardo text-2xl sm:text-3xl font-bold text-sage-900 leading-snug mb-6">Laddar fråga...</h3>
+            </div>
+            <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-2"></div>
+            <div id="feedbackContainer" class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start space-x-3">
+                  <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                  <div>
+                    <h4 id="feedbackTitle" class="font-bold text-lg leading-tight mb-1"></h4>
+                    <p id="feedbackExplanation" class="text-sm text-gray-700 leading-relaxed"></p>
+                  </div>
+                </div>
+                <button id="nextBtn" onclick="nextQuestion()"
+                  class="btn-bounce whitespace-nowrap px-6 py-3.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-base rounded-xl shadow-md transition flex items-center space-x-2 self-end sm:self-center">
+                  <span id="nextBtnText">Nästa fråga</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESULTATSKÄRM -->
+        <section id="resultScreen" class="hidden bg-white rounded-3xl p-6 sm:p-10 custom-shadow border border-beige-200 text-center">
+          <div class="text-5xl mb-4">🎓</div>
+          <h2 class="font-cardo text-3xl sm:text-4xl font-bold text-sage-900 mb-2">Quiz klart!</h2>
+          <p class="text-gray-500 mb-8 text-base">Kommunikation – Försäljning och Kundservice</p>
+          <div class="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-8">
+            <div class="p-4 rounded-2xl bg-sage-50 border border-sage-200">
+              <div class="text-2xl font-black text-sage-700 font-mono" id="finalScore">0</div>
+              <div class="text-xs text-sage-800 font-medium uppercase mt-1">Poäng</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <div class="text-2xl font-black text-emerald-700 font-mono" id="finalCorrect">0</div>
+              <div class="text-xs text-emerald-800 font-medium uppercase mt-1">Antal rätt</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+              <div class="text-2xl font-black text-rose-700 font-mono" id="finalWrong">0</div>
+              <div class="text-xs text-rose-800 font-medium uppercase mt-1">Antal fel</div>
+            </div>
+          </div>
+          <p id="resultSummaryText" class="text-sage-900 font-semibold text-lg mb-4"></p>
+          <div id="encouragementBox" class="p-5 rounded-2xl bg-sage-50 border border-sage-200 mb-8 text-left">
+            <h4 class="font-bold text-sage-900 text-lg mb-1 flex items-center gap-2"><span>🌟</span> Lärarfeedback:</h4>
+            <p id="encouragementText" class="text-sm text-sage-800 leading-relaxed">Bra kämpat! Försök igen för att förbättra ditt resultat!</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="startGame()" class="btn-bounce px-8 py-4 bg-sage-700 hover:bg-sage-800 text-white font-bold text-lg rounded-2xl shadow-lg transition flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>Spela igen</span>
+            </button>
+            <button onclick="backToStart()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2">
+              <span>Ändra frågetyper</span>
+            </button>
+            <button onclick="openShareModal()" class="btn-bounce px-6 py-4 bg-beige-100 hover:bg-beige-200 text-sage-900 font-bold text-lg rounded-2xl border border-beige-300 transition flex items-center justify-center space-x-2">
+              <span>Dela länken</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-4 text-xs text-gray-500 border-t border-beige-200 bg-white/50">
+      Försäljning och Kundservice &bull; Quiz – Kommunikation
+    </footer>
+
+    <!-- SHARE MODAL -->
+    <div id="shareModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full custom-shadow relative text-center">
+        <button onclick="closeShareModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+        <div class="flex justify-center items-center p-4 bg-beige-50 rounded-2xl border border-beige-200 mb-4 shadow-inner">
+          <div id="qrcode"></div>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <input id="shareUrlInput" type="text" readonly class="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50 text-xs font-mono text-gray-700 select-all" value="" />
+          <button onclick="copyShareUrl()" class="whitespace-nowrap px-4 py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold text-xs rounded-xl transition">Kopiera</button>
+        </div>
+        <div id="copySuccessMsg" class="hidden text-xs text-emerald-600 font-bold text-center mb-4">✓ Länken kopierad till urklipp!</div>
+        <button onclick="closeShareModal()" class="w-full py-3 bg-beige-100 hover:bg-beige-200 text-sage-900 font-semibold text-sm rounded-xl">Stäng</button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+      const termDefinitions = {
+        "Kommunikation":           "Att dela information och budskap med andra.",
+        "Verbal kommunikation":    "Kommunikation med ord, genom tal eller skrift.",
+        "Icke-verbal kommunikation":"Kommunikation utan ord, till exempel kroppsspråk.",
+        "Kroppsspråk":             "Hur vi använder kroppen när vi kommunicerar.",
+        "Tonläge":                 "Hur rösten låter när vi pratar.",
+        "Taltempo":                "Hur snabbt eller långsamt vi pratar.",
+        "Ögonkontakt":             "Att titta på personen man pratar med.",
+        "Aktivt lyssnande":        "Att lyssna noggrant och visa intresse.",
+        "Medium":                  "Ett sätt att kommunicera, till exempel telefon eller mejl.",
+        "Yrkesetik":               "Att bete sig ansvarsfullt och respektfullt på arbetet.",
+        "Professionellt bemötande":"Att behandla kunden på ett vänligt och respektfullt sätt.",
+      };
+
+      const allQuestions = [
+
+        // ── BEGREPP ──────────────────────────────────────────────────
+        {
+          type: "Begrepp",
+          question: "Vad betyder kommunikation?",
+          options: [
+            { text: "Att dela information och budskap med andra", isCorrect: true },
+            { text: "Att sälja produkter till kunder", isCorrect: false },
+            { text: "Att skriva rapporter på arbetet", isCorrect: false },
+            { text: "Att lyssna på musik", isCorrect: false }
+          ],
+          explanation: "Kommunikation handlar om hur vi förmedlar information och budskap till andra människor."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är verbal kommunikation?",
+          options: [
+            { text: "Kommunikation med kroppen och ansiktet", isCorrect: false },
+            { text: "Kommunikation med ord, genom tal eller skrift", isCorrect: true },
+            { text: "Kommunikation via bilder och symboler", isCorrect: false },
+            { text: "Kommunikation med gester", isCorrect: false }
+          ],
+          explanation: "Verbal kommunikation innebär att vi använder ord för att kommunicera – genom tal eller skrift."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad är icke-verbal kommunikation?",
+          options: [
+            { text: "Kommunikation via mejl", isCorrect: false },
+            { text: "Kommunikation utan ord, till exempel kroppsspråk", isCorrect: true },
+            { text: "Kommunikation på ett annat språk", isCorrect: false },
+            { text: "Kommunikation via telefon", isCorrect: false }
+          ],
+          explanation: "Icke-verbal kommunikation är kommunikation utan ord – vi använder kroppen och ansiktet för att visa t.ex. intresse."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder tonläge?",
+          options: [
+            { text: "Hur snabbt vi pratar", isCorrect: false },
+            { text: "Vilka ord vi väljer", isCorrect: false },
+            { text: "Hur rösten låter när vi pratar", isCorrect: true },
+            { text: "Hur vi skriver mejl", isCorrect: false }
+          ],
+          explanation: "Tonläge handlar om hur rösten låter – ett vänligt tonläge ger ett positivt intryck på kunden."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder taltempo?",
+          options: [
+            { text: "Vilka ord säljaren väljer att använda", isCorrect: false },
+            { text: "Hur snabbt eller långsamt vi pratar", isCorrect: true },
+            { text: "Hur högt eller lågt rösten är", isCorrect: false },
+            { text: "Hur man hälsar på kunden", isCorrect: false }
+          ],
+          explanation: "Taltempo är hur snabbt eller långsamt vi pratar. Man bör prata i ett tempo som kunden hinner följa."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder aktivt lyssnande?",
+          options: [
+            { text: "Att svara snabbt utan att lyssna färdigt", isCorrect: false },
+            { text: "Att lyssna noggrant och visa intresse", isCorrect: true },
+            { text: "Att bara nicka utan att höra vad kunden säger", isCorrect: false },
+            { text: "Att avbryta kunden med frågor", isCorrect: false }
+          ],
+          explanation: "Aktivt lyssnande innebär att lyssna noggrant, låta kunden prata färdigt och ställa frågor för att visa intresse."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad betyder yrkesetik?",
+          options: [
+            { text: "Att nå försäljningsmålet varje månad", isCorrect: false },
+            { text: "Att bete sig ansvarsfullt och respektfullt på arbetet", isCorrect: true },
+            { text: "Att lära sig produkterna utantill", isCorrect: false },
+            { text: "Att kommunicera via mejl", isCorrect: false }
+          ],
+          explanation: "Yrkesetik handlar om hur vi ska bete oss på arbetet och ta ansvar för våra handlingar."
+        },
+        {
+          type: "Begrepp",
+          question: "Vad menas med professionellt bemötande?",
+          options: [
+            { text: "Att erbjuda kunden rabatt direkt", isCorrect: false },
+            { text: "Att behandla kunden på ett vänligt och respektfullt sätt", isCorrect: true },
+            { text: "Att bara svara på kundens frågor via mejl", isCorrect: false },
+            { text: "Att prata så snabbt som möjligt", isCorrect: false }
+          ],
+          explanation: "Professionellt bemötande innebär att alltid behandla kunden vänligt och respektfullt, oavsett situation."
+        },
+
+        // ── KUNSKAP ──────────────────────────────────────────────────
+        {
+          type: "Kunskap",
+          question: "Vilka av dessa är exempel på icke-verbal kommunikation?",
+          options: [
+            { text: "Mejl, telefon och chatt", isCorrect: false },
+            { text: "Ögonkontakt, ansiktsuttryck och kroppshållning", isCorrect: true },
+            { text: "Prislapp, produktbeskrivning och broschyr", isCorrect: false },
+            { text: "Frågor, svar och förklaringar", isCorrect: false }
+          ],
+          explanation: "Icke-verbal kommunikation inkluderar ögonkontakt, ansiktsuttryck, kroppsspråk, gester, kroppshållning och avstånd."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför är rösten extra viktig vid kommunikation via telefon?",
+          options: [
+            { text: "Kunden kan inte läsa mejl samtidigt", isCorrect: false },
+            { text: "Kunden kan inte se säljarens ansikte eller kroppsspråk", isCorrect: true },
+            { text: "Telefonen förstärker automatiskt budskapet", isCorrect: false },
+            { text: "Rösten är alltid viktigare än ord", isCorrect: false }
+          ],
+          explanation: "Via telefon saknas visuella signaler. Därför blir röst, tonläge och taltempo extra viktiga."
+        },
+        {
+          type: "Kunskap",
+          question: "Vilka av dessa råd gäller vid kommunikation via mejl?",
+          options: [
+            { text: "Skriv långt och komplicerat så kunden förstår", isCorrect: false },
+            { text: "Skriv enkelt och tydligt, kontrollera stavningen och avsluta med en vänlig hälsning", isCorrect: true },
+            { text: "Skriv i stora bokstäver för att visa allvar", isCorrect: false },
+            { text: "Undvik att svara på kundens frågor direkt", isCorrect: false }
+          ],
+          explanation: "Ett bra mejl till kund är enkelt, tydligt, svarar på frågorna, är stavningskontrollerat och avslutas vänligt."
+        },
+        {
+          type: "Kunskap",
+          question: "Vad ska en säljare göra vid kommunikation ansikte mot ansikte?",
+          options: [
+            { text: "Undvika ögonkontakt för att inte störa kunden", isCorrect: false },
+            { text: "Hälsa vänligt, lyssna, använda tydligt språk och visa intresse", isCorrect: true },
+            { text: "Prata så snabbt som möjligt för att spara tid", isCorrect: false },
+            { text: "Låta kunden stå och vänta tills säljaren är klar", isCorrect: false }
+          ],
+          explanation: "Vid möte ansikte mot ansikte gäller: hälsa vänligt, lyssna aktivt, använd tydligt språk och visa intresse med kroppsspråket."
+        },
+        {
+          type: "Kunskap",
+          question: "Vilka skyldigheter har en person som arbetar med yrkesetik i kundservice?",
+          options: [
+            { text: "Behandla kunder med respekt, ge korrekt information och inte diskriminera", isCorrect: true },
+            { text: "Uppnå försäljningsmål till varje pris", isCorrect: false },
+            { text: "Sprida information om kunder för att ge bättre service", isCorrect: false },
+            { text: "Bara hjälpa kunder som är trevliga", isCorrect: false }
+          ],
+          explanation: "Yrkesetik innebär bl.a. att behandla alla med respekt, ge korrekt info, inte diskriminera och skydda kunders personuppgifter."
+        },
+        {
+          type: "Kunskap",
+          question: "Vad är ett medium inom kommunikation?",
+          options: [
+            { text: "En person som tolkar kundens behov", isCorrect: false },
+            { text: "Ett sätt att kommunicera, till exempel telefon eller mejl", isCorrect: true },
+            { text: "En produkt som säljs i butiken", isCorrect: false },
+            { text: "En typ av kroppsspråk", isCorrect: false }
+          ],
+          explanation: "Ett medium är ett sätt att kommunicera – exempelvis telefon, mejl, chatt eller möte ansikte mot ansikte."
+        },
+        {
+          type: "Kunskap",
+          question: "Varför ska man inte dra snabba slutsatser om vad en kunds kroppsspråk betyder?",
+          options: [
+            { text: "Kroppsspråk är alltid tydligt och enkelt att läsa", isCorrect: false },
+            { text: "Människor kan använda kroppsspråk på olika sätt", isCorrect: true },
+            { text: "Kunder visar aldrig känslor med kroppen", isCorrect: false },
+            { text: "Kroppsspråk är bara viktigt i telefon", isCorrect: false }
+          ],
+          explanation: "Kroppsspråk kan tolkas på olika sätt och varierar mellan kulturer och individer. Dra inga förhastade slutsatser."
+        },
+
+        // ── SITUATION ────────────────────────────────────────────────
+        {
+          type: "Situation",
+          question: "En kund ringer och är arg för att en beställning är försenad. Vad bör säljaren säga?",
+          options: [
+            { text: "'Det är inte mitt problem. Du får vänta.'", isCorrect: false },
+            { text: "'Jag förstår att det är tråkigt. Jag ska kontrollera vad som har hänt.'", isCorrect: true },
+            { text: "'Ring igen imorgon när vi har mer tid.'", isCorrect: false },
+            { text: "'Alla beställningar är försenade just nu.'", isCorrect: false }
+          ],
+          explanation: "Ett professionellt svar visar respekt och empati, även när kunden är missnöjd. Säljaren tar ansvar och agerar."
+        },
+        {
+          type: "Situation",
+          question: "En kund kommer in i butiken och ser sig osäkert omkring. Vad gör en uppmärksam säljare?",
+          options: [
+            { text: "Väntar tills kunden ber om hjälp", isCorrect: false },
+            { text: "Tittar upp, ler och vänder sig mot kunden", isCorrect: true },
+            { text: "Fortsätter sitt arbete och ignorerar kunden", isCorrect: false },
+            { text: "Ropar en hälsning från andra sidan lokalen", isCorrect: false }
+          ],
+          explanation: "Att titta upp, le och vända sig mot kunden visar uppmärksamhet och välkomnande – viktiga delar av icke-verbal kommunikation."
+        },
+        {
+          type: "Situation",
+          question: "Du pratar med en kund i telefon. Kunden pratar snabbt och verkar stressad. Vad gör du?",
+          options: [
+            { text: "Pratar ännu snabbare för att hinna med", isCorrect: false },
+            { text: "Lyssnar aktivt, bekräftar vad kunden sagt och svarar lugnt och tydligt", isCorrect: true },
+            { text: "Ber kunden skicka ett mejl istället", isCorrect: false },
+            { text: "Avslutar samtalet och ringer upp senare", isCorrect: false }
+          ],
+          explanation: "Aktivt lyssnande och ett lugnt tonläge hjälper kunden att känna sig hörd och ger ett professionellt intryck."
+        },
+        {
+          type: "Situation",
+          question: "Du ska skriva ett mejl till en kund som frågar när beställningen kommer. Vad skriver du?",
+          options: [
+            { text: "'Vet ej, kolla hemsidan.'", isCorrect: false },
+            { text: "'Hej! Din beställning beräknas komma på fredag. Hör av dig om du har fler frågor. Vänliga hälsningar.'", isCorrect: true },
+            { text: "'Vi har ingen information om din beställning just nu.'", isCorrect: false },
+            { text: "'BESTÄLLNINGEN KOMMER PÅ FREDAG!!!'", isCorrect: false }
+          ],
+          explanation: "Ett bra mejl är tydligt, vänligt, svarar på frågan och avslutas med en hälsning – precis som exemplet i kapitlet."
+        },
+        {
+          type: "Situation",
+          question: "En kund pratar med hög röst och verkar frustrerad. Hur bör säljaren reagera?",
+          options: [
+            { text: "Höja rösten för att göra sig hörd", isCorrect: false },
+            { text: "Vara lugn, lyssna och visa respekt", isCorrect: true },
+            { text: "Be kunden lämna butiken", isCorrect: false },
+            { text: "Avbryta kunden och hänvisa till chefen direkt", isCorrect: false }
+          ],
+          explanation: "Yrkesetik kräver att man är lugn och respektfull även när kunden är missnöjd. Det skapar trygghet och förtroende."
+        },
+        {
+          type: "Situation",
+          question: "En säljare lyssnar på kunden och nickar, tittar på kunden och ställer följdfrågor. Vilket begrepp passar bäst?",
+          options: [
+            { text: "Taltempo", isCorrect: false },
+            { text: "Aktivt lyssnande", isCorrect: true },
+            { text: "Yrkesetik", isCorrect: false },
+            { text: "Medium", isCorrect: false }
+          ],
+          explanation: "Aktivt lyssnande innebär att lyssna noggrant, visa intresse och ställa frågor – precis vad säljaren gör här."
+        },
+        {
+          type: "Situation",
+          question: "En kund frågar om en mobiltelefon. Säljaren frågar 'Vad är viktigast för dig när du väljer en mobil?' Vad visar det?",
+          options: [
+            { text: "Att säljaren inte vet vad hen ska säga", isCorrect: false },
+            { text: "Att säljaren vill förstå kundens behov och använda verbal kommunikation", isCorrect: true },
+            { text: "Att säljaren vill pressa kunden till köp", isCorrect: false },
+            { text: "Att säljaren inte lyssnar på kunden", isCorrect: false }
+          ],
+          explanation: "Säljaren använder verbal kommunikation och öppna frågor för att förstå kundens behov – ett professionellt bemötande."
+        },
+        {
+          type: "Situation",
+          question: "En kund berättar att hen behöver en mobil med bra kamera och lång batteritid. Säljaren lyssnar och presenterar en passande modell. Vad har säljaren gjort rätt?",
+          options: [
+            { text: "Presenterat den dyraste modellen för att tjäna mer", isCorrect: false },
+            { text: "Lyssnat aktivt och anpassat informationen efter kundens behov", isCorrect: true },
+            { text: "Ignorerat kundens önskemål och rekommenderat en annan modell", isCorrect: false },
+            { text: "Låtit kunden välja utan hjälp", isCorrect: false }
+          ],
+          explanation: "Säljaren använder aktivt lyssnande och anpassar kommunikationen – ett exempel på professionellt bemötande."
+        },
+
+        // ── JÄMFÖRELSE ───────────────────────────────────────────────
+        {
+          type: "Jämförelse",
+          question: "Vad är skillnaden mellan verbal och icke-verbal kommunikation?",
+          options: [
+            { text: "De betyder samma sak", isCorrect: false },
+            { text: "Verbal = ord; icke-verbal = kropp och ansiktsuttryck", isCorrect: true },
+            { text: "Verbal = kropp; icke-verbal = ord", isCorrect: false },
+            { text: "Verbal är bara skrift; icke-verbal är bara tal", isCorrect: false }
+          ],
+          explanation: "Verbal kommunikation använder ord (tal/skrift). Icke-verbal kommunikation sker utan ord – via kropp, ansiktsuttryck, gester m.m."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vad är skillnaden mellan att kommunicera via telefon och ansikte mot ansikte?",
+          options: [
+            { text: "Det finns ingen skillnad", isCorrect: false },
+            { text: "Via telefon syns inte kroppsspråket, så röst och tonläge blir viktigare", isCorrect: true },
+            { text: "Ansikte mot ansikte är alltid sämre", isCorrect: false },
+            { text: "Via telefon kan man använda mer kroppsspråk", isCorrect: false }
+          ],
+          explanation: "Ansikte mot ansikte kan man se kroppsspråket. Via telefon försvinner den kanalen – röst och tonläge kompenserar."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vilket alternativ är ett exempel på tonläge, inte taltempo?",
+          options: [
+            { text: "Säljaren pratar väldigt snabbt så kunden hinner knappt följa", isCorrect: false },
+            { text: "Säljaren pratar med en varm och vänlig röst", isCorrect: true },
+            { text: "Säljaren gör pauser mellan meningarna", isCorrect: false },
+            { text: "Säljaren pratar långsamt och tydligt", isCorrect: false }
+          ],
+          explanation: "Tonläge handlar om hur rösten låter (varm, kall, hård, mjuk). Taltempo handlar om hastigheten man pratar."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vilket mejl är mest professionellt?",
+          options: [
+            { text: "'din vara kommer snart'", isCorrect: false },
+            { text: "'Hej! Din beställning beräknas komma på fredag. Hör gärna av dig om du har fler frågor. Vänliga hälsningar.'", isCorrect: true },
+            { text: "'DIN VARA ANKOMMER FREDAG!!!'", isCorrect: false },
+            { text: "'Vi vet inte när din vara kommer.'", isCorrect: false }
+          ],
+          explanation: "Det professionella mejlet hälsar, ger tydlig information, bjuder in till frågor och avslutas vänligt – precis som i kapitlet."
+        },
+        {
+          type: "Jämförelse",
+          question: "Vad är skillnaden mellan ett professionellt och ett oprofessionellt svar på en kunds klagomål?",
+          options: [
+            { text: "Det professionella svaret är kortare", isCorrect: false },
+            { text: "Det professionella svaret visar respekt och tar ansvar; det oprofessionella avvisar kunden", isCorrect: true },
+            { text: "Det oprofessionella svaret är alltid längre", isCorrect: false },
+            { text: "Det finns ingen skillnad om budskapet är detsamma", isCorrect: false }
+          ],
+          explanation: "Professionellt: 'Jag förstår och ska hjälpa dig.' Oprofessionellt: 'Det är inte mitt problem.' Respekten och ansvarstagandet skiljer."
+        },
+
+        // ── GÅTA ─────────────────────────────────────────────────────
+        {
+          type: "Gåta",
+          question: "Jag är det sätt du kommunicerar utan att använda ett enda ord – du använder kroppen, ansiktet och gester. Vad heter jag?",
+          options: [
+            { text: "Verbal kommunikation", isCorrect: false },
+            { text: "Icke-verbal kommunikation", isCorrect: true },
+            { text: "Yrkesetik", isCorrect: false },
+            { text: "Medium", isCorrect: false }
+          ],
+          explanation: "Icke-verbal kommunikation sker utan ord – genom kroppsspråk, ansiktsuttryck, gester och ögonkontakt."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är hur din röst låter – varm, kall, hård eller mjuk. Jag påverkar hur kunden uppfattar dig. Vad heter jag?",
+          options: [
+            { text: "Taltempo", isCorrect: false },
+            { text: "Ögonkontakt", isCorrect: false },
+            { text: "Tonläge", isCorrect: true },
+            { text: "Aktivt lyssnande", isCorrect: false }
+          ],
+          explanation: "Tonläget – hur rösten låter – ger kunden ett intryck av om säljaren är vänlig, irriterad eller engagerad."
+        },
+        {
+          type: "Gåta",
+          question: "Jag innebär att du lyssnar noggrant, låter kunden prata färdigt och ställer frågor för att visa intresse. Vad heter jag?",
+          options: [
+            { text: "Professionellt bemötande", isCorrect: false },
+            { text: "Aktivt lyssnande", isCorrect: true },
+            { text: "Verbal kommunikation", isCorrect: false },
+            { text: "Taltempo", isCorrect: false }
+          ],
+          explanation: "Aktivt lyssnande = lyssna noggrant, visa intresse, låt kunden prata färdigt och ställ följdfrågor."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är det kanal du använder för att kommunicera – det kan vara telefon, mejl eller ett möte ansikte mot ansikte. Vad heter jag?",
+          options: [
+            { text: "Kroppsspråk", isCorrect: false },
+            { text: "Yrkesetik", isCorrect: false },
+            { text: "Medium", isCorrect: true },
+            { text: "Tonläge", isCorrect: false }
+          ],
+          explanation: "Ett medium är ett sätt att kommunicera – telefon, mejl, chatt och möten ansikte mot ansikte är alla olika medier."
+        },
+        {
+          type: "Gåta",
+          question: "Jag handlar om hur du beter dig på jobbet – med respekt, ärlighet och ansvar. Vad heter jag?",
+          options: [
+            { text: "Aktivt lyssnande", isCorrect: false },
+            { text: "Kommunikation", isCorrect: false },
+            { text: "Taltempo", isCorrect: false },
+            { text: "Yrkesetik", isCorrect: true }
+          ],
+          explanation: "Yrkesetik handlar om att bete sig ansvarsfullt och respektfullt på arbetet och ta ansvar för sina handlingar."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är det du gör när du tittar rakt på personen du pratar med. Det visar uppmärksamhet och förtroende. Vad heter jag?",
+          options: [
+            { text: "Kroppshållning", isCorrect: false },
+            { text: "Ögonkontakt", isCorrect: true },
+            { text: "Gester", isCorrect: false },
+            { text: "Taltempo", isCorrect: false }
+          ],
+          explanation: "Ögonkontakt – att titta på personen man pratar med – visar uppmärksamhet och är en viktig del av icke-verbal kommunikation."
+        },
+        {
+          type: "Gåta",
+          question: "Jag är hastigheteten du talar med. Om jag är för hög hinner kunden inte följa med; om jag är lagom skapar jag tydlighet. Vad heter jag?",
+          options: [
+            { text: "Tonläge", isCorrect: false },
+            { text: "Ögonkontakt", isCorrect: false },
+            { text: "Taltempo", isCorrect: true },
+            { text: "Professionellt bemötande", isCorrect: false }
+          ],
+          explanation: "Taltempo handlar om hur snabbt eller långsamt vi pratar. Rätt tempo gör att kunden hinner förstå."
+        },
+      ];
+
+      // ── HJÄLPFUNKTIONER ──────────────────────────────────────────
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, c =>
+          ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" })[c]);
+      }
+
+      function renderTerms(value) {
+        const terms = Object.keys(termDefinitions).sort((a, b) => b.length - a.length);
+        const pattern = new RegExp(
+          "(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")",
+          "gi"
+        );
+        let result = "", lastIndex = 0;
+        for (const match of value.matchAll(pattern)) {
+          const key = terms.find(k => k.toLowerCase() === match[0].toLowerCase());
+          result += escapeHtml(value.slice(lastIndex, match.index));
+          result += `<abbr class="term-help" tabindex="0" data-tooltip="${escapeHtml(termDefinitions[key])}">${escapeHtml(match[0])}</abbr>`;
+          lastIndex = match.index + match[0].length;
+        }
+        return result + escapeHtml(value.slice(lastIndex));
+      }
+
+      let questions = [...allQuestions];
+      const TYPE_ORDER = ["Gåta", "Begrepp", "Situation", "Jämförelse", "Kunskap"];
+      const TYPE_INFO = {
+        "Gåta":       { icon: "🧩", hint: "Gissa ordet" },
+        "Begrepp":    { icon: "📖", hint: "Vad betyder ordet?" },
+        "Situation":  { icon: "🛒", hint: "Vad gör du?" },
+        "Jämförelse": { icon: "⚖️", hint: "Vad är skillnaden?" },
+        "Kunskap":    { icon: "🎓", hint: "Fakta och regler" },
+      };
+      let selectedTypes = new Set(allQuestions.map(q => q.type));
+      const POINTS_PER_CORRECT = 100;
+      let currentQuestionIndex = 0, score = 0, correctCount = 0, wrongCount = 0;
+      let soundEnabled = true, answered = false;
+
+      // ── LJUD ─────────────────────────────────────────────────────
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioCtx = null;
+      function initAudio() {
+        try { if (!audioCtx && AudioContext) audioCtx = new AudioContext(); } catch(e) { audioCtx = null; }
+      }
+      function playSound(type) {
+        if (!soundEnabled) return;
+        try {
+          initAudio(); if (!audioCtx) return;
+          const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          if (type === "correct") {
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+          } else {
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(164.81, audioCtx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+          }
+        } catch(e) {}
+      }
+      function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById("soundIcon").innerText = soundEnabled ? "🔊" : "🔇";
+      }
+
+      // ── SPEL ─────────────────────────────────────────────────────
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+
+      function startGame() {
+        initAudio();
+        questions = allQuestions.filter(q => selectedTypes.has(q.type));
+        if (questions.length === 0) return;
+        shuffleArray(questions);
+        currentQuestionIndex = 0; score = 0; correctCount = 0; wrongCount = 0;
+        document.getElementById("startScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("hidden");
+        document.getElementById("gameScreen").classList.add("flex");
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("scoreText").innerText = "0";
+        loadQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function loadQuestion() {
+        answered = false;
+        const q = questions[currentQuestionIndex];
+        document.getElementById("questionNumberText").innerText = `Fråga ${currentQuestionIndex + 1} av ${questions.length}`;
+        document.getElementById("categoryTag").innerText = q.type;
+        document.getElementById("questionText").innerHTML = renderTerms(q.question);
+        const pct = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBarFill").style.width = `${pct}%`;
+        const filled = Math.round(((currentQuestionIndex + 1) / questions.length) * 10);
+        document.getElementById("progressTextVisual").innerText =
+          `${"█".repeat(filled)}${"░".repeat(10 - filled)} ${currentQuestionIndex + 1}/${questions.length}`;
+        document.getElementById("nextBtnText").innerText =
+          currentQuestionIndex + 1 < questions.length ? "Nästa fråga" : "Se resultat";
+        document.getElementById("feedbackContainer").className =
+          "hidden mt-6 p-5 rounded-2xl border transition-all duration-300";
+
+        const opts = document.getElementById("optionsContainer");
+        opts.innerHTML = "";
+        const shuffledOpts = [...q.options];
+        shuffleArray(shuffledOpts);
+
+        shuffledOpts.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "btn-bounce w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-beige-200 bg-beige-50 hover:bg-beige-100 hover:border-sage-500 transition font-medium text-base text-sage-900 flex items-start space-x-3 group cursor-pointer";
+          btn.onclick = () => selectOption(idx, shuffledOpts, q.explanation);
+          const badge = document.createElement("span");
+          badge.className = "w-7 h-7 rounded-xl bg-white border border-beige-300 text-sage-800 flex items-center justify-center font-bold text-sm shrink-0 group-hover:border-sage-500 group-hover:bg-sage-100 transition";
+          badge.innerText = String.fromCharCode(65 + idx);
+          const textSpan = document.createElement("span");
+          textSpan.className = "mt-0.5 leading-snug";
+          textSpan.innerHTML = renderTerms(opt.text);
+          btn.appendChild(badge); btn.appendChild(textSpan);
+          opts.appendChild(btn);
+        });
+      }
+
+      function selectOption(selectedIndex, shuffledOpts, explanation) {
+        if (answered) return;
+        answered = true;
+        const isCorrect = shuffledOpts[selectedIndex].isCorrect;
+        const optionBtns = document.getElementById("optionsContainer").children;
+        let pointsEarned = 0;
+        if (isCorrect) { correctCount++; pointsEarned = POINTS_PER_CORRECT; score += pointsEarned; playSound("correct"); }
+        else { wrongCount++; playSound("wrong"); }
+        document.getElementById("scoreText").innerText = score;
+
+        Array.from(optionBtns).forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove("hover:bg-beige-100", "hover:border-sage-500", "btn-bounce");
+          btn.classList.add("cursor-default");
+          if (shuffledOpts[idx].isCorrect) {
+            btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-base text-emerald-900 flex items-start space-x-3 shadow-sm";
+            btn.querySelector("span").className = "w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText = "✓";
+          } else if (idx === selectedIndex && !isCorrect) {
+            btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-rose-400 bg-rose-50 font-medium text-base text-rose-900 flex items-start space-x-3 opacity-90";
+            btn.querySelector("span").className = "w-7 h-7 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0";
+            btn.querySelector("span").innerText = "✕";
+          } else {
+            btn.classList.add("opacity-40");
+          }
+        });
+        showFeedback(isCorrect, explanation, pointsEarned);
+      }
+
+      function showFeedback(isCorrect, explanation, pointsEarned) {
+        const fc = document.getElementById("feedbackContainer");
+        fc.classList.remove("hidden");
+        fc.className = isCorrect
+          ? "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all duration-300"
+          : "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/90 text-rose-950 transition-all duration-300";
+        document.getElementById("feedbackIcon").innerText = isCorrect ? "🎉" : "💡";
+        document.getElementById("feedbackTitle").innerText = isCorrect ? `Rätt svar! (+${pointsEarned} p)` : "Fel!";
+        document.getElementById("feedbackExplanation").innerHTML = renderTerms(explanation);
+        setTimeout(() => fc.scrollIntoView({ behavior: "smooth", block: "nearest" }), 100);
+      }
+
+      function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) loadQuestion();
+        else showResults();
+      }
+
+      function showResults() {
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameScreen").classList.remove("flex");
+        document.getElementById("resultScreen").classList.remove("hidden");
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("finalCorrect").innerText = correctCount;
+        document.getElementById("finalWrong").innerText = wrongCount;
+        const pct = Math.round((correctCount / questions.length) * 100);
+        document.getElementById("resultSummaryText").innerText = `Du fick ${correctCount} av ${questions.length} rätt (${pct} %).`;
+        const enc = document.getElementById("encouragementText");
+        if (pct >= 85)
+          enc.innerText = "Strålande resultat! Du har mycket god förståelse för kommunikation i kundservice. Du är redo för provet!";
+        else if (pct >= 60)
+          enc.innerText = "Bra jobbat! Du kan de flesta begreppen. Repetera verbal vs. icke-verbal kommunikation och yrkesetik.";
+        else
+          enc.innerText = "Bra kämpat! Gå igenom begreppen verbal kommunikation, kroppsspråk, tonläge, aktivt lyssnande och yrkesetik igen.";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // ── DELA ─────────────────────────────────────────────────────
+      function openShareModal() {
+        const url = window.location.href;
+        document.getElementById("shareUrlInput").value = url;
+        const qrcodeContainer = document.getElementById("qrcode");
+        qrcodeContainer.innerHTML = "";
+        try {
+          new QRCode(qrcodeContainer, { text: url, width: 140, height: 140, colorDark: "#1E3F2F", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
+        } catch(e) {
+          qrcodeContainer.innerText = "QR-kod genereras när sidan ligger på en webbadress.";
+        }
+        document.getElementById("shareModal").classList.remove("hidden");
+      }
+      function closeShareModal() {
+        document.getElementById("shareModal").classList.add("hidden");
+        document.getElementById("copySuccessMsg").classList.add("hidden");
+      }
+      function copyShareUrl() {
+        const input = document.getElementById("shareUrlInput");
+        input.select();
+        navigator.clipboard.writeText(input.value)
+          .then(() => document.getElementById("copySuccessMsg").classList.remove("hidden"))
+          .catch(() => { document.execCommand("copy"); document.getElementById("copySuccessMsg").classList.remove("hidden"); });
+      }
+
+      // ── FILTER ───────────────────────────────────────────────────
+      function countType(type) { return allQuestions.filter(q => q.type === type).length; }
+      function buildTypeFilter() {
+        const container = document.getElementById("typeFilter");
+        container.innerHTML = "";
+        const types = [
+          ...TYPE_ORDER.filter(t => countType(t) > 0),
+          ...[...new Set(allQuestions.map(q => q.type))].filter(t => !TYPE_ORDER.includes(t))
+        ];
+        types.forEach(type => {
+          const info = TYPE_INFO[type] || { icon: "❓", hint: "" };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.type = type;
+          btn.onclick = () => toggleType(type);
+          btn.innerHTML = `
+            <span class="chip-check absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accentGold text-white text-xs font-bold flex items-center justify-center shadow border-2 border-white">✓</span>
+            <span class="text-2xl">${info.icon}</span>
+            <span class="flex-1 text-left leading-tight">
+              <span class="block font-bold text-sm">${type}</span>
+              <span class="chip-hint block text-xs">${info.hint}</span>
+            </span>
+            <span class="chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg">${countType(type)}</span>
+          `;
+          container.appendChild(btn);
+        });
+        updateFilterUI();
+      }
+      function toggleType(type) {
+        if (selectedTypes.has(type)) selectedTypes.delete(type);
+        else selectedTypes.add(type);
+        updateFilterUI();
+      }
+      function selectAllTypes() { selectedTypes = new Set(allQuestions.map(q => q.type)); updateFilterUI(); }
+      function clearTypes() { selectedTypes = new Set(); updateFilterUI(); }
+      function updateFilterUI() {
+        document.querySelectorAll("#typeFilter button").forEach(btn => {
+          const on = selectedTypes.has(btn.dataset.type);
+          btn.setAttribute("aria-pressed", on);
+          btn.className = "btn-bounce relative flex items-center gap-3 w-[calc(50%-0.375rem)] sm:w-[190px] px-4 py-3 rounded-2xl border-2 transition cursor-pointer " +
+            (on ? "bg-sage-700 border-sage-700 text-white shadow-md" : "bg-white border-beige-300 text-sage-900 hover:border-sage-500");
+          btn.querySelector(".chip-check").style.display = on ? "flex" : "none";
+          btn.querySelector(".chip-hint").className = "chip-hint block text-xs " + (on ? "text-sage-200" : "text-gray-500");
+          btn.querySelector(".chip-count").className = "chip-count text-xs font-mono font-bold px-2 py-0.5 rounded-lg " + (on ? "bg-sage-800 text-white" : "bg-beige-100 text-sage-800");
+        });
+        const total = allQuestions.filter(q => selectedTypes.has(q.type)).length;
+        document.getElementById("startQuestionCount").innerText = `${total} Frågor`;
+        document.getElementById("filterSummary").innerText = total === 0
+          ? "Välj minst en frågetyp för att starta"
+          : `${total} ${total === 1 ? "fråga vald" : "frågor valda"}`;
+        const startBtn = document.getElementById("startBtn");
+        startBtn.disabled = total === 0;
+        startBtn.classList.toggle("opacity-50", total === 0);
+        startBtn.classList.toggle("cursor-not-allowed", total === 0);
+      }
+      function backToStart() {
+        document.getElementById("resultScreen").classList.add("hidden");
+        document.getElementById("startScreen").classList.remove("hidden");
+        updateFilterUI();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      buildTypeFilter();
+    </script>
+  </body>
+</html>
